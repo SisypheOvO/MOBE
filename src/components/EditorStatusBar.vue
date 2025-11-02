@@ -1,5 +1,5 @@
 <template>
-    <div class="flex items-center gap-3 px-4 py-0.5 bg-[#007acc] text-white text-xs font-mono">
+    <div class="flex items-center gap-3 px-4 pt-0.5 pb-[0.15rem] bg-[#007acc] text-white text-xs font-mono">
         <div class="flex items-center gap-2">
             <span class="opacity-80">行</span>
             <span class="font-semibold">{{ line }}</span>
