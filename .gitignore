@@ -13,6 +13,8 @@ dist-ssr
 *.local
 *.tsbuildinfo
 
+source/*
+
 # lock files
 package-lock.json
 yarn.lock

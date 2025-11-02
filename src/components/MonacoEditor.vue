@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, watch } from "vue"
 import * as monaco from "monaco-editor"
-import { registerBBCodeLanguage } from "../config/bbcodeLanguage"
+import { registerBBCodeLanguage } from "@/config/bbcodeLanguage"
 
 const props = defineProps<{
     modelValue: string

@@ -30,7 +30,8 @@
 </template>
 
 <script setup lang="ts">
-    import { computed, ref, onMounted } from "vue"
+    import { computed, ref, onMounted, watch } from "vue"
+    import { useAudioPlayer } from "@/composables/useAudioPlayer"
 
     const props = defineProps<{
         content: string
@@ -480,6 +481,8 @@
                 userCardTimeout = null
             }
 
+            // 立即隐藏所有其他已显示的卡片
+            const allCards = document.querySelectorAll('[id^="qtip-"]')
             allCards.forEach((card) => {
                 if (card.id !== `qtip-${qtipId}`) {
                     ;(card as HTMLElement).style.transition = "opacity 0.1s ease"
