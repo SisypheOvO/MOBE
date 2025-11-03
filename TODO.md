@@ -42,14 +42,6 @@
 
 ## Future Plans
 
-1. 继续重构 BBCodePreview.vue
-   - 提取解析逻辑到 `composables/useBBCodeParser.ts`
-   - 创建子组件：BBCodeContent.vue, BBCodeHeader.vue, UserCard.vue
-
-2. 创建服务层
-   - `services/userService.ts` - 用户 API 调用
-   - `services/bbcodeService.ts` - BBCode 解析服务
-
 - [ ] 提供多种主题支持
 - [ ] 支持导入内容
 - [ ] 支持内容记忆
@@ -58,7 +50,13 @@
 - [ ] 支持size的快捷选项
 - [ ] 如果可能，添加左右同步滚动功能
 - [ ] 支持 Oauth 认证，便于profile Card 中显示 friend / mutual / not friend 和 bell mapper or not 信息
-- [ ] 重构整理BBCodePreview的代码
+- [x] 重构整理BBCodePreview的代码
+  - [x] 提取解析逻辑到 `composables/useBBCodeParser.ts`
+  - [x] 创建子组件：BBCodeContent.vue, BBCodeHeader.vue
+  - [x] 提取 usercard 逻辑：`composables/useUserCard.ts`
+- [x] 创建服务层
+  - [x] `services/userService.ts` - 用户 API 调用
+  - [x] `services/bbcodeService.ts` - BBCode 解析服务
 - [ ] icon换用更标准的icon，如fontawesome
 - [x] 简化EditorToolbar逻辑
 - [ ] 尝试阅读osu-web源码，寻找有无更强可用性的解析bbcode、渲染方案（防止未预测的情况下渲染结果与官方不同）
