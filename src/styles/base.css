@@ -1,0 +1,51 @@
+/**
+ * 基础样式 - 全局变量、字体、重置
+ */
+
+html,
+body,
+#app {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+@font-face {
+    font-family: Torus;
+    src: url(/public/font/Torus-Regular.734ed3ae.otf);
+}
+
+:root {
+    --font-content: Inter, sans-serif;
+    --font-content-override: ;
+    --font-default: Torus, Inter, "Helvetica Neue", Tahoma, Arial, "Hiragino Kaku Gothic ProN", Meiryo, "Microsoft YaHei", "Apple SD Gothic Neo", sans-serif;
+
+    --hsl-b1: 226, 10%, 40%;
+    --hsl-b2: 226, 10%, 30%;
+    --hsl-b4: 226, 10%, 20%;
+    --hsl-b5: 226, 10%, 15%;
+    --hsl-b6: 226, 10%, 10%;
+    --hsl-c1: 226, 40%, 100%;
+    --hsl-c2: 226, 40%, 90%;
+    --hsl-h1: 226, 100%, 70%;
+    --hsl-l1: 226, 40%, 80%;
+    --hsl-l2: 226, 40%, 75%;
+    --hsl-pink-1: 333, 100%, 70%;
+
+    --card-item-spacing: 10px;
+    --avatar-size: 60px;
+    --icon-gutter: 6px;
+    --status-icon-margin: 10px;
+}
+
+/* BBCode 内容区域的基础重置 */
+.bbcode *,
+::after,
+::before,
+::backdrop,
+::file-selector-button {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0 solid;
+}

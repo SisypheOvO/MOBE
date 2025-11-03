@@ -1,0 +1,87 @@
+/**
+ * BBCode 基础样式 - 字体、链接、基础元素
+ */
+
+.bbcode {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+/* 链接样式 */
+.bbcode a {
+    color: hsl(var(--hsl-l2));
+    text-decoration: none;
+    transition: color 80ms linear;
+    background-color: transparent;
+}
+
+.bbcode a:active,
+.bbcode a:hover,
+.bbcode a:link,
+.bbcode a:visited {
+    outline-style: none;
+}
+
+.bbcode a:active,
+.bbcode a:focus,
+.bbcode a:hover {
+    color: hsl(var(--hsl-l1));
+}
+
+.bbcode a:active,
+.bbcode a:hover {
+    outline: 0;
+}
+
+.bbcode a:focus {
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
+}
+
+.bbcode a:focus,
+.bbcode a:hover {
+    text-decoration: underline;
+}
+
+/* 基础文本格式 */
+.bbcode b,
+.bbcode strong {
+    font-weight: 700;
+}
+
+/* 图片 */
+.bbcode img {
+    max-width: 100%;
+    vertical-align: middle;
+    border: 0;
+}
+
+/* 标题 */
+.bbcode h2 {
+    color: hsl(var(--hsl-l1));
+    font-size: 1.5em;
+    font-style: normal;
+    font-weight: 700;
+    margin: 10px 0 0;
+    font-family: inherit;
+    line-height: 1.1;
+    display: block;
+    margin-block-start: 0.83em;
+    margin-block-end: 0.83em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    unicode-bidi: isolate;
+}
+
+.bbcode h4 {
+    color: hsl(var(--hsl-c1));
+    font-size: inherit;
+    margin: 0 0 10px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 1.1;
+    font-family: inherit;
+}

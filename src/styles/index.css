@@ -1,0 +1,23 @@
+/**
+ * 样式主入口文件
+ *
+ * 这是应用程序的样式入口，按模块组织导入
+ */
+
+/* Tailwind CSS */
+@layer theme, base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+/* 基础样式 */
+@import "./base.css";
+@import "./scrollbar.css";
+
+/* BBCode 样式 */
+@import "./bbcode-base.css";
+@import "./bbcode-components.css";
+@import "./audio-player.css";
+
+/* 用户卡片样式 */
+@import "./user-card.css";

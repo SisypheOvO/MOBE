@@ -1,0 +1,494 @@
+/**
+ * 用户卡片样式 - Profile Link 悬浮卡片
+ */
+
+/* QTip 容器 */
+.qtip {
+    box-shadow: none;
+    direction: ltr;
+    display: none;
+    left: -28000px;
+    line-height: 12px;
+    padding: 0;
+    position: absolute;
+    top: -28000px;
+    color: hsl(var(--hsl-c1));
+}
+
+.qtip--user-card {
+    z-index: 512 !important;
+}
+
+.qtip--user-card .user-card {
+    width: 290px;
+}
+
+.qtip-content {
+    filter: none;
+    overflow: hidden;
+    position: relative;
+    padding: 5px 9px;
+    text-align: left;
+    word-wrap: break-word;
+}
+
+.qtip-content a:active,
+.qtip-content a:hover,
+.qtip-content a:link,
+.qtip-content a:visited {
+    outline-style: none;
+}
+
+.qtip-content *,
+.qtip-content :after,
+.qtip-content :before {
+    box-sizing: border-box;
+}
+
+.qtip-content a {
+    color: hsl(var(--hsl-l2));
+    outline-style: none;
+    text-decoration: none;
+    transition: color 80ms linear;
+}
+
+/* 用户卡片基础 */
+.qtip-content .user-card {
+    --avatar-size: 60px;
+    --card-item-spacing: 10px;
+    --icon-gutter: 6px;
+    --status-icon-margin: 10px;
+    background-color: hsl(var(--hsl-b4));
+    border-radius: 10px;
+    display: inline-block;
+    font-family: var(--font-default);
+    height: 120px;
+    overflow: hidden;
+    position: relative;
+}
+
+/* 背景容器 */
+.qtip-content .user-card__background-container {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.qtip-content .user-card__background {
+    border-radius: 10px;
+    height: 100%;
+    left: 0;
+    -o-object-fit: cover;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    transition: opacity 0.22s ease-in-out;
+    width: 100%;
+}
+
+.qtip-content .user-card__background-overlay {
+    background: hsla(var(--hsl-b5), 0.7);
+    border-radius: 10px;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+/* 卡片主体 */
+.qtip-content .user-card__card {
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+    pointer-events: none;
+    position: relative;
+    text-decoration: none;
+    font-size: 16px;
+    line-height: 1.25;
+}
+
+.qtip-content .user-card__content {
+    padding: var(--card-item-spacing);
+}
+
+/* 详情区域 */
+.qtip-content .user-card__content--details {
+    display: grid;
+    grid-template-columns: minmax(min-content, auto) 1fr;
+}
+
+.qtip-content .user-card__user {
+    align-items: center;
+    display: flex;
+    height: var(--avatar-size);
+    min-width: 0;
+}
+
+/* 头像 */
+.qtip-content .user-card__avatar-space {
+    flex: none;
+    height: var(--avatar-size);
+    position: relative;
+    width: var(--avatar-size);
+}
+
+.qtip-content .user-card__avatar-spinner--loaded {
+    opacity: 0;
+}
+
+.qtip-content .user-card__avatar-spinner {
+    align-items: center;
+    background: hsla(0, 0%, 100%, 0.1);
+    border-radius: 6px;
+    color: #fff;
+    display: inline-flex;
+    font-size: 14px;
+    height: 100%;
+    justify-content: center;
+    left: 0;
+    position: absolute;
+    top: 0;
+    transition: opacity 0.22s ease-in-out;
+    width: 100%;
+}
+
+.qtip-content .la-ball-clip-rotate {
+    display: inline-block;
+    height: 1em;
+    position: relative;
+    width: 1em;
+}
+
+.qtip-content .user-card__avatar--loaded {
+    opacity: 1;
+}
+
+.qtip-content .user-card__avatar {
+    background-color: hsl(var(--hsl-b4));
+    border-radius: 6px;
+    height: 100%;
+    left: 0;
+    -o-object-fit: contain;
+    object-fit: contain;
+    position: absolute;
+    top: 0;
+    transition: opacity 0.22s ease-in-out;
+    width: 100%;
+}
+
+/* 用户详情 */
+.qtip-content .user-card__details {
+    display: grid;
+    grid-template-rows: 26px 1fr;
+    margin-left: var(--card-item-spacing);
+}
+
+.qtip-content .user-card__icons {
+    display: flex;
+    flex: none;
+}
+
+.qtip-content a.user-card__icon,
+.qtip-content a.user-card__icon:active,
+.qtip-content a.user-card__icon:focus,
+.qtip-content a.user-card__icon:hover {
+    text-decoration: none;
+}
+
+.qtip-content .user-card__icon--flag {
+    font-size: 26px;
+}
+
+.qtip-content .user-card__icon + .user-card__icon {
+    margin-left: var(--icon-gutter);
+}
+
+.qtip-content .user-card__icon {
+    display: flex;
+    pointer-events: auto;
+}
+
+/* 国旗 */
+.qtip-content .flag-country {
+    --height: 1em;
+    --width-height-ratio: 1.38889;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 3px;
+    display: block;
+    filter: saturate(1.1);
+    height: var(--height);
+    position: relative;
+    transform: translateZ(0);
+    width: calc(var(--height) * var(--width-height-ratio));
+}
+
+/* 团队旗帜 */
+.qtip-content .flag-team {
+    background-color: #333;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: min(0.25em, 6px);
+    display: inline-block;
+    flex: none;
+    height: 1em;
+    width: 2em;
+}
+
+/* 支持者图标 */
+.qtip-content .supporter-icon--user-card {
+    border-radius: 50%;
+    font-size: 13px;
+    height: 26px;
+    padding: 1px 0 0;
+    width: 26px;
+}
+
+.qtip-content .supporter-icon {
+    align-items: center;
+    background-color: hsl(var(--hsl-pink-1));
+    color: #fff;
+    display: inline-flex;
+    justify-content: center;
+    line-height: normal;
+}
+
+/* 用户操作按钮 */
+.qtip-content .user-action-button {
+    align-items: center;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: hsl(var(--hsl-b6));
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    display: inline-flex;
+    font-size: 14px;
+    height: 20px;
+    justify-content: center;
+    margin: 0;
+    outline: none;
+    padding: 0;
+    text-align: center;
+    width: 50px;
+}
+
+.qtip-content .user-action-button__icon-container {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    position: relative;
+    width: 50px;
+}
+
+.qtip-content .user-card .user-action-button__icon {
+    will-change: unset;
+}
+
+.qtip-content .user-action-button:hover .user-action-button__icon--hover-hidden,
+.qtip-content .user-action-button__icon--hover-visible {
+    opacity: 0;
+}
+
+.qtip-content .user-action-button__icon {
+    align-items: center;
+    display: inline-flex;
+    height: 100%;
+    justify-content: center;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    will-change: opacity;
+}
+
+.qtip-content .user-action-button:hover {
+    background: hsl(var(--hsl-b5));
+}
+
+.qtip-content button {
+    overflow: visible;
+    text-transform: none;
+    font: inherit;
+    font-family: inherit;
+    line-height: inherit;
+    cursor: pointer;
+}
+
+.qtip-content .user-action-button--user-card {
+    border-radius: 50%;
+    font-size: 13px;
+    height: 26px;
+    width: 26px;
+}
+
+.qtip-content .user-action-button--mutual {
+    background: rgba(255, 102, 170, 0.7);
+}
+
+.qtip-content .user-action-button--mutual:hover {
+    background: rgba(255, 128, 184, 0.7);
+}
+
+.qtip-content .fa-user-friends:before {
+    content: "\f500";
+}
+
+.qtip-content .user-action-button--friend {
+    background: rgba(136, 179, 0, 0.7);
+}
+
+.qtip-content .user-action-button--friend:hover {
+    background: rgba(155, 204, 0, 0.7);
+}
+
+.qtip-content .user-action-button,
+.qtip-content .user-action-button:active,
+.qtip-content .user-action-button:focus,
+.qtip-content .user-action-button:hover {
+    text-decoration: none;
+}
+
+/* 用户名行 */
+.qtip-content .user-card__username-row {
+    align-items: center;
+    display: flex;
+    font-weight: 600;
+    min-width: 0;
+}
+
+.qtip-content .u-ellipsis-pre-overflow {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: pre !important;
+}
+
+.qtip-content .user-card__username-row a {
+    background-color: transparent;
+}
+
+.qtip-content .user-card__username {
+    color: #fff;
+    pointer-events: auto;
+    text-decoration: none;
+}
+
+.qtip-content .user-card__group-badges,
+.qtip-content .user-card__icon {
+    display: flex;
+    pointer-events: auto;
+}
+
+.qtip-content .user-card__group-badges {
+    margin-left: 3px;
+}
+
+/* 状态区域 */
+.qtip-content .user-card__content--status {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 0;
+}
+
+.qtip-content .user-card__status {
+    align-items: center;
+    display: flex;
+    min-width: 0;
+}
+
+.qtip-content .user-card__status-icon-container {
+    align-items: center;
+    display: inline-flex;
+    flex: none;
+    justify-content: center;
+    width: var(--avatar-size);
+}
+
+.qtip-content .user-card__status-icon {
+    border: 4px solid #000;
+    border-radius: 50%;
+    height: 25px;
+    width: 25px;
+}
+
+.qtip-content .user-card__status-icon--online {
+    border: 4px solid #b3d944;
+}
+
+.qtip-content .user-card__status-icon--offline {
+    border: 4px solid #000;
+}
+
+.qtip-content .user-card__status-messages {
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    margin-left: var(--card-item-spacing);
+    min-width: 0;
+}
+
+.qtip-content .user-card__status-message--sub {
+    font-size: 12px;
+}
+
+.qtip-content .u-ellipsis-overflow {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+
+/* 菜单图标 */
+.qtip-content .user-card__icon--menu {
+    background-color: hsl(var(--hsl-b6));
+    border-radius: 50%;
+    font-size: 10px;
+    height: 25px;
+    position: relative;
+    transition: background-color 0.12s ease-in-out;
+    width: 25px;
+}
+
+.qtip-content .popup-menu {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: none;
+    border: none;
+    height: 100%;
+    left: 0;
+    margin: 0;
+    outline: none;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.qtip-content .fa-ellipsis-v:before {
+    content: "\f142";
+}
+
+.qtip-content .popup-menu {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: #fff;
+    cursor: pointer;
+}
+
+.qtip-content .user-card__icon--menu:hover {
+    background-color: hsl(var(--hsl-l1));
+}

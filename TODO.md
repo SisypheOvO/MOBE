@@ -42,6 +42,14 @@
 
 ## Future Plans
 
+1. 继续重构 BBCodePreview.vue
+   - 提取解析逻辑到 `composables/useBBCodeParser.ts`
+   - 创建子组件：BBCodeContent.vue, BBCodeHeader.vue, UserCard.vue
+
+2. 创建服务层
+   - `services/userService.ts` - 用户 API 调用
+   - `services/bbcodeService.ts` - BBCode 解析服务
+
 - [ ] 提供多种主题支持
 - [ ] 支持导入内容
 - [ ] 支持内容记忆
@@ -53,13 +61,13 @@
 - [ ] 重构整理BBCodePreview的代码
 - [ ] icon换用更标准的icon，如fontawesome
 - [x] 简化EditorToolbar逻辑
+- [ ] 尝试阅读osu-web源码，寻找有无更强可用性的解析bbcode、渲染方案（防止未预测的情况下渲染结果与官方不同）
 
 ## Bugs to Fix
 
 - [ ] 修复预览中某些标签样式问题:
   - [x] centre 标签未正确居中
   - [x] spoilerbox, box 标签的展开图标样式问题
-  - [x] 修复编辑器url到上括号的渲染问题
   - [x] 不被包含在url内的链接样式问题
   - [ ] 确定哪些标签禁止标签内换行
   - [ ] 确定哪些标签需要移除父子级间的多余回车
@@ -67,4 +75,5 @@
   - [ ] 解决list嵌套解析失败的问题
 
 - [ ] 修复编辑器功能问题:
+  - [x] 修复编辑器url到上括号的渲染问题
   - [ ] 修复代码提示和自动补全

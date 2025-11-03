@@ -1,0 +1,175 @@
+/**
+ * 音频播放器样式
+ */
+
+.bbcode .audio-player {
+    --current-time: "0:00";
+    --duration: "0:00";
+    --progress: 0;
+    align-items: center;
+    background-color: hsl(var(--hsl-b2));
+    display: flex;
+    font-family: Torus, Inter, Helvetica Neue, Tahoma, Arial, Hiragino Kaku Gothic ProN, Meiryo, Microsoft YaHei, Apple SD Gothic Neo, sans-serif;
+    height: 40px;
+    max-width: 520px;
+    padding: 5px 10px;
+    pointer-events: auto;
+    position: relative;
+    text-align: left;
+    width: 100%;
+}
+
+.bbcode .audio-player__button--play {
+    font-size: 16px;
+}
+
+.bbcode .audio-player__button {
+    align-items: center;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: none;
+    border: none;
+    color: hsl(var(--hsl-c1));
+    display: inline-flex;
+    flex: none;
+    font-size: 14px;
+    justify-content: center;
+    margin: 0;
+    outline: none;
+    padding: 5px;
+}
+
+.bbcode .audio-player__button:hover {
+    color: hsl(var(--hsl-l1));
+}
+
+.bbcode .audio-player__button .play-button {
+    --icon: "\f04b";
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    flex: none;
+    font-family: "Font Awesome 6 Free";
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 900;
+    line-height: 1;
+    position: relative;
+    text-rendering: auto;
+}
+
+.bbcode .audio-player__button .play-button:before {
+    content: var(--icon);
+}
+
+.bbcode .audio-player[data-audio-state="loading"] .audio-player__button .play-button,
+.bbcode .audio-player[data-audio-state="playing"] .audio-player__button .play-button {
+    --icon: "\f04c";
+}
+
+.bbcode .audio-player__bar--progress {
+    --bar: var(--progress);
+}
+
+.bbcode .audio-player__bar {
+    background-color: hsl(var(--hsl-b6));
+    border-radius: 10000px;
+    cursor: pointer;
+    flex: 1;
+    height: 2px;
+    margin: 0 5px 0 10px;
+    --current-head-opacity: 0;
+    --bar: 0;
+    position: relative;
+    transition: height 0.1s, opacity 0.1s;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+.bbcode .audio-player__bar-current {
+    background-color: hsl(var(--hsl-h1));
+    border-radius: inherit;
+    height: 100%;
+    pointer-events: none;
+    position: relative;
+    width: calc(var(--bar) * 100%);
+}
+
+.bbcode .audio-player__bar-current:after {
+    background-color: hsl(var(--hsl-h1));
+    border-radius: 50%;
+    content: "";
+    display: block;
+    height: 14px;
+    opacity: var(--current-head-opacity);
+    position: absolute;
+    right: -7px;
+    top: calc(50% - 7px);
+    transition: inherit;
+    width: 14px;
+}
+
+.bbcode .audio-player__bar:hover {
+    height: 4px;
+}
+
+.bbcode .audio-player__bar:hover .audio-player__bar-current:after {
+    --current-head-opacity: 1;
+}
+
+.bbcode .audio-player__bar:before {
+    bottom: -10px;
+    content: "";
+    display: block;
+    left: -5px;
+    position: absolute;
+    right: -5px;
+    top: -10px;
+}
+
+.bbcode .audio-player__timestamps {
+    display: flex;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+}
+
+.bbcode .audio-player__timestamp {
+    margin: 0 5px;
+    min-width: 33px;
+    text-align: right;
+}
+
+.bbcode .audio-player__timestamp--current {
+    display: none;
+}
+
+.bbcode .audio-player__timestamp-separator {
+    display: none;
+}
+
+.bbcode .audio-player__timestamp--total {
+    color: hsl(var(--hsl-c2));
+    --timestamp: "--:--";
+}
+
+.bbcode .audio-player__timestamp:before {
+    content: var(--timestamp, "");
+}
+
+.bbcode .audio-player[data-audio-has-duration="1"] .audio-player__timestamp--current {
+    display: block;
+}
+
+.bbcode .audio-player[data-audio-has-duration="1"] .audio-player__timestamp--current:before {
+    content: var(--current-time);
+}
+
+.bbcode .audio-player[data-audio-has-duration="1"] .audio-player__timestamp-separator {
+    display: block;
+}
+
+.bbcode .audio-player[data-audio-has-duration="1"] .audio-player__timestamp--total:before {
+    content: var(--duration);
+}
