@@ -2,8 +2,8 @@
     <div class="flex flex-col h-screen bg-[#1e1e1e] text-[#d4d4d4]">
         <EditorToolbar v-if="showToolbar" :tags="bbcodeTags" @insert-tag="handleInsertTag" />
 
-        <splitpanes  class=" flex flex-1 overflow-hidden">
-            <pane class="editor min-w-0 transition-all duration-300" min-size="40" size="50">
+        <splitpanes class="flex flex-1 overflow-hidden" @resized="storePaneSize">
+            <pane class="editor min-w-0 transition-all duration-300" min-size="40" :size="paneSize">
                 <span class="sr-only">BBCode 编辑器</span>
                 <div class="absolute h-(--header-height) px-2 flex flex-col justify-center">
                     <span class="text-[10px] text-[#9c8dcf]">https://osu.ppy.sh/users/35628968</span>
@@ -11,7 +11,7 @@
                 <MonacoEditor ref="editorRef" v-model="content" :options="editorOptions" @editor-mounted="handleEditorMounted" />
             </pane>
 
-            <pane v-if="showPreview" class="preview flex-1 min-w-0 border-l border-[#3c3c3c] overflow-y-hidden bg-[#17181c]" min-size="20" size="50">
+            <pane v-if="showPreview" class="preview flex-1 min-w-0 border-l border-[#3c3c3c] overflow-y-hidden bg-[#17181c]" min-size="20" :size="100 - paneSize">
                 <BBCodePreview class="mx-auto" :content="content" />
             </pane>
         </splitpanes>
@@ -54,6 +54,21 @@
     const editorRef = ref<InstanceType<typeof MonacoEditor>>()
     let editorInstance: monaco.editor.IStandaloneCodeEditor | null = null
     const cursorPosition = ref({ line: 1, column: 1, selected: 0 })
+    const paneSize = ref(localStorage.paneSize ?? 45) // Read from persistent localStorage.
+
+    interface PaneInfo {
+        size: number
+        id: number
+        index: number
+        max: number
+        min: number
+        givenSize: number
+        el: any
+    }
+
+    const storePaneSize = ({ prevPane }: { prevPane: PaneInfo }) => {
+        localStorage.paneSize = prevPane.size // Store in persistent localStorage.
+    }
 
     // 编辑器配置
     const editorOptions = computed<monaco.editor.IStandaloneEditorConstructionOptions>(() => ({
