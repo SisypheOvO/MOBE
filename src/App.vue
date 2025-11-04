@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col h-screen bg-[#1e1e1e] text-[#d4d4d4]">
-        <EditorToolbar v-if="showToolbar" :tags="bbcodeTags" @insert-tag="handleInsertTag" />
+        <EditorToolbar v-if="showToolbar" :tags="bbcodeTags" :show-preview="showPreview" @insert-tag="handleInsertTag" @toggle-preview="togglePreview" />
 
         <splitpanes class="flex flex-1 overflow-hidden" @resized="storePaneSize">
             <pane class="editor min-w-0 transition-all duration-300" min-size="40" :size="paneSize">
@@ -11,9 +11,11 @@
                 <MonacoEditor ref="editorRef" v-model="content" :options="editorOptions" @editor-mounted="handleEditorMounted" />
             </pane>
 
-            <pane v-if="showPreview" class="preview flex-1 min-w-0 border-l border-[#3c3c3c] overflow-y-hidden bg-[#17181c]" min-size="20" :size="100 - paneSize">
-                <BBCodePreview class="mx-auto" :content="content" />
-            </pane>
+            <Transition name="preview-fade">
+                <pane v-if="showPreview" class="preview flex-1 min-w-0 border-l border-[#3c3c3c] overflow-y-hidden bg-[#17181c]" min-size="20" :size="100 - paneSize">
+                    <BBCodePreview class="mx-auto" :content="content" />
+                </pane>
+            </Transition>
         </splitpanes>
 
         <EditorStatusBar :line="cursorPosition.line" :column="cursorPosition.column" :selected="cursorPosition.selected" :length="content.length" />
@@ -45,6 +47,9 @@
         showPreview: true,
     })
 
+    // 本地状态：预览显示控制
+    const showPreview = ref(props.showPreview)
+
     // Emits
     const emit = defineEmits<{
         "update:modelValue": [value: string]
@@ -73,7 +78,7 @@
     // 编辑器配置
     const editorOptions = computed<monaco.editor.IStandaloneEditorConstructionOptions>(() => ({
         fontSize: 14,
-        minimap: { enabled: props.showPreview },
+        minimap: { enabled: showPreview.value },
         wordWrap: "on",
         lineNumbers: "on",
         scrollBeyondLastLine: false,
@@ -84,6 +89,11 @@
         formatOnType: true,
         linkedEditing: true,
     }))
+
+    // 切换预览显示
+    const togglePreview = () => {
+        showPreview.value = !showPreview.value
+    }
 
     // 监听内容变化
     watch(content, (newValue) => {
@@ -137,6 +147,11 @@
         // Ctrl+K - 链接
         editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyK, () => {
             insertTagByName("url")
+        })
+
+        // Ctrl+P - 切换预览
+        editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyP, () => {
+            togglePreview()
         })
     }
 
@@ -210,3 +225,21 @@
         setContent: (value: string) => (content.value = value),
     })
 </script>
+
+<style scoped>
+    /* 预览面板淡入淡出过渡 */
+    .preview-fade-enter-active,
+    .preview-fade-leave-active {
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .preview-fade-enter-from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+
+    .preview-fade-leave-to {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+</style>
