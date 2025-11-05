@@ -90,16 +90,16 @@ export const useBBCodeParser = ({ content, boxStates, boxCounters, resetBoxes, r
                 html += `<img class="imagemap__image" loading="lazy" src="${imageUrl}" alt="${imageUrl}">`
 
                 hotspots.forEach((h) => {
-                    const qtipId = generateTooltipId()
+                    const hotspotId = generateTooltipId()
                     if (!h.title) {
                         html += `<a class="imagemap__link"
                         href="${h.url}"
-                        data-qtip-id="${qtipId}"
+                        data-hotspot-id="${hotspotId}"
                         style="left:${h.left}%;top:${h.top}%;width:${h.width}%;height:${h.height}%;"></a>`
                     } else {
                         html += `<a class="imagemap__link"
                         href="${h.url}"
-                        data-qtip-id="${qtipId}"
+                        data-hotspot-id="${hotspotId}"
                         style="left:${h.left}%;top:${h.top}%;width:${h.width}%;height:${h.height}%;"
                         onmouseover="window.showImageMapTooltip?.(event, '${escapeSingleQuotes(h.title)}', this)"
                         onmouseleave="window.hideImageMapTooltip?.(this)"></a>`

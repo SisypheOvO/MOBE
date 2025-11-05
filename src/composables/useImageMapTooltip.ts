@@ -40,28 +40,28 @@ export const defaultTooltipConfig: TooltipConfig = {
  */
 export const showImageMapTooltip = (event: MouseEvent, title: string, linkElement: HTMLElement, config: Partial<TooltipConfig> = {}) => {
     const mergedConfig = { ...defaultTooltipConfig, ...config }
-    const qtipId = linkElement.getAttribute("data-qtip-id")
-    if (!qtipId) return
+    const hotspotId = linkElement.getAttribute("data-hotspot-id")
+    if (!hotspotId) return
 
     // 如果已存在则不重复创建
-    const existingTooltip = document.getElementById(`qtip-${qtipId}`)
+    const existingTooltip = document.getElementById(`hotspot-${hotspotId}`)
     if (existingTooltip) {
         existingTooltip.style.display = "block"
         updateTooltipPosition(linkElement, existingTooltip as HTMLElement, mergedConfig)
-        addScrollListener(qtipId, linkElement, existingTooltip as HTMLElement, mergedConfig)
+        addScrollListener(hotspotId, linkElement, existingTooltip as HTMLElement, mergedConfig)
         return
     }
 
     // 创建 tooltip
     const tooltip = document.createElement("div")
-    tooltip.id = `qtip-${qtipId}`
-    tooltip.className = "qtip qtip-default qtip tooltip-default qtip-pos-bc"
+    tooltip.id = `hotspot-${hotspotId}`
+    tooltip.className = "hotspot hotspot-default hotspot tooltip-default hotspot-pos-bc"
     tooltip.setAttribute("role", "alert")
     tooltip.setAttribute("aria-live", "polite")
     tooltip.setAttribute("aria-atomic", "false")
-    tooltip.setAttribute("aria-describedby", `qtip-${qtipId}-content`)
+    tooltip.setAttribute("aria-describedby", `hotspot-${hotspotId}-content`)
     tooltip.setAttribute("aria-hidden", "false")
-    tooltip.setAttribute("data-qtip-id", qtipId)
+    tooltip.setAttribute("data-hotspot-id", hotspotId)
 
     // 应用样式配置
     tooltip.style.cssText = `
@@ -81,8 +81,8 @@ export const showImageMapTooltip = (event: MouseEvent, title: string, linkElemen
 
     // 创建内容区域
     const content = document.createElement("div")
-    content.className = "qtip-content"
-    content.id = `qtip-${qtipId}-content`
+    content.className = "hotspot-content"
+    content.id = `hotspot-${hotspotId}-content`
     content.setAttribute("aria-atomic", "true")
 
     // 设置内容区域的样式
@@ -114,14 +114,14 @@ export const showImageMapTooltip = (event: MouseEvent, title: string, linkElemen
 
     // 更新位置并添加滚动监听
     updateTooltipPosition(linkElement, tooltip, mergedConfig)
-    addScrollListener(qtipId, linkElement, tooltip, mergedConfig)
+    addScrollListener(hotspotId, linkElement, tooltip, mergedConfig)
 }
 
 /**
  * 添加滚动监听
  */
-const addScrollListener = (qtipId: string, linkElement: HTMLElement, tooltip: HTMLElement, config: TooltipConfig) => {
-    removeScrollListener(qtipId)
+const addScrollListener = (hotspotId: string, linkElement: HTMLElement, tooltip: HTMLElement, config: TooltipConfig) => {
+    removeScrollListener(hotspotId)
 
     const scrollHandler = () => {
         updateTooltipPosition(linkElement, tooltip, config)
@@ -137,21 +137,21 @@ const addScrollListener = (qtipId: string, linkElement: HTMLElement, tooltip: HT
     window.addEventListener("scroll", scrollHandler, { passive: true })
 
     // 存储监听器以便清理
-    scrollListeners.set(qtipId, scrollHandler)
+    scrollListeners.set(hotspotId, scrollHandler)
 }
 
 /**
  * 移除滚动监听
  */
-const removeScrollListener = (qtipId: string) => {
-    const handler = scrollListeners.get(qtipId)
+const removeScrollListener = (hotspotId: string) => {
+    const handler = scrollListeners.get(hotspotId)
     if (handler) {
         const scrollContainers = document.querySelectorAll("*")
         scrollContainers.forEach((container) => {
             container.removeEventListener("scroll", handler)
         })
         window.removeEventListener("scroll", handler)
-        scrollListeners.delete(qtipId)
+        scrollListeners.delete(hotspotId)
     }
 }
 
@@ -240,18 +240,18 @@ const updateTooltipPosition = (linkElement: HTMLElement, tooltip: HTMLElement, c
  * 隐藏 tooltip
  */
 export const hideImageMapTooltip = (linkElement: HTMLElement) => {
-    const qtipId = linkElement.getAttribute("data-qtip-id")
-    if (!qtipId) return
+    const hotspotId = linkElement.getAttribute("data-hotspot-id")
+    if (!hotspotId) return
 
-    const tooltip = document.getElementById(`qtip-${qtipId}`)
+    const tooltip = document.getElementById(`hotspot-${hotspotId}`)
     if (tooltip) {
         tooltip.style.display = "none"
-        removeScrollListener(qtipId)
+        removeScrollListener(hotspotId)
     }
 }
 
 /**
- * 生成唯一的 qtip ID
+ * 生成唯一的 hotspot ID
  */
 export const generateTooltipId = (): number => {
     return tooltipCounter++
@@ -261,11 +261,11 @@ export const generateTooltipId = (): number => {
  * 清理所有 tooltip
  */
 export const cleanupImageMapTooltips = () => {
-    const tooltips = document.querySelectorAll(".qtip-default")
+    const tooltips = document.querySelectorAll(".hotspot-default")
     tooltips.forEach((tooltip) => {
-        const qtipId = tooltip.getAttribute("data-qtip-id")
-        if (qtipId) {
-            removeScrollListener(qtipId)
+        const hotspotId = tooltip.getAttribute("data-hotspot-id")
+        if (hotspotId) {
+            removeScrollListener(hotspotId)
         }
         tooltip.remove()
     })
@@ -278,7 +278,7 @@ export const cleanupImageMapTooltips = () => {
  */
 const createTooltipTip = (tooltip: HTMLElement, config: TooltipConfig): HTMLElement => {
     const tip = document.createElement("div")
-    tip.className = "qtip-tip"
+    tip.className = "hotspot-tip"
 
     const tipStyle: { [key: string]: string } = {
         backgroundColor: "transparent !important",
