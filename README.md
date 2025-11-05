@@ -106,6 +106,7 @@ OBEditor/
 ├── package.json
 ├── vite.config.ts
 ├── tsconfig.json
+├── serve.js                       # Deno serve file
 └── README.md
 ```
 
@@ -230,6 +231,7 @@ OBEditor/
 ├── package.json
 ├── vite.config.ts
 ├── tsconfig.json
+├── serve.js                       # Deno 部署
 └── README.md
 ```
 
