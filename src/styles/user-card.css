@@ -213,6 +213,12 @@
     pointer-events: auto;
 }
 
+.qtip-content .user-card__icon div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 /* 国旗 */
 .qtip-content .flag-country {
     --height: 1em;
