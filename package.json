@@ -6,9 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
+    "format": "prettier --write ./src/**/*.{vue,ts,tsx,js,jsx,json,css,scss,less,html} --end-of-line auto",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@osynicite/osynic-osuapi": "^0.1.3",
     "monaco-editor": "^0.54.0",
     "splitpanes": "^4.0.4",
     "vue": "^3.5.22"
@@ -20,8 +22,11 @@
     "@vue/tsconfig": "0.8.1",
     "tailwindcss": "4.1.16",
     "typescript": "5.9.3",
+    "prettier": "3.6.2",
     "vite": "7.1.12",
     "vite-plugin-monaco-editor-esm": "^2.0.2",
+    "vite-plugin-top-level-await": "^1.6.0",
+    "vite-plugin-wasm": "^3.5.0",
     "vue-tsc": "3.1.3"
   }
 }

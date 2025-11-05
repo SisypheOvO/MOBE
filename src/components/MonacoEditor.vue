@@ -21,7 +21,7 @@
 
     const editorContainer = ref<HTMLDivElement>()
     let editor: monaco.editor.IStandaloneCodeEditor | null = null
-    let updateTimeout: number | null = null
+    let updateTimeout: ReturnType<typeof setTimeout> | null = null
 
     // 初始化编辑器
     const initEditor = async () => {
@@ -44,7 +44,7 @@
                 clearTimeout(updateTimeout)
             }
 
-            updateTimeout = window.setTimeout(() => {
+            updateTimeout = globalThis.setTimeout(() => {
                 if (editor) {
                     emit("update:modelValue", editor.getValue())
                 }

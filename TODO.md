@@ -51,7 +51,8 @@
 - [ ] 优化预览渲染性能（尝试局部渲染）
 - [ ] 支持size的快捷选项
 - [ ] 如果可能，添加左右同步滚动功能
-- [ ] 支持 Oauth 认证，便于profile Card 中显示 friend / mutual / not friend 和 bell mapper or not 信息
+- [x] 支持 Oauth 认证
+- [ ] 在profile Card 中显示 friend / mutual / not friend 和 bell mapper or not 信息
 - [x] 重构整理BBCodePreview的代码
   - [x] 提取解析逻辑到 `composables/useBBCodeParser.ts`
   - [x] 创建子组件：BBCodeContent.vue, BBCodeHeader.vue

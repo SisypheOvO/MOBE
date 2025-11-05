@@ -13,6 +13,8 @@
 
         <div class="flex-1"></div>
 
+        <OAuthButton />
+
         <button :class="[buttonClass, showPreview ? 'text-[#4ec9b0]' : '']" :title="showPreview ? '隐藏预览 (Ctrl+P)' : '显示预览 (Ctrl+P)'" @click="$emit('toggle-preview')">
             <i :class="showPreview ? 'fas fa-eye' : 'fas fa-eye-slash'"></i>
         </button>
@@ -22,6 +24,7 @@
 <script setup lang="ts">
     import { computed } from "vue"
     import type { BBCodeTag } from "@/config/bbcodeTags"
+    import OAuthButton from "@/components/OAuthButton.vue"
 
     const props = defineProps<{
         tags: BBCodeTag[]
