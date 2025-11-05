@@ -39,13 +39,13 @@ const forceUpdate = () => {
 }
 
 onMounted(() => {
-    if (typeof window !== "undefined") {
+    if (globalThis?.window !== undefined) {
         registerGlobalHandlers()
         registerUserCardHandlers()
 
         // 注册 imagemap tooltip 处理器
-        ;(window as any).showImageMapTooltip = showImageMapTooltip
-        ;(window as any).hideImageMapTooltip = hideImageMapTooltip
+        ;(globalThis as any).showImageMapTooltip = showImageMapTooltip
+        ;(globalThis as any).hideImageMapTooltip = hideImageMapTooltip
     }
 })
 
@@ -53,9 +53,9 @@ onBeforeUnmount(() => {
     cleanupUserCard()
     cleanupImageMapTooltips()
 
-    if (typeof window !== "undefined") {
-        delete (window as any).showImageMapTooltip
-        delete (window as any).hideImageMapTooltip
+    if (globalThis?.window !== undefined) {
+        delete (globalThis as any).showImageMapTooltip
+        delete (globalThis as any).hideImageMapTooltip
     }
 })
 </script>
