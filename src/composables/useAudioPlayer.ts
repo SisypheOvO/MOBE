@@ -1,25 +1,25 @@
-import { onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted } from "vue"
 
 // 时间格式化
-type TimeFormat = 'minute_minimal' | 'minute' | 'hour_minimal' | 'hour'
-type PlayState = 'loading' | 'playing' | 'paused'
+type TimeFormat = "minute_minimal" | "minute" | "hour_minimal" | "hour"
+type PlayState = "loading" | "playing" | "paused"
 
-const pad = (num: number) => num.toString().padStart(2, '0')
+const pad = (num: number) => num.toString().padStart(2, "0")
 
 const format = (time: number, fmt: TimeFormat): string => {
     const secondTotal = Math.floor(time)
     const second = secondTotal % 60
     const minuteTotal = Math.floor(secondTotal / 60)
 
-    if (fmt === 'minute_minimal') {
+    if (fmt === "minute_minimal") {
         return `'${minuteTotal}:${pad(second)}'`
-    } else if (fmt === 'minute') {
+    } else if (fmt === "minute") {
         return `'${pad(minuteTotal)}:${pad(second)}'`
     } else {
         const minute = minuteTotal % 60
         const hourTotal = Math.floor(minuteTotal / 60)
 
-        if (fmt === 'hour_minimal') {
+        if (fmt === "hour_minimal") {
             return `'${hourTotal}:${pad(minute)}:${pad(second)}'`
         } else {
             return `'${pad(hourTotal)}:${pad(minute)}:${pad(second)}'`
@@ -29,13 +29,13 @@ const format = (time: number, fmt: TimeFormat): string => {
 
 const getTimeFormat = (duration: number): TimeFormat => {
     if (duration < 600) {
-        return 'minute_minimal'
+        return "minute_minimal"
     } else if (duration < 3600) {
-        return 'minute'
+        return "minute"
     } else if (duration < 36000) {
-        return 'hour_minimal'
+        return "hour_minimal"
     } else {
-        return 'hour'
+        return "hour"
     }
 }
 
@@ -47,24 +47,19 @@ class Slider {
     private readonly endCallback?: (slider: Slider) => void
     private readonly moveCallback?: (slider: Slider) => void
 
-    constructor(params: {
-        bar: HTMLElement
-        endCallback?: (slider: Slider) => void
-        moveCallback?: (slider: Slider) => void
-        initialEvent: MouseEvent | TouchEvent
-    }) {
+    constructor(params: { bar: HTMLElement; endCallback?: (slider: Slider) => void; moveCallback?: (slider: Slider) => void; initialEvent: MouseEvent | TouchEvent }) {
         this.bar = params.bar
         this.endCallback = params.endCallback
         this.moveCallback = params.moveCallback
 
-        this.bar.dataset.audioDragging = '1'
+        this.bar.dataset.audioDragging = "1"
         this.move(this.getClientX(params.initialEvent))
 
-        document.addEventListener('mousemove', this.onMove)
-        document.addEventListener('touchmove', this.onMove)
-        document.addEventListener('mouseup', this.end)
-        document.addEventListener('touchend', this.end)
-        window.addEventListener('blur', this.end)
+        document.addEventListener("mousemove", this.onMove)
+        document.addEventListener("touchmove", this.onMove)
+        document.addEventListener("mouseup", this.end)
+        document.addEventListener("touchend", this.end)
+        window.addEventListener("blur", this.end)
     }
 
     private getClientX(e: MouseEvent | TouchEvent): number {
@@ -88,12 +83,12 @@ class Slider {
         }
 
         // 同时更新 --bar 和 --progress 以保持同步
-        this.bar.style.setProperty('--bar', this.percentage.toString())
+        this.bar.style.setProperty("--bar", this.percentage.toString())
 
         // 找到播放器元素并更新 --progress
-        const player = this.bar.closest('.js-audio--player') as HTMLElement
+        const player = this.bar.closest(".js-audio--player") as HTMLElement
         if (player) {
-            player.style.setProperty('--progress', this.percentage.toString())
+            player.style.setProperty("--progress", this.percentage.toString())
         }
     }
 
@@ -107,11 +102,11 @@ class Slider {
     end = () => {
         this.active = false
 
-        document.removeEventListener('mousemove', this.onMove)
-        document.removeEventListener('touchmove', this.onMove)
-        document.removeEventListener('mouseup', this.end)
-        document.removeEventListener('touchend', this.end)
-        window.removeEventListener('blur', this.end)
+        document.removeEventListener("mousemove", this.onMove)
+        document.removeEventListener("touchmove", this.onMove)
+        document.removeEventListener("mouseup", this.end)
+        document.removeEventListener("touchend", this.end)
+        window.removeEventListener("blur", this.end)
 
         if (this.endCallback) {
             this.endCallback(this)
@@ -120,8 +115,8 @@ class Slider {
         // 不移除 --bar，让它保持最后的值
         // CSS 中的 --bar: var(--progress) 只在没有内联样式时生效
         // 移除内联的 --bar 后，由 syncProgress 来接管更新
-        this.bar.style.removeProperty('--bar')
-        this.bar.dataset.audioDragging = '0'
+        this.bar.style.removeProperty("--bar")
+        this.bar.dataset.audioDragging = "0"
     }
 
     getPercentage = () => this.percentage
@@ -134,17 +129,17 @@ export const useAudioPlayer = () => {
 
     let pagePlayer: HTMLElement | null = null
     let currentSlider: Slider | null = null
-    let state: PlayState = 'paused'
-    let timeFormat: TimeFormat = 'minute_minimal'
+    let state: PlayState = "paused"
+    let timeFormat: TimeFormat = "minute_minimal"
     let durationFormatted = "'0:00'"
     let url: string | null = null
     let observer: MutationObserver | null = null
 
-    const ignoredErrors = ['AbortError', 'NotAllowedError', 'NotSupportedError']
+    const ignoredErrors = ["AbortError", "NotAllowedError", "NotSupportedError"]
 
     // 查找播放器元素
     const findPlayer = (elem: HTMLElement): HTMLElement | null => {
-        return elem.closest('.js-audio--player') as HTMLElement | null
+        return elem.closest(".js-audio--player") as HTMLElement | null
     }
 
     // 更新所有播放器的状态
@@ -157,13 +152,13 @@ export const useAudioPlayer = () => {
     // 设置时间格式
     const setTimeFormat = () => {
         if (audio.duration < 600) {
-            timeFormat = 'minute_minimal'
+            timeFormat = "minute_minimal"
         } else if (audio.duration < 3600) {
-            timeFormat = 'minute'
+            timeFormat = "minute"
         } else if (audio.duration < 36000) {
-            timeFormat = 'hour_minimal'
+            timeFormat = "hour_minimal"
         } else {
-            timeFormat = 'hour'
+            timeFormat = "hour"
         }
     }
 
@@ -171,19 +166,19 @@ export const useAudioPlayer = () => {
     const syncProgress = () => {
         if (audio.duration > 0) {
             const progress = audio.currentTime / audio.duration
-            const over50 = progress >= 0.5 ? '1' : '0'
+            const over50 = progress >= 0.5 ? "1" : "0"
             const progressFormatted = progress.toString()
             const currentTimeFormatted = format(audio.currentTime, timeFormat)
 
             updatePlayers((player) => {
-                player.style.setProperty('--current-time', currentTimeFormatted)
-                player.style.setProperty('--progress', progressFormatted)
+                player.style.setProperty("--current-time", currentTimeFormatted)
+                player.style.setProperty("--progress", progressFormatted)
                 player.dataset.audioOver50 = over50
 
                 // 同时更新进度条的 --bar 变量，但只在没有拖拽时
-                const seekBar = player.querySelector('.js-audio--seek') as HTMLElement
-                if (seekBar && seekBar.dataset.audioDragging !== '1') {
-                    seekBar.style.setProperty('--bar', progressFormatted)
+                const seekBar = player.querySelector(".js-audio--seek") as HTMLElement
+                if (seekBar && seekBar.dataset.audioDragging !== "1") {
+                    seekBar.style.setProperty("--bar", progressFormatted)
                 }
             })
         }
@@ -195,10 +190,10 @@ export const useAudioPlayer = () => {
 
     const syncState = () => {
         updatePlayers((player) => {
-            player.dataset.audioHasDuration = Number.isFinite(audio.duration) ? '1' : '0'
+            player.dataset.audioHasDuration = Number.isFinite(audio.duration) ? "1" : "0"
             player.dataset.audioState = state
             player.dataset.audioTimeFormat = timeFormat
-            player.style.setProperty('--duration', durationFormatted)
+            player.style.setProperty("--duration", durationFormatted)
         })
 
         syncProgress()
@@ -225,7 +220,7 @@ export const useAudioPlayer = () => {
         const audioUrl = player.dataset.audioUrl
 
         if (!audioUrl) {
-            throw new Error('Player is missing url')
+            throw new Error("Player is missing url")
         }
 
         if (!audio.paused) {
@@ -236,14 +231,14 @@ export const useAudioPlayer = () => {
         pagePlayer = player
 
         url = audioUrl
-        audio.setAttribute('src', audioUrl)
+        audio.setAttribute("src", audioUrl)
         audio.currentTime = 0
-        setState('loading')
+        setState("loading")
 
         const promise = audio.play()
         promise?.catch((error: DOMException) => {
             if (ignoredErrors.includes(error.name)) {
-                console.error('playback failed:', error.name)
+                console.error("playback failed:", error.name)
                 stop()
                 return
             }
@@ -264,13 +259,13 @@ export const useAudioPlayer = () => {
     }
 
     const onPause = () => {
-        setState('paused')
+        setState("paused")
     }
 
     const onPlaying = () => {
         setTimeFormat()
         durationFormatted = format(audio.duration, timeFormat)
-        setState('playing')
+        setState("playing")
     }
 
     const onEnded = () => {
@@ -286,9 +281,7 @@ export const useAudioPlayer = () => {
 
     const onSeekEnd = (slider: Slider) => {
         currentSlider = null
-        const targetTime = slider.getPercentage() === 1
-            ? audio.duration - 0.01
-            : audio.duration * slider.getPercentage()
+        const targetTime = slider.getPercentage() === 1 ? audio.duration - 0.01 : audio.duration * slider.getPercentage()
 
         setTime(targetTime)
     }
@@ -301,7 +294,7 @@ export const useAudioPlayer = () => {
         if (!bar) return
 
         // 查找包含这个进度条的播放器
-        const player = bar.closest('.js-audio--player') as HTMLElement
+        const player = bar.closest(".js-audio--player") as HTMLElement
         if (!player) return
 
         // 如果没有正在播放的音频，或者音频时长无效，则不允许拖拽
@@ -332,24 +325,24 @@ export const useAudioPlayer = () => {
     }
 
     const initAudioPlayers = () => {
-        const players = document.querySelectorAll('.js-audio--player')
+        const players = document.querySelectorAll(".js-audio--player")
         players.forEach((player) => {
             if (!(player instanceof HTMLElement)) return
 
-            if (player.dataset.audioInitialized === '1') return
-            player.dataset.audioInitialized = '1'
+            if (player.dataset.audioInitialized === "1") return
+            player.dataset.audioInitialized = "1"
 
             // 添加播放按钮事件
-            const playButton = player.querySelector('.js-audio--play')
+            const playButton = player.querySelector(".js-audio--play")
             if (playButton) {
-                playButton.addEventListener('click', onClickPlay)
+                playButton.addEventListener("click", onClickPlay)
             }
 
             // 为进度条添加拖动事件
-            const seekBar = player.querySelector('.js-audio--seek')
+            const seekBar = player.querySelector(".js-audio--seek")
             if (seekBar) {
-                seekBar.addEventListener('mousedown', onSeekStart as EventListener)
-                seekBar.addEventListener('touchstart', onSeekStart as EventListener)
+                seekBar.addEventListener("mousedown", onSeekStart as EventListener)
+                seekBar.addEventListener("touchstart", onSeekStart as EventListener)
             }
 
             // 如果是当前 URL 的播放器，重新附加
@@ -366,7 +359,7 @@ export const useAudioPlayer = () => {
         mutations.forEach((mutation) => {
             mutation.addedNodes.forEach((node) => {
                 if (node instanceof HTMLElement) {
-                    if (node.classList.contains('js-audio--player') || node.querySelector('.js-audio--player')) {
+                    if (node.classList.contains("js-audio--player") || node.querySelector(".js-audio--player")) {
                         shouldInit = true
                     }
                 }
@@ -379,19 +372,19 @@ export const useAudioPlayer = () => {
     }
 
     const setupAudioEvents = () => {
-        audio.addEventListener('pause', onPause)
-        audio.addEventListener('playing', onPlaying)
-        audio.addEventListener('ended', onEnded)
-        audio.addEventListener('timeupdate', onTimeupdate)
+        audio.addEventListener("pause", onPause)
+        audio.addEventListener("playing", onPlaying)
+        audio.addEventListener("ended", onEnded)
+        audio.addEventListener("timeupdate", onTimeupdate)
     }
 
     const cleanup = () => {
         audio.pause()
-        audio.src = ''
-        audio.removeEventListener('pause', onPause)
-        audio.removeEventListener('playing', onPlaying)
-        audio.removeEventListener('ended', onEnded)
-        audio.removeEventListener('timeupdate', onTimeupdate)
+        audio.src = ""
+        audio.removeEventListener("pause", onPause)
+        audio.removeEventListener("playing", onPlaying)
+        audio.removeEventListener("ended", onEnded)
+        audio.removeEventListener("timeupdate", onTimeupdate)
 
         if (observer) {
             observer.disconnect()
@@ -405,7 +398,7 @@ export const useAudioPlayer = () => {
         observer = new MutationObserver(observePage)
         observer.observe(document.body, {
             childList: true,
-            subtree: true
+            subtree: true,
         })
 
         initAudioPlayers()
@@ -416,6 +409,6 @@ export const useAudioPlayer = () => {
     })
 
     return {
-        initAudioPlayers
+        initAudioPlayers,
     }
 }

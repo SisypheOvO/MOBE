@@ -9,7 +9,17 @@
     align-items: center;
     background-color: hsl(var(--hsl-b2));
     display: flex;
-    font-family: Torus, Inter, Helvetica Neue, Tahoma, Arial, Hiragino Kaku Gothic ProN, Meiryo, Microsoft YaHei, Apple SD Gothic Neo, sans-serif;
+    font-family:
+        Torus,
+        Inter,
+        Helvetica Neue,
+        Tahoma,
+        Arial,
+        Hiragino Kaku Gothic ProN,
+        Meiryo,
+        Microsoft YaHei,
+        Apple SD Gothic Neo,
+        sans-serif;
     height: 40px;
     max-width: 520px;
     padding: 5px 10px;
@@ -82,7 +92,9 @@
     --current-head-opacity: 0;
     --bar: 0;
     position: relative;
-    transition: height 0.1s, opacity 0.1s;
+    transition:
+        height 0.1s,
+        opacity 0.1s;
     -webkit-user-select: none;
     -moz-user-select: none;
     user-select: none;

@@ -22,41 +22,41 @@
 </template>
 
 <script setup lang="ts">
-    import { computed } from "vue"
-    import type { BBCodeTag } from "@/config/bbcodeTags"
-    import OAuthButton from "@/components/OAuthButton.vue"
+import { computed } from "vue"
+import type { BBCodeTag } from "@/config/bbcodeTags"
+import OAuthButton from "@/components/OAuthButton.vue"
 
-    const props = defineProps<{
-        tags: BBCodeTag[]
-        showPreview?: boolean
-    }>()
+const props = defineProps<{
+    tags: BBCodeTag[]
+    showPreview?: boolean
+}>()
 
-    defineEmits<{
-        "insert-tag": [tag: BBCodeTag]
-        "toggle-preview": []
-    }>()
+defineEmits<{
+    "insert-tag": [tag: BBCodeTag]
+    "toggle-preview": []
+}>()
 
-    const buttonClass = "flex items-center justify-center w-7 h-7 border-0 bg-transparent text-[#cccccc] rounded cursor-pointer transition-all duration-200 hover:bg-[#3c3c3c] hover:text-white active:bg-[#505050] active:scale-95 text-sm"
+const buttonClass = "flex items-center justify-center w-7 h-7 border-0 bg-transparent text-[#cccccc] rounded cursor-pointer transition-all duration-200 hover:bg-[#3c3c3c] hover:text-white active:bg-[#505050] active:scale-95 text-sm"
 
-    const dividerClass = "w-0.5 h-6 bg-[#4a4a4a] mx-0.5 hidden md:block rounded-full"
+const dividerClass = "w-0.5 h-6 bg-[#4a4a4a] mx-0.5 hidden md:block rounded-full"
 
-    const categoryConfig = [
-        { name: "format", label: "格式" },
-        { name: "media", label: "媒体" },
-        { name: "layout", label: "布局" },
-        { name: "special", label: "特殊" },
-        { name: "osu", label: "osu!" },
-    ] as const
+const categoryConfig = [
+    { name: "format", label: "格式" },
+    { name: "media", label: "媒体" },
+    { name: "layout", label: "布局" },
+    { name: "special", label: "特殊" },
+    { name: "osu", label: "osu!" },
+] as const
 
-    // 动态分组标签
-    const categories = computed(() =>
-        categoryConfig.map((config) => ({
-            ...config,
-            tags: props.tags.filter((t) => t.category === config.name),
-        }))
-    )
+// 动态分组标签
+const categories = computed(() =>
+    categoryConfig.map((config) => ({
+        ...config,
+        tags: props.tags.filter((t) => t.category === config.name),
+    }))
+)
 
-    const getTagTitle = (tag: BBCodeTag) => {
-        return tag.shortcut ? `${tag.label} (${tag.shortcut})` : tag.label
-    }
+const getTagTitle = (tag: BBCodeTag) => {
+    return tag.shortcut ? `${tag.label} (${tag.shortcut})` : tag.label
+}
 </script>

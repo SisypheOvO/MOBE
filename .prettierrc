@@ -5,6 +5,6 @@
   "trailingComma": "es5",
   "printWidth": 400,
   "bracketSpacing": true,
-  "vueIndentScriptAndStyle": true,
+  "vueIndentScriptAndStyle": false,
   "endOfLine": "lf"
 }

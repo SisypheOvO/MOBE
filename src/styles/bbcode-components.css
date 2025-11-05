@@ -104,7 +104,12 @@
 .bbcode kbd,
 .bbcode pre,
 .bbcode samp {
-    font-family: Menlo, Monaco, Consolas, Courier New, monospace;
+    font-family:
+        Menlo,
+        Monaco,
+        Consolas,
+        Courier New,
+        monospace;
 }
 
 .bbcode code {

@@ -35,10 +35,10 @@
 </template>
 
 <script setup lang="ts">
-    defineProps<{
-        line: number
-        column: number
-        length: number
-        selected: number
-    }>()
+defineProps<{
+    line: number
+    column: number
+    length: number
+    selected: number
+}>()
 </script>

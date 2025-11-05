@@ -1,3 +1,3 @@
 /// <reference types="vite/client" />
 
-declare module 'splitpanes';
+declare module "splitpanes"
