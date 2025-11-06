@@ -11,9 +11,9 @@ const TOKEN_STORAGE_KEY = "obe_token"
 
 export const useAuthStore = defineStore("auth", () => {
     // Configuration
-    const clientId = ref<string>("45494")
-    const redirectUri = ref<string>("https://obeditor-oauth.deno.dev/callback")
-    const proxyUrl = ref<string>("https://obeditor-cors.deno.dev/")
+    const clientId = ref<string>(import.meta.env.VITE_OSU_CLIENT_ID || "nil")
+    const redirectUri = ref<string>(import.meta.env.VITE_OSU_REDIRECT_URI || "http://localhost:4000/callback")
+    const proxyUrl = ref<string>(import.meta.env.VITE_OSU_PROXY_URL || "http://localhost:8000/")
 
     // State
     const client = ref<OsynicOsuApiV2GlooClient | null>(null)
@@ -27,6 +27,14 @@ export const useAuthStore = defineStore("auth", () => {
         const scopes = ["public", "identify", "friends.read"].join(" ")
         return `https://osu.ppy.sh/oauth/authorize?client_id=${clientId.value}&redirect_uri=${encodeURIComponent(redirectUri.value)}&response_type=code&scope=${encodeURIComponent(scopes)}`
     })
+
+    const checkEnvConfig = () => {
+        if (!import.meta.env.VITE_OSU_CLIENT_ID || import.meta.env.VITE_OSU_CLIENT_ID === "nil") {
+            console.warn('⚠️ please config your OAuth client_id! Copy `.env.development.example` and input your own configuration.')
+            return false
+        }
+        return true
+    }
 
     // Token management
     const saveTokenToStorage = (tokenData: OToken) => {
@@ -139,6 +147,10 @@ export const useAuthStore = defineStore("auth", () => {
 
     // Authentication actions
     const login = () => {
+        if (!checkEnvConfig()) {
+            alert('请先配置 OAuth client_id')
+            return
+        }
         if (authUrl.value) {
             globalThis.open(authUrl.value, "_self")
         }

@@ -52,9 +52,11 @@
 - [ ] 支持size的快捷选项
 - [ ] 如果可能，添加左右同步滚动功能
 - [x] 支持 Oauth 认证
+  - [x] 用环境变量引入各变量（clientId, redirectUri, proxyUri等）
   - [ ] 在profile Card 中显示与其他用户有关的信息
-    - [ ] friend / mutual / not friend
+    - [x] friend / mutual / not friend
     - [ ] bell mapper / not (probably not possible with nowadays official api)
+- [ ] 添加github图标
   - [ ] 用服务端替代 server.js
 - [x] 重构整理BBCodePreview的代码
   - [x] 提取解析逻辑到 `composables/useBBCodeParser.ts`

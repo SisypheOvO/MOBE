@@ -15,6 +15,7 @@ dist-ssr
 
 source/*
 archive/*
+.env.development
 
 # lock files
 package-lock.json
