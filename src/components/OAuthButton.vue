@@ -60,7 +60,7 @@ const showDropdown = ref(false)
 const guestAvatarUrl = computed(() => "/images/guest.png")
 
 const handleAuthClick = () => {
-    if (isAuthenticated) {
+    if (isAuthenticated.value) {
         showDropdown.value = !showDropdown.value
 
         if (showDropdown.value) {
