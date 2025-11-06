@@ -23,7 +23,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from "vue"
+import { ref, computed, provide } from "vue"
+import { storeToRefs } from "pinia"
 import MonacoEditor from "./components/MonacoEditor.vue"
 import EditorToolbar from "./components/EditorToolbar.vue"
 import BBCodePreview from "./components/BBCodePreview.vue"
@@ -32,30 +33,26 @@ import * as monaco from "monaco-editor"
 import { bbcodeTags, type BBCodeTag } from "./config/bbcodeTags"
 import { defaultContent } from "./config/defaultContent"
 import { Splitpanes, Pane } from "splitpanes"
+import { useAuthStore } from "@/stores/auth"
 import "splitpanes/dist/splitpanes.css"
 
-// Props
-interface Props {
-    modelValue?: string
-    showToolbar?: boolean
-    showPreview?: boolean
+const authStore = useAuthStore()
+const { isAuthenticated, userData } = storeToRefs(authStore)
+
+const content = ref(defaultContent)
+
+const userBBCodeImport = () => {
+    if (!isAuthenticated.value || !userData.value) return
+    if (!authStore.userData?.page) return
+    const newContent = authStore.userData?.page.raw
+    content.value = newContent
 }
 
-const props = withDefaults(defineProps<Props>(), {
-    modelValue: "",
-    showToolbar: true,
-    showPreview: true,
-})
+provide("userBBCodeImport", userBBCodeImport)
 
-// 本地状态：预览显示控制
-const showPreview = ref(props.showPreview)
+const showPreview = ref(true)
+const showToolbar = ref(true)
 
-// Emits
-const emit = defineEmits<{
-    "update:modelValue": [value: string]
-}>()
-
-const content = ref(props.modelValue || defaultContent)
 const editorRef = ref<InstanceType<typeof MonacoEditor>>()
 let editorInstance: monaco.editor.IStandaloneCodeEditor | null = null
 const cursorPosition = ref({ line: 1, column: 1, selected: 0 })
@@ -95,21 +92,6 @@ const editorOptions = computed<monaco.editor.IStandaloneEditorConstructionOption
 const togglePreview = () => {
     showPreview.value = !showPreview.value
 }
-
-// 监听内容变化
-watch(content, (newValue) => {
-    emit("update:modelValue", newValue)
-})
-
-// 监听外部值变化
-watch(
-    () => props.modelValue,
-    (newValue) => {
-        if (newValue !== content.value) {
-            content.value = newValue
-        }
-    }
-)
 
 // 编辑器挂载完成
 const handleEditorMounted = (editor: monaco.editor.IStandaloneCodeEditor) => {
@@ -217,18 +199,9 @@ const calculateSelectionRange = (originalSelection: monaco.Selection, insertedTe
 
     return new monaco.Selection(originalSelection.startLineNumber, startColumn, originalSelection.startLineNumber, endColumn)
 }
-
-// 暴露方法
-defineExpose({
-    getEditor: () => editorInstance,
-    insertTag: handleInsertTag,
-    getContent: () => content.value,
-    setContent: (value: string) => (content.value = value),
-})
 </script>
 
 <style scoped>
-/* 预览面板淡入淡出过渡 */
 .preview-fade-enter-active,
 .preview-fade-leave-active {
     transition:

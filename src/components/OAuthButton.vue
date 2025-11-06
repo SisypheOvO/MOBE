@@ -35,8 +35,9 @@
                 <div class="h-px bg-linear-to-r from-transparent bg-[hsla(var(--hsl-b5),0.8)]"></div>
 
                 <!-- Logout Button -->
-                <div class="p-2 bg-[hsla(var(--hsl-b5),0.7)]">
-                    <button @click="handleLogout" class="w-full px-4 py-2 text-sm font-medium text-[#999999] bg-[#2e3038]/40 hover:bg-[hsla(var(--hsl-l1),0.7)] hover:text-[#1a1b1e] rounded-lg transition-all duration-250 ease-out">登出</button>
+                <div class="p-2 bg-[hsla(var(--hsl-b5),0.7)] flex flex-row gap-2">
+                    <button @click="handleImportBBCode" class="flex-1 h-8 w-16 px-4 text-sm font-medium text-[#1a1b1e] bg-[hsla(var(--hsl-l1),0.5)] hover:bg-[hsla(var(--hsl-l1),0.8)] hover:text-black rounded-full transition-all duration-250 ease-out">导入me!</button>
+                    <button @click="handleLogout" class="h-8 w-16 px-4 text-sm font-medium text-[#1a1b1e] bg-[hsla(var(--hsl-l1),0.5)] hover:bg-[hsla(var(--hsl-l1),0.3)] hover:text-[#b7bcc4] rounded-full transition-all duration-250 ease-out">登出</button>
                 </div>
             </div>
         </transition>
@@ -44,14 +45,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, nextTick } from "vue"
-import { storeToRefs } from "pinia";
+import { ref, computed, onMounted, nextTick, inject } from "vue"
+import { storeToRefs } from "pinia"
 import { useAuthStore } from "@/stores/auth"
 import type { User } from "@osynicite/osynic-osuapi"
 
 // Use auth store
 const authStore = useAuthStore()
 const { isAuthenticated, userData } = storeToRefs(authStore)
+
+const userBBCodeImport = inject("userBBCodeImport") as () => void
+
+const handleImportBBCode = () => {
+    userBBCodeImport()
+}
 
 // Local UI state
 const showDropdown = ref(false)
