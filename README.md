@@ -98,22 +98,28 @@ Create and config `.env` file under both root
 
 > [!TIP]
 > OSU_CLIENT_ID & OSU_CLIENT_SECRET are from `https://osu.ppy.sh/home/account/edit#oauth` when you create a local app
+>
 > REDIRECT_URI should be the port you are running the CORS service
+>
 > WEBAPP_URLS is an Array of the urls you want to CORS
+>
 > WEBAPP_URL is the url OAuth service will redirect you to
 
 > [!CAUTION]
 > DON'T SHARE YOUR `OSU_CLIENT_SECRET` WITH ANYONE ELSE
+>
 > REDIRECT_URI should be also saved in the osu account setting under #oauth -> #own clients
+
+Run each the code below under the two repo's root
 
 ```bash
 deno task start # at OAuth root (see the service starting at 4000 by default)
 deno task dev # at CORS root (see the service starting at 8000 by default)
 ```
 
-##### 2. set your `.env.development` file at front end
+##### 2. set your `.env.development` file at front end root
 
-And you do like this
+And you do like this(like in the `.env.development.example`)
 
 ```env
 VITE_OSU_CLIENT_ID=<your_client_id>
@@ -222,22 +228,28 @@ Fork 以下仓库：
 
 > [!TIP]
 > OSU_CLIENT_ID 和 OSU_CLIENT_SECRET 来自 `https://osu.ppy.sh/home/account/edit#oauth`，当你创建本地应用时获取
+>
 > REDIRECT_URI 应是你运行 CORS 服务的端口
+>
 > WEBAPP_URLS 是你想要 CORS 的 URL 数组
+>
 > WEBAPP_URL 是 OAuth 服务将重定向到的 URL
 
 > [!CAUTION]
 > 不要与任何人分享你的 `OSU_CLIENT_SECRET`
+>
 > REDIRECT_URI 也应该保存在 osu 账户设置的 #oauth -> #own clients 中才能正常运行
+
+分别在两个项目的根目录下分别运行下面两行代码
 
 ```bash
 deno task start # 在 OAuth 根目录（服务默认启动在 4000 端口）
 deno task dev # 在 CORS 根目录（服务默认启动在 8000 端口）
 ```
 
-##### 2. 在前端设置 `.env.development` 文件
+##### 2. 在前端根目录设置 `.env.development` 文件
 
-配置如下：
+配置如下：(仿照 `.env.development.example`)
 
 ```env
 VITE_OSU_CLIENT_ID=<your_client_id>
