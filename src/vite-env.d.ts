@@ -1,3 +1,9 @@
 /// <reference types="vite/client" />
 
 declare module "splitpanes"
+
+// Monaco themes JSON imports
+declare module "monaco-themes/themes/*.json" {
+    const value: any
+    export default value
+}

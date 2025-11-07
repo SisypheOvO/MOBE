@@ -65,15 +65,12 @@ export const useContentsStore = defineStore("contents", () => {
                     // Only update if content changed
                     if (contents.value[index].content !== currentContent.value) {
                         contents.value[index].content = currentContent.value
-                        console.log(originalContent.value)
 
                         // If content matches original, restore original updatedAt
                         // Otherwise, use current time
                         if (currentContent.value === originalContent.value) {
-                            console.log(111)
                             contents.value[index].updatedAt = originalUpdatedAt.value
                         } else {
-                            console.log(222)
                             contents.value[index].updatedAt = Date.now()
                         }
                     }

@@ -3,9 +3,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, watch } from "vue"
+import { ref, onMounted, onBeforeUnmount, watch, computed } from "vue"
 import * as monaco from "monaco-editor"
 import { registerBBCodeLanguage } from "@/config/bbcodeLanguage"
+import { useThemeStore } from "@/stores/theme"
 
 const props = defineProps<{
     modelValue: string
@@ -23,6 +24,13 @@ const editorContainer = ref<HTMLDivElement>()
 let editor: monaco.editor.IStandaloneCodeEditor | null = null
 let updateTimeout: ReturnType<typeof setTimeout> | null = null
 
+const themeStore = useThemeStore()
+
+// Compute theme to use
+const currentTheme = computed(() => {
+    return props.theme || themeStore.currentTheme.id
+})
+
 // 初始化编辑器
 const initEditor = async () => {
     if (!editorContainer.value) return
@@ -33,7 +41,7 @@ const initEditor = async () => {
     editor = monaco.editor.create(editorContainer.value, {
         value: props.modelValue,
         language: props.language || "bbcode",
-        theme: props.theme || "bbcode-theme",
+        theme: currentTheme.value,
         automaticLayout: true,
         ...props.options,
     })
@@ -78,6 +86,13 @@ watch(
     },
     { deep: true }
 )
+
+// 监听主题变化
+watch(currentTheme, (newTheme) => {
+    if (editor) {
+        monaco.editor.setTheme(newTheme)
+    }
+})
 
 // 生命周期
 onMounted(() => {

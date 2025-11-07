@@ -58,7 +58,7 @@ THIS API IS INSANE AS HELL.
 👑​📢​🎉​🔥​✨​⚡​⭐​💯​👋​🫵​🏆​🗿​💫​
 
 - **Frontend Framework**: Vue 3 (Composition API with `<script setup>`)
-- **Editor**: Monaco Editor (VS Code's editor)
+- **Editor**: Monaco Editor, Monaco-Themes
 - **Build Tool**: Vite
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS v4
@@ -188,7 +188,7 @@ Contributions are welcome! Please feel free to submit a Pull Request or Issue.
 👑📢🎉🔥✨⚡⭐💯👋🫵🏆🗿💫
 
 - **前端框架**: Vue 3（Composition API，使用 `<script setup>`）
-- **编辑器**: Monaco Editor（VS Code 编辑器内核）
+- **编辑器**: Monaco Editor, Monaco-Themes
 - **构建工具**: Vite
 - **开发语言**: TypeScript
 - **样式框架**: Tailwind CSS v4

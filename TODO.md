@@ -42,13 +42,14 @@
 
 ## Future Plans
 
-- [ ] 提供多种主题支持
+- [x] 提供多种主题支持
 - [x] 支持导入内容
-- [ ] 支持内容记忆
+- [x] 支持内容记忆
+- [x] 自动保存
 - [x] 支持显示/不显示 Preview (动画缩放)
 - [x] 支持编辑器和预览的宽度调整
   - [x] 支持宽度记忆
-- [ ] 优化预览渲染性能（尝试局部渲染）
+- [x] 优化预览渲染性能（尝试局部渲染）（我认为这会导致渲染错误，放弃）
 - [ ] 支持size的快捷选项
 - [ ] 如果可能，添加左右同步滚动功能
 - [x] 支持 Oauth 认证
@@ -56,7 +57,16 @@
   - [ ] 在profile Card 中显示与其他用户有关的信息
     - [x] friend / mutual / not friend
     - [ ] bell mapper / not (probably not possible with nowadays official api)
-- [ ] 添加github图标
+- [x] 添加github图标
+- [x] 允许编辑多个内容
+  - [x] 添加侧栏用于切换内容
+    - [x] 显示上次修改距离现在的时间
+    - [x] 让上次修改距今时间自动增加
+    - [x] 如果在载入一个内容后的修改全部被撤销了（恢复到载入时的样子），将上次修改距今时间也改回来
+    - [x] 重命名内容
+    - [x] 删除内容
+  - [x] 保存所有内容
+  - [x] 用 pinia 管理当前所有内容
 - [x] 用服务端替代 server.js
 - [x] 重构整理BBCodePreview的代码
   - [x] 提取解析逻辑到 `composables/useBBCodeParser.ts`
@@ -74,6 +84,7 @@
   - [ ] 类似md的编辑时即刻渲染出效果的模式（相当于完全重搓渲染）
 - [ ] 添加用户设置内容
   - [ ] 设置保存策略：快捷键+按钮或auto save
+    - [ ] 如果是非auto save，支持将内容另存为新的 content
     - [ ] 保存方式：localstorage（强调此为非安全易被清除的）、上传云（这意味着我可能要支持云？）、导出文件
     - [ ] 若为localstorage，可添加侧栏用于选择要编辑的内容
   - [ ] 选择跟据不同内容（profile、forum、beatmap description、team description）切换样式
@@ -94,6 +105,9 @@
   - [x] 解决list嵌套解析失败的问题
   - [x] 修复 Preview 滚动条出现时占用div空间造成的页面宽度挤压（导致centre等元素的抖动）问题
   - [x] 修复 panSize 由于没有监测 localstorage (实际上也不行) 导致切换 showPreview 导致 splitpanes 重新读取 panSize 时读到的只是第一次挂载时的宽度
+  - [x] 修复 reset 导致的斜体失效
+  - [ ] 修复切换content时保存不判断内容有无改动导致 updatedAt 错误更新为 just now
+  - [ ] centre标签的颜色有点太蓝了，和box之类混在一起但又不清晰
 
 - [ ] 修复编辑器功能问题:
   - [x] 修复编辑器url到上括号的渲染问题

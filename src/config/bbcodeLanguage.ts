@@ -1,9 +1,15 @@
 import type * as monaco from "monaco-editor"
 import { bbcodeTags, getTagName } from "./bbcodeTags"
+import { availableThemes, createMonacoTheme } from "./monacoThemes"
 
 export const registerBBCodeLanguage = (monaco: typeof import("monaco-editor")) => {
     // 注册语言
     monaco.languages.register({ id: "bbcode" })
+
+    // Register all themes
+    availableThemes.forEach((theme) => {
+        monaco.editor.defineTheme(theme.id, createMonacoTheme(theme))
+    })
 
     // 语法高亮规则
     monaco.languages.setMonarchTokensProvider("bbcode", {
@@ -36,54 +42,6 @@ export const registerBBCodeLanguage = (monaco: typeof import("monaco-editor")) =
                 [/\[\*\]/, "keyword.list"],
                 [/[^\[]+/, "text"],
             ],
-        },
-    })
-
-    // 主题定义 - 根据标签类型设置不同颜色
-    monaco.editor.defineTheme("bbcode-theme", {
-        base: "vs-dark",
-        inherit: true,
-        rules: [
-            // 布局标签 (centre, center) - 蓝色
-            { token: "tag.open.layout", foreground: "569cd6", fontStyle: "bold" },
-            { token: "tag.close.layout", foreground: "569cd6", fontStyle: "bold" },
-
-            // 媒体标签 (url, img, profile) - 橙色
-            { token: "tag.open.media", foreground: "ce9178", fontStyle: "bold" },
-            { token: "tag.close.media", foreground: "ce9178", fontStyle: "bold" },
-
-            // 格式标签 (b, i, u, s) - 绿色
-            { token: "tag.open.format", foreground: "4ec9b0", fontStyle: "bold" },
-            { token: "tag.close.format", foreground: "4ec9b0", fontStyle: "bold" },
-
-            // 样式标签 (color, size) - 紫色
-            { token: "tag.open.style", foreground: "c586c0", fontStyle: "bold" },
-            { token: "tag.close.style", foreground: "c586c0", fontStyle: "bold" },
-
-            // 块级标签 (quote, code, notice, heading) - 黄色
-            { token: "tag.open.block", foreground: "dcdcaa", fontStyle: "bold" },
-            { token: "tag.close.block", foreground: "dcdcaa", fontStyle: "bold" },
-
-            // 容器标签 (list, box) - 青色
-            { token: "tag.open.container", foreground: "4fc1ff", fontStyle: "bold" },
-            { token: "tag.close.container", foreground: "4fc1ff", fontStyle: "bold" },
-
-            // 默认标签 - 灰色
-            { token: "tag.open.default", foreground: "808080", fontStyle: "bold" },
-            { token: "tag.close.default", foreground: "808080", fontStyle: "bold" },
-
-            // 其他规则
-            { token: "string.url", foreground: "d7ba7d", fontStyle: "underline" },
-            { token: "constant.numeric.hex", foreground: "b5cea8" },
-            { token: "keyword.list", foreground: "ff8c00" },
-            { token: "text", foreground: "d4d4d4" },
-        ],
-        colors: {
-            "editor.background": "#1e1e1e",
-            "editor.foreground": "#d4d4d4",
-            "editor.lineHighlightBackground": "#2a2a2a",
-            "editorCursor.foreground": "#aeafad",
-            "editor.selectionBackground": "#264f78",
         },
     })
 

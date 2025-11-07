@@ -38,16 +38,19 @@ import { defaultContent } from "./config/defaultContent"
 import { Splitpanes, Pane } from "splitpanes"
 import { useAuthStore } from "@/stores/auth"
 import { useContentsStore } from "@/stores/contents"
+import { useThemeStore } from "@/stores/theme"
 import "splitpanes/dist/splitpanes.css"
 
 const authStore = useAuthStore()
 const { isAuthenticated, userData } = storeToRefs(authStore)
 
 const contentsStore = useContentsStore()
+const themeStore = useThemeStore()
 
-// Initialize contents store
+// Initialize stores
 onMounted(() => {
     contentsStore.initialize()
+    themeStore.initialize()
 })
 
 // Use computed with getter/setter for two-way binding with store

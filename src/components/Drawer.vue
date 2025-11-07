@@ -69,6 +69,9 @@
                 </div>
             </div>
 
+            <!-- Theme Selector -->
+            <ThemeSelector />
+
             <!-- Footer Info -->
             <div class="pl-4 py-1 pr-2 border-t border-[#3c3c3c] text-xs text-[#888888]">
                 <div class="flex items-center gap-1">
@@ -94,6 +97,7 @@ import { useContentsStore } from "@/stores/contents"
 import ContentItemMenu from "./Drawer/ContentItemMenu.vue"
 import RenameModal from "./Drawer/RenameModal.vue"
 import DeleteModal from "./Drawer/DeleteModal.vue"
+import ThemeSelector from "./Drawer/ThemeSelector.vue"
 
 defineProps<{
     isOpen: boolean
