@@ -15,6 +15,24 @@ body,
     src: url(/font/Torus-Regular.734ed3ae.otf);
 }
 
+@font-face {
+    font-feature-settings: dlig 0;/* dlig 为酌情连字 */
+    font-family: "anthropicSerif";
+    src: url(/font/18f7e26d8fc3ca09-s.p.woff2) format("woff2");
+    font-display: swap;
+    font-weight: 300 800;
+    font-style: normal;
+}
+
+@font-face {
+    font-feature-settings: dlig 0;
+    font-family: anthropicSans;
+    src: url(/font/202112071e5d7466-s.p.woff2) format("woff2");
+    font-display: swap;
+    font-weight: 300 800;
+    font-style: normal;
+}
+
 :root {
     --font-content: Inter, sans-serif;
     --font-content-override: ;

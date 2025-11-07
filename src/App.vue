@@ -1,6 +1,8 @@
 <template>
     <div class="flex flex-col h-screen bg-[#1e1e1e] text-[#d4d4d4]">
-        <EditorToolbar v-if="showToolbar" :tags="bbcodeTags" :show-preview="showPreview" @insert-tag="handleInsertTag" @toggle-preview="togglePreview" />
+        <Drawer :is-open="isDrawerOpen" @close="isDrawerOpen = false" />
+
+        <EditorToolbar v-if="showToolbar" :tags="bbcodeTags" :show-preview="showPreview" @insert-tag="handleInsertTag" @toggle-preview="togglePreview" @toggle-drawer="isDrawerOpen = !isDrawerOpen" />
 
         <splitpanes class="flex flex-1 overflow-hidden" @resized="storePaneSize">
             <pane class="editor min-w-0 transition-all duration-300" min-size="40" :size="paneSize">
@@ -23,35 +25,52 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, provide } from "vue"
+import { ref, computed, provide, onMounted } from "vue"
 import { storeToRefs } from "pinia"
 import MonacoEditor from "./components/MonacoEditor.vue"
 import EditorToolbar from "./components/EditorToolbar.vue"
 import BBCodePreview from "./components/BBCodePreview.vue"
 import EditorStatusBar from "./components/EditorStatusBar.vue"
+import Drawer from "./components/Drawer.vue"
 import * as monaco from "monaco-editor"
 import { bbcodeTags, type BBCodeTag } from "./config/bbcodeTags"
 import { defaultContent } from "./config/defaultContent"
 import { Splitpanes, Pane } from "splitpanes"
 import { useAuthStore } from "@/stores/auth"
+import { useContentsStore } from "@/stores/contents"
 import "splitpanes/dist/splitpanes.css"
 
 const authStore = useAuthStore()
 const { isAuthenticated, userData } = storeToRefs(authStore)
 
-const content = ref(defaultContent)
+const contentsStore = useContentsStore()
+
+// Initialize contents store
+onMounted(() => {
+    contentsStore.initialize()
+})
+
+// Use computed with getter/setter for two-way binding with store
+const content = computed({
+    get: () => contentsStore.currentContent || defaultContent,
+    set: (newContent: string) => {
+        contentsStore.updateCurrentContentText(newContent)
+    },
+})
 
 const userBBCodeImport = () => {
     if (!isAuthenticated.value || !userData.value) return
     if (!authStore.userData?.page) return
-    const newContent = authStore.userData?.page.raw
-    content.value = newContent
+    const username = authStore.userData.username
+    const bbcodeContent = authStore.userData.page.raw
+    contentsStore.importFromOAuth(`${username}'s Profile`, bbcodeContent)
 }
 
 provide("userBBCodeImport", userBBCodeImport)
 
 const showPreview = ref(true)
 const showToolbar = ref(true)
+const isDrawerOpen = ref(false)
 
 const editorRef = ref<InstanceType<typeof MonacoEditor>>()
 let editorInstance: monaco.editor.IStandaloneCodeEditor | null = null
