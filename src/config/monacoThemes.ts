@@ -42,7 +42,7 @@ const vsDarkTheme: ThemeDefinition = {
     name: "VS Code Dark",
     customBase: "vs-dark",
     bbcodeColors: {
-        layout: "569cd6",
+        layout: "ff6eb4", // hot pink
         media: "ce9178",
         format: "4ec9b0",
         style: "c586c0",
@@ -62,7 +62,7 @@ const vsLightTheme: ThemeDefinition = {
     name: "VS Code Light",
     customBase: "vs",
     bbcodeColors: {
-        layout: "0000ff",
+        layout: "c71585", // medium violet red
         media: "a31515",
         format: "098658",
         style: "af00db",
@@ -82,7 +82,7 @@ const monokaiTheme: ThemeDefinition = {
     name: "Monokai",
     baseTheme: MonokaiTheme,
     bbcodeColors: {
-        layout: "66d9ef", // cyan
+        layout: "f92672", // magenta/pink
         media: "fd971f", // orange
         format: "a6e22e", // green
         style: "ae81ff", // purple
@@ -102,7 +102,7 @@ const draculaTheme: ThemeDefinition = {
     name: "Dracula",
     baseTheme: DraculaTheme,
     bbcodeColors: {
-        layout: "8be9fd", // cyan
+        layout: "ff79c6", // pink
         media: "ffb86c", // orange
         format: "50fa7b", // green
         style: "bd93f9", // purple
@@ -122,7 +122,7 @@ const githubTheme: ThemeDefinition = {
     name: "GitHub Light",
     baseTheme: GithubTheme,
     bbcodeColors: {
-        layout: "005cc5",
+        layout: "d73a49", // red
         media: "032f62",
         format: "22863a",
         style: "6f42c1",
@@ -142,7 +142,7 @@ const githubDarkTheme: ThemeDefinition = {
     name: "GitHub Dark",
     baseTheme: GithubDarkTheme,
     bbcodeColors: {
-        layout: "79c0ff", // blue
+        layout: "ff7b72", // red/pink
         media: "ffa657", // orange
         format: "7ee787", // green
         style: "d2a8ff", // purple
@@ -162,7 +162,7 @@ const nordTheme: ThemeDefinition = {
     name: "Nord",
     baseTheme: NordTheme,
     bbcodeColors: {
-        layout: "88c0d0", // frost blue
+        layout: "bf616a", // aurora red
         media: "d08770", // aurora orange
         format: "a3be8c", // aurora green
         style: "b48ead", // aurora purple
@@ -182,7 +182,7 @@ const solarizedDarkTheme: ThemeDefinition = {
     name: "Solarized Dark",
     baseTheme: SolarizedDarkTheme,
     bbcodeColors: {
-        layout: "268bd2", // blue
+        layout: "dc322f", // red
         media: "cb4b16", // orange
         format: "859900", // green
         style: "d33682", // magenta
@@ -202,7 +202,7 @@ const solarizedLightTheme: ThemeDefinition = {
     name: "Solarized Light",
     baseTheme: SolarizedLightTheme,
     bbcodeColors: {
-        layout: "268bd2", // blue
+        layout: "dc322f", // red
         media: "cb4b16", // orange
         format: "859900", // green
         style: "d33682", // magenta
@@ -222,7 +222,7 @@ const tomorrowNightTheme: ThemeDefinition = {
     name: "Tomorrow Night",
     baseTheme: TomorrowNightTheme,
     bbcodeColors: {
-        layout: "81a2be", // blue
+        layout: "cc6666", // red
         media: "de935f", // orange
         format: "b5bd68", // green
         style: "b294bb", // purple
@@ -242,7 +242,7 @@ const nightOwlTheme: ThemeDefinition = {
     name: "Night Owl",
     baseTheme: NightOwlTheme,
     bbcodeColors: {
-        layout: "82aaff", // blue
+        layout: "ff2c83", // pink
         media: "f78c6c", // orange
         format: "c3e88d", // green
         style: "c792ea", // purple
@@ -262,7 +262,7 @@ const oceanicNextTheme: ThemeDefinition = {
     name: "Oceanic Next",
     baseTheme: OneDarkProTheme,
     bbcodeColors: {
-        layout: "6699cc", // blue
+        layout: "ec5f67", // red
         media: "f99157", // orange
         format: "99c794", // green
         style: "c594c5", // purple
