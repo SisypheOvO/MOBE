@@ -63,7 +63,7 @@
                     </button>
 
                     <!-- edit menu -->
-                    <div v-if="contentsStore.contents.length > 1" class="absolute right-2 top-1/2 -translate-y-1/2">
+                    <div class="absolute right-2 top-1/2 -translate-y-1/2">
                         <ContentItemMenu v-model:is-open="contentMenuOpen[content.id]" @rename="handleRename(content.id)" @delete="handleDelete(content.id)" />
                     </div>
                 </div>
