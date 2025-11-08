@@ -1,6 +1,7 @@
 import { ref } from "vue"
 import { defineStore } from "pinia"
 import { defaultContent } from "@/config/defaultContent"
+import { useI18n } from "vue-i18n"
 
 export interface BBCodeContent {
     id: string
@@ -14,6 +15,7 @@ const CONTENTS_STORAGE_KEY = "obe_contents"
 const CURRENT_CONTENT_ID_KEY = "obe_current_content_id"
 
 export const useContentsStore = defineStore("contents", () => {
+    const { t } = useI18n()
     const contents = ref<BBCodeContent[]>([])
     const currentContentId = ref<string | null>(null)
     const currentContent = ref<string>("")
@@ -87,7 +89,7 @@ export const useContentsStore = defineStore("contents", () => {
     }
 
     // Create new content
-    const createContent = (title: string = "New Untitled", content: string = defaultContent): BBCodeContent => {
+    const createContent = (title: string = t("drawer.template"), content: string = defaultContent): BBCodeContent => {
         const newContent: BBCodeContent = {
             id: `content_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
             title,
@@ -192,7 +194,7 @@ export const useContentsStore = defineStore("contents", () => {
     const initialize = () => {
         loadContentsFromStorage()
         if (contents.value.length === 0) {
-            createContent("Welcome", defaultContent)
+            createContent()
         }
     }
 

@@ -1,29 +1,15 @@
 <template>
     <div class="relative" ref="menuContainer">
         <!-- Three dots button -->
-        <button
-            class="w-6 h-6 flex items-center justify-center rounded-md bg-transparent hover:bg-[#252525] text-[#cccccc] transition-all opacity-0 group-hover:opacity-100"
-            :class="{ 'opacity-100 bg-[#3c3c3c]': isOpen }"
-            title="More options"
-            @click.stop="toggleMenu"
-        >
+        <button class="w-6 h-6 flex items-center justify-center rounded-md bg-transparent hover:bg-[#252525] text-[#cccccc] transition-all opacity-0 group-hover:opacity-100" :class="{ 'opacity-100 bg-[#3c3c3c]': isOpen }" title="More options" @click.stop="toggleMenu">
             <i class="fas fa-ellipsis text-sm"></i>
         </button>
 
         <!-- Dropdown menu -->
         <Teleport to="body">
-            <div
-                v-if="isOpen"
-                ref="dropdownRef"
-                class="fixed z-50 bg-[#30302e]/10 backdrop-blur-xl border border-[#3c3c3c] rounded-xl min-w-32 overflow-hidden p-1.5 text-[#d4d4d4] shadow-2xl shadow-black/60 font-[anthropicSans]"
-                :style="menuStyle"
-                @click.stop
-            >
+            <div v-if="isOpen" ref="dropdownRef" class="fixed z-50 bg-[#30302e]/10 backdrop-blur-xl border border-[#3c3c3c] rounded-xl min-w-32 overflow-hidden p-1.5 text-[#d4d4d4] shadow-2xl shadow-black/60 font-[anthropicSans]" :style="menuStyle" @click.stop>
                 <!-- Rename option -->
-                <button
-                    class="w-full font-base py-1.5 px-2 rounded-lg cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis grid grid-cols-[minmax(0,1fr)_auto] gap-2 items-center outline-none select-none bg-transparent hover:bg-[#201f1e] text-[#bebcb2] hover:text-[#f5f4f0] transition-colors text-left"
-                    @click="handleRename"
-                >
+                <button class="w-full font-base py-1.5 px-2 rounded-lg cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis grid grid-cols-[minmax(0,1fr)_auto] gap-2 items-center outline-none select-none bg-transparent hover:bg-[#201f1e] text-[#bebcb2] hover:text-[#f5f4f0] transition-colors text-left" @click="handleRename">
                     <div class="flex items-center gap-2.5 w-full py-0.5 text-sm">
                         <div class="flex items-center justify-center" style="width: 20px; height: 20px">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="shrink-0">
@@ -32,7 +18,7 @@
                                 ></path>
                             </svg>
                         </div>
-                        <span class="flex-1 truncate">Rename</span>
+                        <span class="flex-1 truncate">{{ t("drawer.renameContent") }}</span>
                     </div>
                 </button>
 
@@ -40,10 +26,7 @@
                 <div class="h-0 border-t border-[#3c3c3c] m-1"></div>
 
                 <!-- Delete option -->
-                <button
-                    class="w-full font-base py-1.5 px-2 rounded-lg cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis grid grid-cols-[minmax(0,1fr)_auto] gap-2 items-center outline-none select-none bg-transparent hover:bg-[#682626] transition-colors text-[#f77e7e] text-left"
-                    @click="handleDelete"
-                >
+                <button class="w-full font-base py-1.5 px-2 rounded-lg cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis grid grid-cols-[minmax(0,1fr)_auto] gap-2 items-center outline-none select-none bg-transparent hover:bg-[#682626] transition-colors text-[#f77e7e] text-left" @click="handleDelete">
                     <div class="flex items-center gap-2.5 w-full py-0.5 text-sm">
                         <div class="flex items-center justify-center" style="width: 20px; height: 20px">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="shrink-0">
@@ -52,7 +35,7 @@
                                 ></path>
                             </svg>
                         </div>
-                        <span class="flex-1 truncate">Delete</span>
+                        <span class="flex-1 truncate">{{ t("common.delete") }}</span>
                     </div>
                 </button>
             </div>
@@ -62,6 +45,9 @@
 
 <script setup lang="ts">
 import { ref, computed, onUnmounted, nextTick } from "vue"
+import { useI18n } from "vue-i18n"
+
+const { t } = useI18n()
 
 const emit = defineEmits<{
     rename: []
@@ -121,12 +107,7 @@ const toggleMenu = (event: Event) => {
 
 const handleClickOutside = (event: MouseEvent) => {
     const target = event.target as HTMLElement
-    if (
-        menuContainer.value &&
-        !menuContainer.value.contains(target) &&
-        dropdownRef.value &&
-        !dropdownRef.value.contains(target)
-    ) {
+    if (menuContainer.value && !menuContainer.value.contains(target) && dropdownRef.value && !dropdownRef.value.contains(target)) {
         isOpen.value = false
         document.removeEventListener("click", handleClickOutside)
     }

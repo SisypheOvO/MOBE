@@ -45,14 +45,14 @@
                             </svg>
                         </div>
                     </div>
-                    <div class="transition-all duration-200 text-[#d97757] font-[510] text-sm">New Content</div>
+                    <div class="transition-all duration-200 text-[#d97757] font-[510] text-sm">{{ t("drawer.createNew") }}</div>
                 </div>
             </button>
 
             <!-- Contents List -->
             <div class="flex-1 flex flex-col overflow-y-auto px-2 py-2 gap-0.5">
-                <h3 aria-hidden="false" class="text-[#c2c0b6] pb-2 mt-1 text-sm select-none pl-2 sticky top-0 z-10 bg-linear-to-b from-[#1f1e1d] from-50% to-[#1f1e1d66] m-0">Recents</h3>
-                <div v-if="contentsStore.contents.length === 0" class="text-center text-[#888888] py-8 text-sm">No contents yet</div>
+                <h3 aria-hidden="false" class="text-[#c2c0b6] pb-2 mt-1 text-sm select-none pl-2 sticky top-0 z-10 bg-linear-to-b from-[#1f1e1d] from-50% to-[#1f1e1d66] m-0">{{ t("drawer.recentContents") }}</h3>
+                <div v-if="contentsStore.contents.length === 0" class="text-center text-[#888888] py-8 text-sm">{{ t("drawer.emptyState") }}</div>
 
                 <div v-for="content in contentsStore.contents" :key="content.id" class="group relative mb-1">
                     <button :class="['w-full text-left px-3 h-10 rounded-lg transition-colors flex flex-row items-center gap-2', content.id === contentsStore.currentContentId ? 'bg-black' : 'bg-transparent hover:bg-[#141413]']" @click="handleSwitchContent(content.id)">
@@ -69,6 +69,9 @@
                 </div>
             </div>
 
+            <!-- Language Selector -->
+            <LanguageSelector />
+
             <!-- Theme Selector -->
             <ThemeSelector />
 
@@ -76,7 +79,7 @@
             <div class="pl-4 py-1 pr-2 border-t border-[#3c3c3c] text-xs text-[#888888]">
                 <div class="flex items-center gap-1">
                     <i class="fas fa-info-circle"></i>
-                    <span>Stored in localStorage</span>
+                    <span>{{ t("drawer.storageInfo") }}</span>
                     <div class="flex-1"></div>
                     <a href="https://github.com/SisypheOvO/OBEditor" target="_blank" rel="noopener noreferrer" class="no-underline flex items-center justify-center w-9 h-9 border-0 bg-transparent text-[#cccccc] rounded-lg cursor-pointer transition-all duration-200 hover:bg-[#272727] hover:text-white active:bg-[#505050] active:scale-95 text-sm" title="view on Github">
                         <i class="fab fa-github text-[18px]"></i>
@@ -98,6 +101,8 @@ import ContentItemMenu from "./Drawer/ContentItemMenu.vue"
 import RenameModal from "./Drawer/RenameModal.vue"
 import DeleteModal from "./Drawer/DeleteModal.vue"
 import ThemeSelector from "./Drawer/ThemeSelector.vue"
+import LanguageSelector from "./Drawer/LanguageSelector.vue"
+import { useI18n } from "vue-i18n"
 
 defineProps<{
     isOpen: boolean
@@ -108,6 +113,7 @@ const emit = defineEmits<{
 }>()
 
 const contentsStore = useContentsStore()
+const { t } = useI18n()
 
 // Modal states
 const renameModalOpen = ref(false)

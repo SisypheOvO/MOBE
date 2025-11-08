@@ -3,8 +3,8 @@
         <BaseSelect
             v-model="selectedTheme"
             :options="themeOptions"
-            label="Editor Theme"
-            placeholder="Select a theme..."
+            :label="t('drawer.editorTheme')"
+            :placeholder="t('drawer.selectTheme')"
             @change="handleThemeChange"
         />
     </div>
@@ -14,9 +14,11 @@
 import { ref, computed, watch } from "vue"
 import { useThemeStore } from "@/stores/theme"
 import BaseSelect from "@/components/ui/BaseSelect.vue"
+import { useI18n } from "vue-i18n"
 
 const themeStore = useThemeStore()
 const selectedTheme = ref(themeStore.currentTheme.id)
+const { t } = useI18n()
 
 // Convert themes to select options format
 const themeOptions = computed(() =>

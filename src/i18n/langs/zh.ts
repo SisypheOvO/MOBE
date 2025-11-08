@@ -1,0 +1,26 @@
+export const zh = {
+    common: {
+        save: "保存",
+        cancel: "取消",
+        confirm: "确认",
+        delete: "删除",
+        edit: "编辑",
+        loading: "加载中...",
+    },
+    drawer: {
+        title: "设置",
+        recentContents: "最近使用",
+        language: "语言",
+        editorTheme: "编辑器主题",
+        selectTheme: "选择主题",
+        storageInfo: "储存在 localStorage",
+        template: "模板",
+        renameContent: "重命名",
+        deleteContent: "删除内容",
+        deleteConfirmation: "您确定要删除此内容吗？此操作无法撤消。",
+        emptyState: "尚无内容",
+        createNew: "新建内容",
+        profile: "的个人资料",
+    },
+    // Add more translations as needed
+}

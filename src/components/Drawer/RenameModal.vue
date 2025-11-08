@@ -1,5 +1,5 @@
 <template>
-    <BaseModal :is-open="isOpen" title="Rename content" modal-class="max-w-sm" @close="handleCancel">
+    <BaseModal :is-open="isOpen" :title="t('drawer.renameContent')" modal-class="max-w-sm" @close="handleCancel">
         <!-- Form Content -->
         <form class="grid gap-2 -mb-3" @submit.prevent="handleSubmit">
             <input
@@ -19,7 +19,7 @@
                 class="inline-flex items-center justify-center relative shrink-0 select-none disabled:pointer-events-none disabled:opacity-50 font-medium border border-[#5e5d58] transition duration-100 h-9 px-4 py-2 rounded-lg min-w-20 active:scale-[0.985] whitespace-nowrap bg-transparent hover:bg-black text-[#d4d4d4]"
                 @click="handleCancel"
             >
-                Cancel
+                {{ t("common.cancel") }}
             </button>
             <button
                 type="button"
@@ -28,7 +28,7 @@
                 data-testid="rename-submit"
                 @click="handleSubmit"
             >
-                Save
+                {{ t("common.save") }}
             </button>
         </template>
     </BaseModal>
@@ -37,6 +37,9 @@
 <script setup lang="ts">
 import { ref, watch, nextTick } from "vue"
 import BaseModal from "@/components/ui/BaseModal.vue"
+import { useI18n } from "vue-i18n"
+
+const { t } = useI18n()
 
 const props = defineProps<{
     isOpen: boolean

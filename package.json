@@ -15,7 +15,8 @@
     "monaco-themes": "^0.4.7",
     "pinia": "^3.0.4",
     "splitpanes": "^4.0.4",
-    "vue": "^3.5.24"
+    "vue": "^3.5.24",
+    "vue-i18n": "^11.1.12"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.17",

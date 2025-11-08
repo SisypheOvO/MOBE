@@ -82,6 +82,7 @@
 - [ ] 优化 userCard 组件
   - [ ] 添加 loading 状态
   - [ ] 优化封面和头像加载逻辑，添加过渡动画
+- [ ] 移动端适配
 - [ ] 尝试阅读osu-web源码，寻找有无更强可用性的解析bbcode、渲染方案（防止未预测的情况下渲染结果与官方不同）
 - [ ] 尝试在profile的基础上兼容forum、beatmap description、team description
 - [ ] 尝试添加多种模式：

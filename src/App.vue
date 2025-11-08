@@ -40,12 +40,14 @@ import { useAuthStore } from "@/stores/auth"
 import { useContentsStore } from "@/stores/contents"
 import { useThemeStore } from "@/stores/theme"
 import "splitpanes/dist/splitpanes.css"
+import { useI18n } from "vue-i18n"
 
 const authStore = useAuthStore()
 const { isAuthenticated, userData } = storeToRefs(authStore)
 
 const contentsStore = useContentsStore()
 const themeStore = useThemeStore()
+const { t } = useI18n()
 
 // Initialize stores
 onMounted(() => {
@@ -66,7 +68,7 @@ const userBBCodeImport = () => {
     if (!authStore.userData?.page) return
     const username = authStore.userData.username
     const bbcodeContent = authStore.userData.page.raw
-    contentsStore.importFromOAuth(`${username}'s Profile`, bbcodeContent)
+    contentsStore.importFromOAuth(`${username} ${t("drawer.profile")}`, bbcodeContent)
 }
 
 provide("userBBCodeImport", userBBCodeImport)
