@@ -33,6 +33,9 @@ export const kr = {
         signOut: "로그아웃",
         globalRanking: "글로벌 랭킹",
         pp: "PP",
+        loadError: "사용자 데이터를 불러오지 못했습니다",
+        loadErrorDesc: "프로필 정보를 불러오는 중 오류가 발생했습니다. 네트워크 연결을 확인하고 다시 시도해 주세요.",
+        retry: "다시 시도",
     },
     // Add more translations as needed
 }

@@ -5,7 +5,7 @@ export const ja = {
         confirm: "確認",
         delete: "削除",
         edit: "編集",
-        loading: "読み込み中...",
+        loading: "インポート中...",
     },
     drawer: {
         title: "設定",
@@ -31,8 +31,11 @@ export const ja = {
     oauthDropdown: {
         importProfile: "プロフィールをインポート",
         signOut: "サインアウト",
-        globalRanking: "グローバルランキング",
+        globalRanking: "世界ランキング",
         pp: "PP",
+        loadError: "ユーザーデータのインポートに失敗しました",
+        loadErrorDesc: "プロフィール情報のインポート中にエラーが発生しました。ネットワーク接続を確認して、もう一度お試しください。",
+        retry: "再試行",
     },
     // Add more translations as needed
 }

@@ -33,6 +33,9 @@ export const zh = {
         signOut: "登出",
         globalRanking: "全球排名",
         pp: "PP",
+        loadError: "加载用户数据失败",
+        loadErrorDesc: "加载您的个人资料信息时出错。请检查网络连接并重试。",
+        retry: "重试",
     },
     // Add more translations as needed
 }

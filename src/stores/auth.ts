@@ -207,6 +207,13 @@ export const useAuthStore = defineStore("auth", () => {
         }
     }
 
+    const retryFetchUserData = async () => {
+        await fetchUserData()
+        if (!userDataLoadFailed.value) {
+            await loadFriendsList()
+        }
+    }
+
     return {
         // State
         client,
@@ -223,5 +230,6 @@ export const useAuthStore = defineStore("auth", () => {
         initializeAuth,
         loadFriendsList,
         getFriendshipStatus,
+        retryFetchUserData,
     }
 })

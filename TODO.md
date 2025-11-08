@@ -90,10 +90,12 @@
   - [ ] 添加 loading 状态
   - [ ] 优化封面和头像加载逻辑，添加过渡动画
 - [ ] 移动端适配
-  - [ ] Drawer
+  - [x] Drawer
   - [ ] Toolbar
   - [ ] OAuth Dropdown
   - [ ] 左右视窗改为编辑与预览来回切换
+  - [ ] 在Edge移动端，底部被遮挡。。。
+  - [ ] 在三星默认浏览器，浏览器的底部工具栏会导致Drawer下的主内容可以在Drawer显示时滚动且Drawer不会在工具栏变化高度时重算高度导致白边。。。
 - [ ] 尝试阅读osu-web源码，寻找有无更强可用性的解析bbcode、渲染方案（防止未预测的情况下渲染结果与官方不同）
 - [ ] 尝试在profile的基础上兼容forum、beatmap description、team description
 - [ ] 尝试添加多种模式：

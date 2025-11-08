@@ -33,6 +33,9 @@ export const en = {
         signOut: "Sign Out",
         globalRanking: "Global Ranking",
         pp: "PP",
+        loadError: "Failed to load user data",
+        loadErrorDesc: "There was an error loading your profile information. Please check your network connection and try again.",
+        retry: "Retry",
     },
     // Add more translations as needed
 }

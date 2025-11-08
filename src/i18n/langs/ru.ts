@@ -33,6 +33,9 @@ export const ru = {
         signOut: "Выйти",
         globalRanking: "Глобальный рейтинг",
         pp: "PP",
+        loadError: "Не удалось загрузить данные пользователя",
+        loadErrorDesc: "Произошла ошибка при загрузке информации профиля. Проверьте подключение к сети и попробуйте снова.",
+        retry: "Повторить",
     },
     // Add more translations as needed
 }

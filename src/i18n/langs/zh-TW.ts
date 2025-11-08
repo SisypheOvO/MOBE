@@ -33,6 +33,9 @@ export const zhTW = {
         signOut: "登出",
         globalRanking: "全球排名",
         pp: "PP",
+        loadError: "載入使用者資料失敗",
+        loadErrorDesc: "載入您的個人資料資訊時發生錯誤。請檢查網路連線並重試。",
+        retry: "重試",
     },
     // Add more translations as needed
 }
