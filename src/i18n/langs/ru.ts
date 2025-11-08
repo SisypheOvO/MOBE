@@ -22,5 +22,11 @@ export const ru = {
         createNew: "Создать новый контент",
         profile: "Профиль",
     },
+    statusbar: {
+        row: "Строка",
+        column: "Столбец",
+        charsCount: "Символов",
+        selectedCharsCount: "Выделено символов",
+    },
     // Add more translations as needed
 }

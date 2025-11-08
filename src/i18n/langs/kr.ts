@@ -22,5 +22,11 @@ export const kr = {
         createNew: "새 콘텐츠",
         profile: "의 프로필",
     },
+    statusbar: {
+        row: "행",
+        column: "열",
+        charsCount: "문자 수",
+        selectedCharsCount: "선택된 문자 수",
+    },
     // Add more translations as needed
 }

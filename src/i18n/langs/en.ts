@@ -22,5 +22,11 @@ export const en = {
         createNew: "New Content",
         profile: "'s Profile",
     },
+    statusbar: {
+        row: "Row",
+        column: "Col",
+        charsCount: "Chars",
+        selectedCharsCount: "Selected",
+    },
     // Add more translations as needed
 }

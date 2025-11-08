@@ -22,5 +22,11 @@ export const ja = {
         createNew: "新しいコンテンツ",
         profile: "のプロフィール",
     },
+    statusbar: {
+        row: "行",
+        column: "列",
+        charsCount: "文字数",
+        selectedCharsCount: "選択済み文字数",
+    },
     // Add more translations as needed
 }

@@ -22,5 +22,11 @@ export const zh = {
         createNew: "新建内容",
         profile: "的个人资料",
     },
+    statusbar: {
+        row: "行",
+        column: "列",
+        charsCount: "字符数",
+        selectedCharsCount: "已选中",
+    },
     // Add more translations as needed
 }

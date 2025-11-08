@@ -78,6 +78,12 @@
 - [x] icon换用更标准的icon，如fontawesome
 - [x] 简化EditorToolbar逻辑
 - [ ] i18n 支持
+  - [x] Drawer
+  - [x] statusbar
+  - [ ] Toolbar
+  - [ ] Oauth Dropdown
+  - [ ] Editor 悬浮提示
+  - [ ] Default contents
 - [x] 获取 userdata 时头像显示 loading
 - [ ] 优化 userCard 组件
   - [ ] 添加 loading 状态
