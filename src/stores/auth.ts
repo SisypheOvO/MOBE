@@ -7,7 +7,7 @@ interface StoredToken extends OToken {
     stored_at: number
 }
 
-const TOKEN_STORAGE_KEY = "obe_token"
+const TOKEN_STORAGE_KEY = "mobe_token"
 
 export const useAuthStore = defineStore("auth", () => {
     // Configuration

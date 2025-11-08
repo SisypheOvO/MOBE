@@ -79,7 +79,7 @@
                     <i class="fas fa-info-circle"></i>
                     <span>{{ t("drawer.storageInfo") }}</span>
                     <div class="flex-1"></div>
-                    <a href="https://github.com/SisypheOvO/OBEditor" target="_blank" rel="noopener noreferrer" class="no-underline flex items-center justify-center w-9 h-9 border-0 bg-transparent text-[#cccccc] rounded-lg cursor-pointer transition-all duration-200 hover:bg-[#272727] hover:text-white active:bg-[#505050] active:scale-95 text-sm" title="view on Github">
+                    <a href="https://github.com/SisypheOvO/MOBE" target="_blank" rel="noopener noreferrer" class="no-underline flex items-center justify-center w-9 h-9 border-0 bg-transparent text-[#cccccc] rounded-lg cursor-pointer transition-all duration-200 hover:bg-[#272727] hover:text-white active:bg-[#505050] active:scale-95 text-sm" title="view on Github">
                         <i class="fab fa-github text-[18px]"></i>
                     </a>
                 </div>

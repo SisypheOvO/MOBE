@@ -6,7 +6,7 @@ import { zh, zhTW, en, ja, kr, ru } from "./langs"
 export const SUPPORTED_LOCALES = ["zh", "zh-TW", "en", "ja", "kr", "ru"] as const
 export type SupportedLocale = (typeof SUPPORTED_LOCALES)[number]
 
-export const LOCALE_STORAGE_KEY = "obe_locale"
+export const LOCALE_STORAGE_KEY = "mobe_locale"
 
 export interface LocaleOption {
     code: SupportedLocale

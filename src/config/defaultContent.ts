@@ -1,5 +1,5 @@
 export const defaultContent = `[centre]
-[size=150][b]🎨 欢迎使用 OBEditor[/b][/size]
+[size=150][b]🎨 欢迎使用 MOBE[/b][/size]
 [size=85][i]专为 osu! 论坛设计的现代化 BBCode 编辑器[/i][/size]
 [/centre]
 

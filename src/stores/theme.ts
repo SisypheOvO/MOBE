@@ -2,7 +2,7 @@ import { ref } from "vue"
 import { defineStore } from "pinia"
 import { availableThemes, type ThemeDefinition } from "@/config/monacoThemes"
 
-const THEME_STORAGE_KEY = "obe_theme"
+const THEME_STORAGE_KEY = "mobe_theme"
 
 export const useThemeStore = defineStore("theme", () => {
     const currentTheme = ref<ThemeDefinition>(availableThemes[0])

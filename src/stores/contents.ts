@@ -11,8 +11,8 @@ export interface BBCodeContent {
     updatedAt: number
 }
 
-const CONTENTS_STORAGE_KEY = "obe_contents"
-const CURRENT_CONTENT_ID_KEY = "obe_current_content_id"
+const CONTENTS_STORAGE_KEY = "mobe_contents"
+const CURRENT_CONTENT_ID_KEY = "mobe_current_content_id"
 
 export const useContentsStore = defineStore("contents", () => {
     const { t } = useI18n()

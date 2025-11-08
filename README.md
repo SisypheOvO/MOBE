@@ -1,10 +1,8 @@
-# OBEditor
-
-<!-- markdownlint-disable MD028 MD033 -->
+<!-- markdownlint-disable MD028 MD033 MD041 -->
 
 <div align="center">
 
-## **🎨 Modern BBCode Editor for osu!**
+# MOBE - Modern osu! BBCode Editor
 
 A powerful, feature-rich BBCode editor designed for osu! profile edit & forum posts
 
@@ -69,7 +67,7 @@ THIS API IS INSANE AS HELL.
 
 ### Usage
 
-1. **Launch the editor through <https://obeditor.deno.dev/>**
+1. **Launch the editor through <https://mobe.deno.dev/>**
 
 2. **Write BBCode**: Use the Monaco editor to write your BBCode content with:
     - Type `[` to trigger autocomplete
@@ -133,7 +131,7 @@ VITE_OSU_PROXY_URL=http://localhost:8000/             # Your CORS proxy service 
 
 ##### 3. run front end
 
-Enter the obeditor root
+Enter the mobe front end root
 
 ```bash
 npm install # Install dependencies
@@ -203,7 +201,7 @@ Contributions are welcome! Please feel free to submit a Pull Request or Issue.
 
 ### 使用方法
 
-1. **通过 <https://obeditor.deno.dev/> 启动编辑器**
+1. **通过 <https://mobe.deno.dev/> 启动编辑器**
 
 2. **编写 BBCode**：在 Monaco 编辑器中编写 BBCode 内容：
     - 输入 `[` 触发自动补全
@@ -267,7 +265,7 @@ VITE_OSU_PROXY_URL=http://localhost:8000/             # 你的 CORS 代理服务
 
 ##### 3. 运行前端
 
-进入 obeditor 根目录
+进入 mobe 前端根目录
 
 ```bash
 npm install # 安装依赖
