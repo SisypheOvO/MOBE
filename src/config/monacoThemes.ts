@@ -277,20 +277,7 @@ const oceanicNextTheme: ThemeDefinition = {
 }
 
 // Export all themes
-export const availableThemes: ThemeDefinition[] = [
-    vsDarkTheme,
-    vsLightTheme,
-    monokaiTheme,
-    draculaTheme,
-    githubTheme,
-    githubDarkTheme,
-    nordTheme,
-    solarizedDarkTheme,
-    solarizedLightTheme,
-    tomorrowNightTheme,
-    nightOwlTheme,
-    oceanicNextTheme,
-]
+export const availableThemes: ThemeDefinition[] = [vsDarkTheme, vsLightTheme, monokaiTheme, draculaTheme, githubTheme, githubDarkTheme, nordTheme, solarizedDarkTheme, solarizedLightTheme, tomorrowNightTheme, nightOwlTheme, oceanicNextTheme]
 
 // Helper function to create Monaco theme from theme definition
 export const createMonacoTheme = (theme: ThemeDefinition): monaco.editor.IStandaloneThemeData => {

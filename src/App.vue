@@ -8,7 +8,7 @@
             <pane class="editor flex flex-col min-w-0 transition-all duration-300" min-size="40" :size="paneSize">
                 <span class="sr-only">BBCode 编辑器</span>
                 <div class="h-[21px] px-2 flex flex-col justify-center">
-                    <span v-if="isAuthenticated && userData" class="text-[10px] text-[#9c8dcf]">https://osu.ppy.sh/users/{{userData.id}}</span>
+                    <span v-if="isAuthenticated && userData" class="text-[10px] text-[#9c8dcf]">https://osu.ppy.sh/users/{{ userData.id }}</span>
                 </div>
                 <MonacoEditor ref="editorRef" v-model="content" :options="editorOptions" @editor-mounted="handleEditorMounted" />
             </pane>

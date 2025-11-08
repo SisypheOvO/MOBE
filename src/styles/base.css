@@ -16,7 +16,7 @@ body,
 }
 
 @font-face {
-    font-feature-settings: dlig 0;/* dlig 为酌情连字 */
+    font-feature-settings: dlig 0; /* dlig 为酌情连字 */
     font-family: "anthropicSerif";
     src: url(/font/18f7e26d8fc3ca09-s.p.woff2) format("woff2");
     font-display: swap;

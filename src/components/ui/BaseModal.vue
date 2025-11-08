@@ -17,11 +17,7 @@
                         <!-- Footer (Buttons) -->
                         <div class="mt-4 flex flex-col gap-2 sm:flex-row justify-end">
                             <slot name="footer">
-                                <button
-                                    type="button"
-                                    class="inline-flex items-center justify-center relative shrink-0 select-none disabled:pointer-events-none disabled:opacity-50 font-medium border border-[#3c3c3c] transition duration-100 h-9 px-4 py-2 rounded-lg min-w-20 active:scale-[0.985] whitespace-nowrap bg-transparent hover:bg-[#2d2d2d] text-[#d4d4d4]"
-                                    @click="$emit('close')"
-                                >
+                                <button type="button" class="inline-flex items-center justify-center relative shrink-0 select-none disabled:pointer-events-none disabled:opacity-50 font-medium border border-[#3c3c3c] transition duration-100 h-9 px-4 py-2 rounded-lg min-w-20 active:scale-[0.985] whitespace-nowrap bg-transparent hover:bg-[#2d2d2d] text-[#d4d4d4]" @click="$emit('close')">
                                     {{ t("common.cancel") }}
                                 </button>
                             </slot>
@@ -34,9 +30,9 @@
 </template>
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
+import { useI18n } from "vue-i18n"
 
-const { t } = useI18n();
+const { t } = useI18n()
 
 defineProps<{
     isOpen: boolean

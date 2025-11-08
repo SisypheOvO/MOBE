@@ -1,12 +1,6 @@
 <template>
     <div class="px-2 pt-2 pb-2.5 border-t border-[#3c3c3c]">
-        <BaseSelect
-            v-model="selectedTheme"
-            :options="themeOptions"
-            :label="t('drawer.editorTheme')"
-            :placeholder="t('drawer.selectTheme')"
-            @change="handleThemeChange"
-        />
+        <BaseSelect v-model="selectedTheme" :options="themeOptions" :label="t('drawer.editorTheme')" :placeholder="t('drawer.selectTheme')" @change="handleThemeChange" />
     </div>
 </template>
 
