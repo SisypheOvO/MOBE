@@ -34,13 +34,16 @@ We support all osu! tags.
 - 🔧 **Visual Toolbar** - Categorized quick-access buttons (Format, Media, Layout, Special, osu!)
 - ⌨️ **Keyboard Shortcuts** - Efficient editing (Ctrl+B, Ctrl+I, Ctrl+U, Ctrl+K)
 - 📱 **Live Preview** - Real-time BBCode rendering with osu! forum styling
+- 🔄 **Multiple BBCode Contents** - Simultaneously edit/save multiple BBCode instances
 - ✅​ **Import BBCode** - from your profile or other places (\*need login)
-- 👥​ **Check FriendShip** - also once you login
 
 #### Side Features
 
 - **Hiding Preview** - immersion of coding
 - **Width Memo** - Changing/memorizing width of code/preview sections
+- **Multiple Editor Themes** - Switch between different editor visual themes
+- **i18n** - Internationalization support for multiple languages
+- **Check FriendShip** - once you login
 
 #### Other UI/UX
 
@@ -164,13 +167,16 @@ Contributions are welcome! Please feel free to submit a Pull Request or Issue.
 - 🔧 **可视化工具栏** - 分类的快捷按钮（格式、媒体、布局、特殊、osu!）
 - ⌨️ **键盘快捷键** - 高效编辑（Ctrl+B、Ctrl+I、Ctrl+U、Ctrl+K）
 - 📱 **实时预览** - 实时渲染 BBCode，采用 osu! 论坛样式
+- 🔄 **多个 BBCode 内容** - 同时编辑/保存多个 BBCode 实例
 - ✅ **导入 BBCode** - 从你的个人资料或其他地方导入（\*需要登录）
-- 👥 **检查好友关系** - 登录后即可使用
 
 #### 辅助功能
 
 - **隐藏预览** - 沉浸式编码体验
 - **宽度记忆** - 更改/记忆代码/预览区域的宽度
+- **多种编辑器主题** - 切换不同的编辑器视觉主题
+- **国际化** - 多语言支持
+- **检查好友关系** - 登录后即可使用
 
 #### 其他 UI/UX
 

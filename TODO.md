@@ -81,7 +81,7 @@
   - [x] Drawer
   - [x] statusbar
   - [ ] Toolbar
-  - [ ] Oauth Dropdown
+  - [x] Oauth Dropdown
   - [ ] Editor 悬浮提示
   - [ ] Default contents
 - [x] 获取 userdata 时头像显示 loading
