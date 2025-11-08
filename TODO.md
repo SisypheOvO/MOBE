@@ -86,7 +86,7 @@
   - [ ] 设置保存策略：快捷键+按钮或auto save
     - [ ] 如果是非auto save，支持将内容另存为新的 content
     - [ ] 保存方式：localstorage（强调此为非安全易被清除的）、上传云（这意味着我可能要支持云？）、导出文件
-    - [ ] 若为localstorage，可添加侧栏用于选择要编辑的内容
+    - [x] 若为localstorage，可添加侧栏用于选择要编辑的内容
   - [ ] 选择跟据不同内容（profile、forum、beatmap description、team description）切换样式
     - [x] profile
     - [ ] forum
@@ -106,8 +106,8 @@
   - [x] 修复 Preview 滚动条出现时占用div空间造成的页面宽度挤压（导致centre等元素的抖动）问题
   - [x] 修复 panSize 由于没有监测 localstorage (实际上也不行) 导致切换 showPreview 导致 splitpanes 重新读取 panSize 时读到的只是第一次挂载时的宽度
   - [x] 修复 reset 导致的斜体失效
-  - [ ] 修复切换content时保存不判断内容有无改动导致 updatedAt 错误更新为 just now
-  - [ ] centre标签的颜色有点太蓝了，和box之类混在一起但又不清晰
+  - [x] 修复切换content时保存不判断内容有无改动导致 updatedAt 错误更新为 just now
+  - [x] centre标签的颜色有点太蓝了，和box之类混在一起但又不清晰
 
 - [ ] 修复编辑器功能问题:
   - [x] 修复编辑器url到上括号的渲染问题
