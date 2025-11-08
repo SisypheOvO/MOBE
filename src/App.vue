@@ -5,10 +5,10 @@
         <EditorToolbar v-if="showToolbar" :tags="bbcodeTags" :show-preview="showPreview" @insert-tag="handleInsertTag" @toggle-preview="togglePreview" @toggle-drawer="isDrawerOpen = !isDrawerOpen" />
 
         <splitpanes class="flex flex-1 overflow-hidden" @resized="storePaneSize">
-            <pane class="editor min-w-0 transition-all duration-300" min-size="40" :size="paneSize">
+            <pane class="editor flex flex-col min-w-0 transition-all duration-300" min-size="40" :size="paneSize">
                 <span class="sr-only">BBCode 编辑器</span>
-                <div class="absolute h-(--header-height) px-2 flex flex-col justify-center">
-                    <span class="text-[10px] text-[#9c8dcf]">https://osu.ppy.sh/users/35628968</span>
+                <div class="h-[21px] px-2 flex flex-col justify-center">
+                    <span v-if="isAuthenticated && userData" class="text-[10px] text-[#9c8dcf]">https://osu.ppy.sh/users/{{userData.id}}</span>
                 </div>
                 <MonacoEditor ref="editorRef" v-model="content" :options="editorOptions" @editor-mounted="handleEditorMounted" />
             </pane>

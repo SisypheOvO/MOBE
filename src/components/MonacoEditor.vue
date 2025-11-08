@@ -1,5 +1,5 @@
 <template>
-    <div ref="editorContainer" class="mt-(--header-height) pb-8 w-full h-[calc(100%-var(--header-height))]"></div>
+    <div ref="editorContainer" class="w-full flex-1"></div>
 </template>
 
 <script setup lang="ts">

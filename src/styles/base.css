@@ -56,10 +56,6 @@ body,
     --status-icon-margin: 10px;
 }
 
-.editor {
-    --header-height: 21px;
-}
-
 /* BBCode 内容区域的基础重置 */
 .bbcode *,
 ::after,
