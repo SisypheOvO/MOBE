@@ -32,28 +32,29 @@ export const isSupportedLocale = (locale: string): locale is SupportedLocale => 
 }
 
 export const normalizeLocale = (locale: string): SupportedLocale => {
-    const normalized = locale.toLowerCase()
-
-    // Exact match
-    if (isSupportedLocale(normalized)) {
-        return normalized
+    // 1. case-insensitive 完全匹配
+    const lowerLocale = locale.toLowerCase()
+    const exactMatch = SUPPORTED_LOCALES.find((supported) => supported.toLowerCase() === lowerLocale)
+    if (exactMatch) {
+        return exactMatch
     }
 
-    // Language code match (e.g., "en-US" -> "en")
-    const langCode = normalized.split("-")[0]
-    if (isSupportedLocale(langCode)) {
-        return langCode
-    }
-
-    // Special case for Chinese variants
-    if (langCode === "zh") {
-        if (normalized.includes("tw") || normalized.includes("hk") || normalized.includes("mo")) {
+    // 2. special handling for Chinese variants
+    if (lowerLocale.startsWith("zh")) {
+        if (lowerLocale.includes("tw") || lowerLocale.includes("hk") || lowerLocale.includes("mo")) {
             return "zh-TW"
         }
         return "zh"
     }
 
-    return "en" // Default fallback
+    // 3. Language code match (e.g., "en-US" -> "en")
+    const langCode = lowerLocale.split("-")[0]
+    if (isSupportedLocale(langCode)) {
+        return langCode
+    }
+
+    // 4. Default fallback
+    return "en"
 }
 
 export const detectBrowserLocale = (): SupportedLocale => {
