@@ -78,14 +78,14 @@
 - [x] icon换用更标准的icon，如fontawesome
 - [x] 简化EditorToolbar逻辑
 - [ ] 优化 Drawer 底部空间的样式，汇总为 settings 浮窗
-- [ ] i18n 支持
+- [x] i18n 支持
   - [x] Drawer
   - [x] statusbar
   - [x] Toolbar
   - [x] OAuth Dropdown
   - [x] Preview 组件内的提示文字
   - [x] All BBCodeTags (label, placeholder, detail, documentation and hover info)
-  - [ ] Default contents
+  - [x] Default contents
 - [x] 获取 userdata 时头像显示 loading
 - [ ] 优化 userCard 组件
   - [ ] 添加 loading 状态

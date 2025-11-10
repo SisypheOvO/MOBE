@@ -210,5 +210,131 @@ export const kr = {
             hoverInfo: "**이미지맵 태그** - 이미지맵\n\n사용법: \n\n[imagemap]\n\nhttps://test.com/example.jpg\n\n45 16 25 7 https://osu.ppy.sh/users/1\n\n70 8 30 7 https://osu.ppy.sh/users/2\n\n0 16 20 7 https://osu.ppy.sh/users/3\n\n22 12 20 7 https://osu.ppy.sh/users/4\n\n[/imagemap]",
         },
     },
+    defaultContent: `[centre]
+[size=150][b]🎨 MOBE에 오신 것을 환영합니다[/b][/size]
+[size=85][i]osu! 포럼을 위해 설계된 현대적인 BBCode 편집기[/i][/size]
+[/centre]
+
+[heading]✨ 편집기 기능[/heading]
+
+[notice]
+이 편집기는 구문 강조, 스마트 자동 완성, 색상 선택기 및 실시간 미리보기를 포함하여 osu! 포럼의 전체 BBCode 구문을 지원합니다.
+[/notice]
+
+[heading]📝 텍스트 서식[/heading]
+
+[b]굵은 텍스트[/b] [i]기울임 텍스트[/i] [u]밑줄 텍스트[/u] [s]취소선 텍스트[/s]
+
+[b]조합:[/b][b][i][u]굵게+기울임+밑줄[/u][/i][/b]
+
+[heading]🎨 색상과 크기[/heading]
+
+[color=#ff6b6b]빨간색[/color] [color=#4ecdc4]청록색[/color] [color=#95e1d3]민트 그린[/color] [color=#f38181]분홍색[/color] [color=#d9a6bd]osu! 핑크[/color]
+
+[size=50]작은 텍스트 (50%)[/size]
+[size=85]약간 작은 텍스트 (85%)[/size]
+[size=100]일반 텍스트 (100%)[/size]
+[size=150]큰 텍스트 (150%)[/size]
+
+[heading]🔗 링크와 미디어[/heading]
+
+사용자 프로필 보기: [profile=35628968]SisypheOvO[/profile]의 홈페이지
+
+imagemap 임베드:
+
+[imagemap]
+https://sisy.s-ul.eu/UWlCIYOX
+53 30 40 60 https://osu.ppy.sh/users/35628968 Sisy
+30 70 15 28 https://osu.ppy.sh/users/27608705 MarioKartya
+18 70 12 28 https://osu.ppy.sh/users/9650376 Robinia
+[/imagemap]
+
+이메일 링크: [email=test@gmail.com]Sisy의 이메일[/email]
+
+오디오 임베드:
+
+[audio]https://raw.githubusercontent.com/ZnCookie/osu-profile/refs/heads/main/music.opus[/audio]
+
+YouTube 동영상 임베드:
+
+[youtube]Ef6zwIR44Ww[/youtube]
+
+[heading]💬 인용과 코드[/heading]
+
+[quote="peppy"]
+이것은 peppy의 인용입니다
+저자 이름이 있는 인용을 지원합니다
+[/quote]
+
+[quote]
+이것은 일반 인용 블록입니다
+저자 표시 없음
+[/quote]
+
+코드 블록 예제:
+
+[code]
+function clickCircles() {
+    const timing = calculateTiming();
+    if (timing.perfect) {
+        score += 300;
+    }
+}
+[/code]
+
+인라인 코드: 디버깅을 위해 [c]console.log()[/c]를 사용하거나 [c]beatmap.difficulty[/c] 속성을 확인하세요.
+
+[heading]📋 목록[/heading]
+
+[b]순서 없는 목록 (기본):[/b]
+[list]
+[*]Standard 모드
+[*]Taiko 모드
+[*]Catch 모드
+[*]Mania 모드
+[/list]
+
+[b]순서 있는 목록 (list=1 사용):[/b]
+[list=1]
+[*]Beatmap 다운로드
+[*]osu!로 가져오기
+[*]플레이 시작
+[*]점수 업로드
+[/list]
+
+[heading]👁️ 스포일러와 접기[/heading]
+
+인라인 스포일러: 이것은 [spoiler]숨겨진 텍스트 내용[/spoiler]입니다. 마우스를 올려서 확인하세요.
+
+[box=클릭하여 펼치기: 팁과 요령]
+[b]편집기 단축키:[/b]
+[list]
+[*][b]Ctrl+B[/b] - 굵게
+[*][b]Ctrl+I[/b] - 기울임
+[*][b]Ctrl+U[/b] - 밑줄
+[*][b]Ctrl+K[/b] - 링크 삽입
+[/list]
+
+[b]특수 기능:[/b]
+[list]
+[*]링크 편집: 여는 태그 이름을 수정하면 닫는 태그가 자동으로 동기화됩니다
+[*]색상 선택기: [c][color=#...][/c]의 색상 값을 클릭하세요
+[*]스마트 자동 완성: [c][[/c]를 입력하여 태그 자동 완성 트리거
+[/list]
+[/box]
+
+[spoilerbox]
+이것은 고정 제목 "SPOILER"가 있는 스포일러 박스입니다
+게임 스포일러, 답변 및 기타 민감한 콘텐츠를 숨기는 데 적합합니다
+[/spoilerbox]
+
+[heading]🎮 osu! 포럼 태그 중첩 예제[/heading]
+
+[centre]
+[url=https://discord.gg/osu][img]https://p.sda1.dev/24/519a9b0cccd78e6b2baf7d385673d596/GcbaktIW4AAuuTF.jpeg[/img][/url]
+[b][color=#5CF8EE]V[/color]ocaloid [color=#5CF8EE]A[/color]ppreciation [color=#5CF8EE]T[/color]eam[/b]
+[size=85][url=https://discord.gg/osu]Join the Discord![/url][/size]
+[/centre]
+`,
     // Add more translations as needed
 }

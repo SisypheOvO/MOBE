@@ -210,5 +210,131 @@ export const en = {
             hoverInfo: "**Imagemap tag** - Imagemap\n\nUsage: \n\n[imagemap]\n\nhttps://test.com/example.jpg\n\n45 16 25 7 https://osu.ppy.sh/users/1\n\n70 8 30 7 https://osu.ppy.sh/users/2\n\n0 16 20 7 https://osu.ppy.sh/users/3\n\n22 12 20 7 https://osu.ppy.sh/users/4\n\n[/imagemap]",
         },
     },
+    defaultContent: `[centre]
+[size=150][b]🎨 Welcome to MOBE[/b][/size]
+[size=85][i]A modern BBCode editor designed for osu! forum[/i][/size]
+[/centre]
+
+[heading]✨ Editor Features[/heading]
+
+[notice]
+This editor supports the full osu! forum BBCode syntax, including syntax highlighting, smart completion, color picker, and real-time preview.
+[/notice]
+
+[heading]📝 Text Formatting[/heading]
+
+[b]Bold text[/b] [i]Italic text[/i] [u]Underlined text[/u] [s]Strikethrough text[/s]
+
+[b]Combined:[/b][b][i][u]Bold+Italic+Underline[/u][/i][/b]
+
+[heading]🎨 Colors and Sizes[/heading]
+
+[color=#ff6b6b]Red[/color] [color=#4ecdc4]Cyan[/color] [color=#95e1d3]Mint Green[/color] [color=#f38181]Pink[/color] [color=#d9a6bd]osu! Pink[/color]
+
+[size=50]Small text (50%)[/size]
+[size=85]Smaller text (85%)[/size]
+[size=100]Normal text (100%)[/size]
+[size=150]Large text (150%)[/size]
+
+[heading]🔗 Links and Media[/heading]
+
+View user profile: [profile=35628968]SisypheOvO[/profile]'s homepage
+
+Embed imagemap:
+
+[imagemap]
+https://sisy.s-ul.eu/UWlCIYOX
+53 30 40 60 https://osu.ppy.sh/users/35628968 Sisy
+30 70 15 28 https://osu.ppy.sh/users/27608705 MarioKartya
+18 70 12 28 https://osu.ppy.sh/users/9650376 Robinia
+[/imagemap]
+
+Email link: [email=test@gmail.com]Sisy's email[/email]
+
+Embed audio:
+
+[audio]https://raw.githubusercontent.com/ZnCookie/osu-profile/refs/heads/main/music.opus[/audio]
+
+Embed YouTube video:
+
+[youtube]Ef6zwIR44Ww[/youtube]
+
+[heading]💬 Quotes and Code[/heading]
+
+[quote="peppy"]
+This is a quote from peppy
+Supports quotes with author names
+[/quote]
+
+[quote]
+This is a regular quote block
+Without author attribution
+[/quote]
+
+Code block example:
+
+[code]
+function clickCircles() {
+    const timing = calculateTiming();
+    if (timing.perfect) {
+        score += 300;
+    }
+}
+[/code]
+
+Inline code: Use [c]console.log()[/c] for debugging, or check the [c]beatmap.difficulty[/c] property.
+
+[heading]📋 Lists[/heading]
+
+[b]Unordered list (default):[/b]
+[list]
+[*]Standard mode
+[*]Taiko mode
+[*]Catch mode
+[*]Mania mode
+[/list]
+
+[b]Ordered list (using list=1):[/b]
+[list=1]
+[*]Download Beatmap
+[*]Import to osu!
+[*]Start playing
+[*]Upload score
+[/list]
+
+[heading]👁️ Spoilers and Collapsibles[/heading]
+
+Inline spoiler: This is [spoiler]hidden text content[/spoiler], hover to view.
+
+[box=Click to expand: Tips and Tricks]
+[b]Editor shortcuts:[/b]
+[list]
+[*][b]Ctrl+B[/b] - Bold
+[*][b]Ctrl+I[/b] - Italic
+[*][b]Ctrl+U[/b] - Underline
+[*][b]Ctrl+K[/b] - Insert link
+[/list]
+
+[b]Special features:[/b]
+[list]
+[*]Linked editing: Modify opening tag name, closing tag syncs automatically
+[*]Color picker: Click on color value in [c][color=#...][/c]
+[*]Smart completion: Type [c][[/c] to trigger tag completion
+[/list]
+[/box]
+
+[spoilerbox]
+This is a spoilerbox with fixed title "SPOILER"
+Suitable for hiding game spoilers, answers, and other sensitive content
+[/spoilerbox]
+
+[heading]🎮 osu! Forum Tag Nesting Example[/heading]
+
+[centre]
+[url=https://discord.gg/osu][img]https://p.sda1.dev/24/519a9b0cccd78e6b2baf7d385673d596/GcbaktIW4AAuuTF.jpeg[/img][/url]
+[b][color=#5CF8EE]V[/color]ocaloid [color=#5CF8EE]A[/color]ppreciation [color=#5CF8EE]T[/color]eam[/b]
+[size=85][url=https://discord.gg/osu]Join the Discord![/url][/size]
+[/centre]
+`,
     // Add more translations as needed
 }

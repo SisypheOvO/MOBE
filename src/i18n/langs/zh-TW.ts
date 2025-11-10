@@ -210,5 +210,131 @@ export const zhTW = {
             hoverInfo: "**Imagemap 標籤** - Imagemap\n\n用法: \n\n[imagemap]\n\nhttps://test.com/example.jpg\n\n45 16 25 7 https://osu.ppy.sh/users/1\n\n70 8 30 7 https://osu.ppy.sh/users/2\n\n0 16 20 7 https://osu.ppy.sh/users/3\n\n22 12 20 7 https://osu.ppy.sh/users/4\n\n[/imagemap]",
         },
     },
+    defaultContent: `[centre]
+[size=150][b]🎨 歡迎使用 MOBE[/b][/size]
+[size=85][i]專為 osu! 論壇設計的現代化 BBCode 編輯器[/i][/size]
+[/centre]
+
+[heading]✨ 編輯器特性[/heading]
+
+[notice]
+本編輯器支援完整的 osu! 論壇 BBCode 語法，包括語法高亮、智慧補全、顏色選擇器和即時預覽。
+[/notice]
+
+[heading]📝 文字格式[/heading]
+
+[b]粗體文字[/b] [i]斜體文字[/i] [u]底線文字[/u] [s]刪除線文字[/s]
+
+[b]組合使用：[/b][b][i][u]粗體+斜體+底線[/u][/i][/b]
+
+[heading]🎨 顏色和大小[/heading]
+
+[color=#ff6b6b]紅色[/color] [color=#4ecdc4]青色[/color] [color=#95e1d3]薄荷綠[/color] [color=#f38181]粉紅[/color] [color=#d9a6bd]osu! 粉[/color]
+
+[size=50]小號文字 (50%)[/size]
+[size=85]較小文字 (85%)[/size]
+[size=100]正常文字 (100%)[/size]
+[size=150]大號文字 (150%)[/size]
+
+[heading]🔗 連結與媒體[/heading]
+
+檢視使用者資料：[profile=35628968]SisypheOvO[/profile] 的主頁
+
+嵌入imagemap：
+
+[imagemap]
+https://sisy.s-ul.eu/UWlCIYOX
+53 30 40 60 https://osu.ppy.sh/users/35628968 Sisy
+30 70 15 28 https://osu.ppy.sh/users/27608705 MarioKartya
+18 70 12 28 https://osu.ppy.sh/users/9650376 Robinia
+[/imagemap]
+
+電子郵件連結：[email=test@gmail.com]Sisy 的電子郵件[/email]
+
+嵌入音訊：
+
+[audio]https://raw.githubusercontent.com/ZnCookie/osu-profile/refs/heads/main/music.opus[/audio]
+
+嵌入YouTube影片：
+
+[youtube]Ef6zwIR44Ww[/youtube]
+
+[heading]💬 引用與程式碼[/heading]
+
+[quote="peppy"]
+這是來自 peppy 的引用
+支援帶作者名的引用
+[/quote]
+
+[quote]
+這是普通引用區塊
+無作者署名
+[/quote]
+
+程式碼區塊範例：
+
+[code]
+function clickCircles() {
+    const timing = calculateTiming();
+    if (timing.perfect) {
+        score += 300;
+    }
+}
+[/code]
+
+行內程式碼：使用 [c]console.log()[/c] 來除錯，或者檢查 [c]beatmap.difficulty[/c] 屬性。
+
+[heading]📋 清單[/heading]
+
+[b]無序清單（預設）：[/b]
+[list]
+[*]Standard 模式
+[*]Taiko 模式
+[*]Catch 模式
+[*]Mania 模式
+[/list]
+
+[b]有序清單（使用 list=1）：[/b]
+[list=1]
+[*]下載 Beatmap
+[*]匯入到 osu!
+[*]開始遊玩
+[*]上傳成績
+[/list]
+
+[heading]👁️ 隱藏與摺疊[/heading]
+
+行內隱藏：這是 [spoiler]隱藏的文字內容[/spoiler]，滑鼠懸停檢視。
+
+[box=點擊展開：技巧與訣竅]
+[b]編輯器快捷鍵：[/b]
+[list]
+[*][b]Ctrl+B[/b] - 粗體
+[*][b]Ctrl+I[/b] - 斜體
+[*][b]Ctrl+U[/b] - 底線
+[*][b]Ctrl+K[/b] - 插入連結
+[/list]
+
+[b]特殊功能：[/b]
+[list]
+[*]連結編輯：修改上標籤名，下標籤名會自動同步
+[*]顏色選擇器：點擊 [c][color=#...][/c] 中的顏色值
+[*]智慧補全：輸入 [c][[/c] 觸發標籤補全
+[/list]
+[/box]
+
+[spoilerbox]
+這是劇透框，標題固定為 "SPOILER"
+適合隱藏遊戲劇透、答案等敏感內容
+[/spoilerbox]
+
+[heading]🎮 osu! 論壇標籤巢狀範例[/heading]
+
+[centre]
+[url=https://discord.gg/osu][img]https://p.sda1.dev/24/519a9b0cccd78e6b2baf7d385673d596/GcbaktIW4AAuuTF.jpeg[/img][/url]
+[b][color=#5CF8EE]V[/color]ocaloid [color=#5CF8EE]A[/color]ppreciation [color=#5CF8EE]T[/color]eam[/b]
+[size=85][url=https://discord.gg/osu]Join the Discord![/url][/size]
+[/centre]
+`,
     // Add more translations as needed
 }
