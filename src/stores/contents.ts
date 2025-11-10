@@ -1,6 +1,5 @@
 import { ref } from "vue"
 import { defineStore } from "pinia"
-import { defaultContent } from "@/config/defaultContent"
 import { useI18n } from "vue-i18n"
 
 export interface BBCodeContent {
@@ -89,7 +88,7 @@ export const useContentsStore = defineStore("contents", () => {
     }
 
     // Create new content
-    const createContent = (title: string = t("drawer.template"), content: string = defaultContent): BBCodeContent => {
+    const createContent = (title: string = t("drawer.template"), content: string = t("defaultContent")): BBCodeContent => {
         const newContent: BBCodeContent = {
             id: `content_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
             title,
@@ -157,7 +156,7 @@ export const useContentsStore = defineStore("contents", () => {
                     originalContent.value = contents.value[0].content
                     originalUpdatedAt.value = contents.value[0].updatedAt
                 } else {
-                    createContent("Welcome", defaultContent)
+                    createContent("Welcome", t("defaultContent"))
                 }
             }
             saveContentsToStorage()

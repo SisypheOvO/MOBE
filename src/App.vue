@@ -35,7 +35,6 @@ import EditorStatusBar from "./components/EditorStatusBar.vue"
 import Drawer from "./components/Drawer.vue"
 import * as monaco from "monaco-editor"
 import { getTranslatedBBCodeTags, type BBCodeTag } from "./config/bbcodeTags"
-import { getDefaultContent } from "./config/defaultContent"
 import { Splitpanes, Pane } from "splitpanes"
 import { useAuthStore } from "@/stores/auth"
 import { useContentsStore } from "@/stores/contents"
@@ -61,7 +60,7 @@ const bbcodeTags = computed(() => getTranslatedBBCodeTags(t))
 
 // Use computed with getter/setter for two-way binding with store
 const content = computed({
-    get: () => contentsStore.currentContent || getDefaultContent(t),
+    get: () => contentsStore.currentContent || t("defaultContent"),
     set: (newContent: string) => {
         contentsStore.updateCurrentContentText(newContent)
     },
