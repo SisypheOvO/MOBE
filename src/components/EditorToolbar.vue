@@ -1,5 +1,5 @@
 <template>
-    <div class="flex items-center gap-2.5 pl-2 pr-4 py-1.5 bg-[#2d2d2d] border-b border-[#3c3c3c] flex-wrap">
+    <div class="flex items-center gap-2.5 pl-2 pr-4 py-1.5 bg-[#2d2d2d] border-b border-[#3c3c3c]">
         <button
             class="inline-flex items-center justify-center relative shrink-0 can-focus select-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none disabled:drop-shadow-none border-transparent transition font-base duration-300 ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:scale-95 group bg-transparent hover:bg-[hsl(60,3%,14%)] text-[#8e8d86]"
             type="button"
@@ -27,29 +27,35 @@
 
         <div :class="dividerClass"></div>
 
-        <template v-for="(category, index) in categories" :key="category.name">
-            <div class="flex items-center gap-1 pl-3 pr-1 py-1 bg-[#363636] rounded border border-[#454545]">
-                <span class="text-xs text-[#a8a8a8] mr-1.5 font-semibold hidden md:inline">{{ category.label }}</span>
-                <button v-for="tag in category.tags" :key="tag.tag" :class="buttonClass" :title="getTagTitle(tag)" @click="$emit('insert-tag', tag)">
-                    <i :class="tag.icon"></i>
-                </button>
+        <div class="md:flex-1 w-0 md:opacity-100 opacity-0 md:min-w-0 min-w-0 relative transition-all duration-300 overflow-hidden pointer-events-none md:pointer-events-auto">
+            <div ref="scrollContainer" class="overflow-x-auto items-center gap-2.5 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden flex" @scroll="handleScroll">
+                <template v-for="(category, index) in categories" :key="category.name">
+                    <div class="flex items-center gap-1 pl-3 pr-1 py-1 bg-[#363636] rounded border border-[#454545] shrink-0">
+                        <span class="text-xs text-[#a8a8a8] mr-1.5 font-semibold">{{ category.label }}</span>
+                        <button v-for="tag in category.tags" :key="tag.tag" :class="buttonClass" :title="getTagTitle(tag)" @click="$emit('insert-tag', tag)">
+                            <i :class="tag.icon"></i>
+                        </button>
+                    </div>
+
+                    <div v-if="index < categories.length - 1" :class="dividerClass"></div>
+                </template>
             </div>
+            <div class="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[#2d2d2d] to-transparent pointer-events-none transition-opacity duration-200" :class="showLeftFade ? 'opacity-100' : 'opacity-0'"></div>
+            <div class="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[#2d2d2d] to-transparent pointer-events-none transition-opacity duration-200" :class="showRightFade ? 'opacity-100' : 'opacity-0'"></div>
+        </div>
 
-            <div v-if="index < categories.length - 1" :class="dividerClass"></div>
-        </template>
+        <div class="flex-1 md:flex-[0_0_0px] transition-all duration-300"></div>
 
-        <div class="flex-1"></div>
+        <OAuthButton class="shrink-0" />
 
-        <OAuthButton />
-
-        <button :class="[buttonClass, showPreview ? 'text-[#4ec9b0]' : '']" :title="showPreview ? '隐藏预览 (Ctrl+P)' : '显示预览 (Ctrl+P)'" @click="$emit('toggle-preview')">
+        <button :class="[buttonClass, showPreview ? 'text-[#4ec9b0]' : '', 'shrink-0']" :title="showPreview ? '隐藏预览 (Ctrl+P)' : '显示预览 (Ctrl+P)'" @click="$emit('toggle-preview')">
             <i :class="showPreview ? 'fas fa-eye' : 'fas fa-eye-slash'"></i>
         </button>
     </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue"
+import { computed, ref, onMounted, onUnmounted, nextTick } from "vue"
 import type { BBCodeTag } from "@/config/bbcodeTags"
 import OAuthButton from "@/components/OAuthButton.vue"
 import { useI18n } from "vue-i18n"
@@ -90,4 +96,41 @@ const categories = computed(() => {
 const getTagTitle = (tag: BBCodeTag) => {
     return tag.shortcut ? `${tag.label} (${tag.shortcut})` : tag.label
 }
+
+// 滚动相关
+const scrollContainer = ref<HTMLElement | null>(null)
+const showLeftFade = ref(false)
+const showRightFade = ref(false)
+
+const updateFadeStates = () => {
+    if (!scrollContainer.value) return
+
+    const { scrollLeft, scrollWidth, clientWidth } = scrollContainer.value
+
+    // 左侧遮罩：滚动位置大于 5px 时显示
+    showLeftFade.value = scrollLeft > 5
+
+    // 右侧遮罩：还没滚动到底部时显示（留 5px 容差）
+    showRightFade.value = scrollLeft < scrollWidth - clientWidth - 5
+}
+
+const handleScroll = () => {
+    updateFadeStates()
+}
+
+const handleResize = () => {
+    updateFadeStates()
+}
+
+onMounted(() => {
+    nextTick(() => {
+        updateFadeStates()
+    })
+
+    window.addEventListener("resize", handleResize)
+})
+
+onUnmounted(() => {
+    window.removeEventListener("resize", handleResize)
+})
 </script>

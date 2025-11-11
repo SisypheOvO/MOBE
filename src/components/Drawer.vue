@@ -4,7 +4,7 @@
     </Transition>
 
     <Transition name="drawer">
-        <div v-if="isOpen" class="fixed left-0 top-0 h-full w-80 bg-[#1f1e1d] border-r border-[#3c3c3c] z-50 flex flex-col font-[anthropicSans]">
+        <div v-if="isOpen" class="fixed left-0 top-0 h-full w-65 md:w-80 bg-[#1f1e1d] border-r border-[#3c3c3c] z-50 flex flex-col font-[anthropicSans]">
             <!-- Header -->
             <div class="flex items-center justify-between px-3 py-2 border-b border-[#3c3c3c]">
                 <button
