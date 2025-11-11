@@ -3,6 +3,7 @@ html,
 body {
     overscroll-behavior: none;
     touch-action: pan-y pan-x;
+    background-color: #1e1e1e;
 }
 
 html,
