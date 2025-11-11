@@ -28,11 +28,11 @@
                         <div v-if="options.length === 0" class="px-4 py-2 text-sm text-[#888888] text-center">No options</div>
 
                         <!-- Options -->
-                        <div v-for="option in options" :key="option.value" class="px-3 py-2 cursor-pointer transition-colors duration-150 text-sm" :class="isOptionSelected(option) ? 'bg-black text-[#faf9f5]' : 'text-[#bdbbb1] hover:bg-[#141413] hover:text-[#faf9f5]'" @click.stop="selectOption(option)">
+                        <div v-for="option in options" :key="option.value" class="px-3 py-2 cursor-pointer transition-colors duration-150 text-sm flex flex-row items-center justify-between" :class="isOptionSelected(option) ? 'bg-black text-[#faf9f5]' : 'text-[#bdbbb1] hover:bg-[#141413] hover:text-[#faf9f5]'" @click.stop="selectOption(option)">
                             {{ option.label }}
 
                             <!-- Selected Checkmark -->
-                            <div v-if="isOptionSelected(option)" class="float-right ml-2">
+                            <div v-if="isOptionSelected(option)" class="ml-2 w-4 h-4">
                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                                 </svg>
