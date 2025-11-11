@@ -1,6 +1,5 @@
 html,
-body,
-#app {
+body {
     height: 100%;
     width: 100%;
     margin: 0;
@@ -11,6 +10,13 @@ html,
 body {
     overscroll-behavior: none;
     touch-action: pan-y pan-x;
+}
+
+#app {
+    height: 100vh;
+    height: 100dvh;
+    width: 100%;
+    margin: 0;
 }
 
 @font-face {

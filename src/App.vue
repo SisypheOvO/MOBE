@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col h-screen bg-[#1e1e1e] text-[#d4d4d4]">
+    <div class="flex flex-col h-full bg-[#1e1e1e] text-[#d4d4d4]">
         <Drawer :is-open="isDrawerOpen" @close="isDrawerOpen = false" />
 
         <EditorToolbar v-if="showToolbar" :tags="bbcodeTags" :show-preview="showPreview" @insert-tag="handleInsertTag" @toggle-preview="togglePreview" @toggle-drawer="isDrawerOpen = !isDrawerOpen" />
