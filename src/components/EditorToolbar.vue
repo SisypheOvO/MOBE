@@ -1,5 +1,5 @@
 <template>
-    <div class="flex items-center gap-2.5 pl-2 pr-4 py-1.5 bg-[#2d2d2d] border-b border-[#3c3c3c]">
+    <div class="flex items-center gap-2.5 pl-2 pr-3 py-1.5 bg-[#2d2d2d] border-b border-[#3c3c3c]">
         <button
             class="inline-flex items-center justify-center relative shrink-0 can-focus select-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none disabled:drop-shadow-none border-transparent transition font-base duration-300 ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:scale-95 group bg-transparent hover:bg-[hsl(60,3%,14%)] text-[#8e8d86]"
             type="button"
@@ -51,8 +51,8 @@
 
         <OAuthButton class="shrink-0" />
 
-        <button :class="[buttonClass, showPreview ? 'text-[#4ec9b0]' : '', 'shrink-0']" :title="showPreview ? '隐藏预览 (Ctrl+P)' : '显示预览 (Ctrl+P)'" @click="$emit('toggle-preview')">
-            <i :class="showPreview ? 'fas fa-eye' : 'fas fa-eye-slash'"></i>
+        <button :class="[buttonClass, showPreview ? 'text-[#4ec9b0]' : '', 'shrink-0']" :title="showPreview ? (isMobile ? '编辑' : '隐藏预览 (Ctrl+P)') : (isMobile ? '预览' : '显示预览 (Ctrl+P)')" @click="$emit('toggle-preview')">
+            <i :class="isMobile ? (showPreview ? 'fas fa-pen-to-square' : 'fas fa-book-open') : (showPreview ? 'fas fa-eye' : 'fas fa-eye-slash')"></i>
         </button>
     </div>
 </template>
@@ -62,6 +62,7 @@ import { computed, ref, onMounted, onUnmounted, nextTick } from "vue"
 import type { BBCodeTag } from "@/config/bbcodeTags"
 import OAuthButton from "@/components/OAuthButton.vue"
 import SizeSelector from "@/components/SizeSelector.vue"
+import { useMobileDetection } from "@/composables/useMobileDetection"
 import { useI18n } from "vue-i18n"
 
 const props = defineProps<{
@@ -76,6 +77,7 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+const { isMobile } = useMobileDetection()
 
 const buttonClass = "flex items-center justify-center w-7 h-7 border-0 bg-transparent text-[#cccccc] rounded cursor-pointer transition-all duration-200 hover:bg-[#3c3c3c] hover:text-white active:bg-[#505050] active:scale-95 text-sm"
 
