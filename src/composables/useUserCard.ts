@@ -129,7 +129,12 @@ export const useUserCard = (getFriendshipStatus: (userId: number) => "mutual" | 
                                                     ${
                                                         userInfo.team
                                                             ? /* html */ `<a class="user-card__icon user-card__icon--flag" href="https://osu.ppy.sh/teams/${userInfo.team.id}">
-                                                            <span class="flag-team" style="background-image: url('${escapeHtml(userInfo.team.flag_url)}');" title="${escapeHtml(userInfo.team.name)}"></span>
+                                                            ${
+                                                                userInfo.team.flag_url
+                                                                    ? /* html */ `<span class="flag-team" title="${escapeHtml(userInfo.team.name)}" style="background-image: url('${escapeHtml(userInfo.team.flag_url)}');">
+                                                            </span>`
+                                                                    : /* html */ `<span class="flag-team" title="${escapeHtml(userInfo.team.name)}"></span>`
+                                                            }
                                                         </a>`
                                                             : ""
                                                     }
