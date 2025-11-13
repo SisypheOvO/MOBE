@@ -3,6 +3,6 @@
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
 
-.splitpanes--vertical > .splitpanes__splitter {
+.pc.splitpanes--vertical > .splitpanes__splitter {
     @apply w-2 bg-[#3c3c3c] cursor-col-resize hover:bg-[#4a4a4a] active:bg-[#007acc] transition-colors select-none touch-none;
 }

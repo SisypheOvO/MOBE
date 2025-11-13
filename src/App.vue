@@ -4,9 +4,9 @@
 
         <EditorToolbar v-if="showToolbar" :tags="bbcodeTags" :show-preview="showPreview" @insert-tag="handleInsertTag" @toggle-preview="togglePreview" @toggle-drawer="isDrawerOpen = !isDrawerOpen" />
 
-        <splitpanes class="flex flex-1 overflow-hidden" @resized="storePaneSize">
-            <Transition name="preview-fade">
-                <pane v-if="!isMobile || !showPreview" class="editor flex flex-col min-w-0 transition-all duration-300" min-size="40" :size="isMobile ? 100 : paneSize">
+        <splitpanes class="flex flex-1 overflow-hidden" :class="isMobile ? 'mobile': 'pc'" @resized="storePaneSize">
+            <Transition name="code-fade">
+                <pane v-show="!isMobile || !showPreview" class="editor flex flex-col min-w-0 transition-all duration-300" min-size="40" :size="isMobile ? 100 : editorPaneSize">
                     <span class="sr-only">BBCode 编辑器</span>
                     <div class="h-[21px] px-2 flex flex-col justify-center">
                         <span v-if="isAuthenticated && userData" class="text-[10px] text-[#9c8dcf]">https://osu.ppy.sh/users/{{ userData.id }}</span>
@@ -16,7 +16,7 @@
             </Transition>
 
             <Transition name="preview-fade">
-                <pane v-if="showPreview" class="preview flex-1 min-w-0 border-l border-[#3c3c3c] overflow-y-hidden bg-[#17181c]" min-size="20" :size="isMobile ? 100 : (100 - paneSize)">
+                <pane v-show="showPreview" class="preview flex-1 min-w-0 border-l border-[#3c3c3c] overflow-y-hidden bg-[#17181c]" min-size="20" :size="previewPaneSize">
                     <BBCodePreview class="mx-auto" :content="content" />
                 </pane>
             </Transition>
@@ -108,6 +108,14 @@ const editorOptions = computed<monaco.editor.IStandaloneEditorConstructionOption
     formatOnType: true,
     linkedEditing: true,
 }))
+
+const editorPaneSize = computed(() => {
+    return showPreview.value ? paneSize.value : 100
+})
+
+const previewPaneSize = computed(() => {
+    return showPreview.value ? 100 - paneSize.value : 0
+})
 
 // 切换预览显示
 const togglePreview = () => {
@@ -238,5 +246,26 @@ const calculateSelectionRange = (originalSelection: monaco.Selection, insertedTe
 .preview-fade-leave-to {
     opacity: 0;
     transform: translateX(20px);
+}
+
+.code-fade-enter-active,
+.code-fade-leave-active {
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
+}
+
+.code-fade-enter-from {
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.code-fade-leave-to {
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.mobile.splitpanes--vertical > .splitpanes__splitter {
+    width: 0px;
 }
 </style>
