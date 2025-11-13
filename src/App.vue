@@ -17,7 +17,7 @@
 
             <Transition name="preview-fade">
                 <pane v-show="showPreview" class="preview flex-1 min-w-0 border-l border-[#3c3c3c] overflow-y-hidden bg-[#17181c]" min-size="20" :size="previewPaneSize">
-                    <BBCodePreview class="mx-auto" :content="content" />
+                    <BBCodePreview ref="previewRef" class="mx-auto" :content="content" />
                 </pane>
             </Transition>
         </splitpanes>
@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue"
+import { ref, computed, onMounted, watch, nextTick } from "vue"
 import { storeToRefs } from "pinia"
 import { useI18n } from "vue-i18n"
 import MonacoEditor from "./components/MonacoEditor.vue"
@@ -36,6 +36,7 @@ import BBCodePreview from "./components/BBCodePreview.vue"
 import EditorStatusBar from "./components/EditorStatusBar.vue"
 import Drawer from "./components/Drawer.vue"
 import { useMobileDetection } from "@/composables/useMobileDetection"
+import { useSyncScroll } from "@/composables/useSyncScroll"
 import * as monaco from "monaco-editor"
 import { getTranslatedBBCodeTags, type BBCodeTag } from "./config/bbcodeTags"
 import { Splitpanes, Pane } from "splitpanes"
@@ -75,8 +76,10 @@ const showToolbar = ref(true)
 const isDrawerOpen = ref(false)
 
 const editorRef = ref<InstanceType<typeof MonacoEditor>>()
+const previewRef = ref<InstanceType<typeof BBCodePreview>>()
 let editorInstance: monaco.editor.IStandaloneCodeEditor | null = null
 const cursorPosition = ref({ line: 1, column: 1, selected: 0 })
+const { setupSync } = useSyncScroll()
 const paneSize = ref(localStorage.paneSize ?? 45) // Read from persistent localStorage.
 
 interface PaneInfo {
@@ -135,9 +138,24 @@ const handleEditorMounted = (editor: monaco.editor.IStandaloneCodeEditor) => {
         }
     })
 
-    // 添加快捷键
     setupKeyboardShortcuts(editor)
+    setupScrollSync()
 }
+
+const setupScrollSync = () => {
+    nextTick(() => {
+        const previewContainer = previewRef.value?.getScrollContainer()
+        if (editorInstance && previewContainer && showPreview.value && !isMobile.value) {
+            setupSync(editorInstance, previewContainer)
+        }
+    })
+}
+
+watch(showPreview, () => {
+    if (showPreview.value && !isMobile.value) {
+        setupScrollSync()
+    }
+})
 
 // 设置快捷键
 const setupKeyboardShortcuts = (editor: monaco.editor.IStandaloneCodeEditor) => {

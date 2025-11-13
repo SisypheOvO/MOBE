@@ -1,7 +1,7 @@
 <template>
     <div class="bbcode_preview h-[calc(100%-4px)] flex flex-col gap-1 bg-[#2e3038] p-1 pb-0">
         <BBCodeHeader @refresh="forceUpdate" />
-        <BBCodeContent :parsed-content="parsedContent" />
+        <BBCodeContent ref="contentRef" :parsed-content="parsedContent" />
     </div>
 </template>
 
@@ -9,6 +9,8 @@
 import { ref, toRef, onMounted, onBeforeUnmount } from "vue"
 import BBCodeHeader from "./BBCodeHeader.vue"
 import BBCodeContent from "./BBCodeContent.vue"
+
+const contentRef = ref<InstanceType<typeof BBCodeContent>>()
 import { useBoxToggle } from "@/composables/useBoxToggle"
 import { useUserInfo } from "@/composables/useUserInfo"
 import { useBBCodeParser } from "@/composables/useBBCodeParser"
@@ -57,5 +59,10 @@ onBeforeUnmount(() => {
         delete (globalThis as any).showImageMapTooltip
         delete (globalThis as any).hideImageMapTooltip
     }
+})
+
+// 暴露获取滚动容器的方法
+defineExpose({
+    getScrollContainer: () => contentRef.value?.getContentContainer(),
 })
 </script>
