@@ -5,6 +5,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, watch, computed } from "vue"
 import * as monaco from "monaco-editor"
+import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
 import { registerBBCodeLanguage, updateBBCodeTranslations } from "@/config/bbcodeLanguage"
 import { type BBCodeTag } from "@/config/bbcodeTags"
 import { useThemeStore } from "@/stores/theme"
@@ -36,6 +37,12 @@ const currentTheme = computed(() => {
 // 初始化编辑器
 const initEditor = async () => {
     if (!editorContainer.value) return
+
+    self.MonacoEnvironment = {
+        getWorker(_, label) {
+            return new editorWorker()
+        }
+    }
 
     // 注册 BBCode 语言
     if (props.bbcodeTags) {

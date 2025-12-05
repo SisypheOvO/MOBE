@@ -1,16 +1,16 @@
 import type * as monaco from "monaco-editor"
 
 // Import themes from monaco-themes
-import DraculaTheme from "monaco-themes/themes/Dracula.json"
-import MonokaiTheme from "monaco-themes/themes/Monokai.json"
-import GithubTheme from "monaco-themes/themes/GitHub.json"
-import GithubDarkTheme from "monaco-themes/themes/GitHub Dark.json"
-import NordTheme from "monaco-themes/themes/Nord.json"
-import SolarizedDarkTheme from "monaco-themes/themes/Solarized-dark.json"
-import SolarizedLightTheme from "monaco-themes/themes/Solarized-light.json"
-import TomorrowNightTheme from "monaco-themes/themes/Tomorrow-Night.json"
-import NightOwlTheme from "monaco-themes/themes/Night Owl.json"
-import OneDarkProTheme from "monaco-themes/themes/Oceanic Next.json"
+import DraculaTheme from "@/assets/themes/Dracula.json"
+import MonokaiTheme from "@/assets/themes/Monokai.json"
+import GithubTheme from "@/assets/themes/GitHub.json"
+import GithubDarkTheme from "@/assets/themes/GitHub Dark.json"
+import NordTheme from "@/assets/themes/Nord.json"
+import SolarizedDarkTheme from "@/assets/themes/Solarized-dark.json"
+import SolarizedLightTheme from "@/assets/themes/Solarized-light.json"
+import TomorrowNightTheme from "@/assets/themes/Tomorrow-Night.json"
+import NightOwlTheme from "@/assets/themes/Night Owl.json"
+import OneDarkProTheme from "@/assets/themes/Oceanic Next.json"
 
 // BBCode-specific token colors for different color schemes
 export interface BBCodeTokenColors {

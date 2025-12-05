@@ -29,6 +29,11 @@ archive/*
 *.sln
 *.sw?
 
+# lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
 # Deno files
 deno.json
 deno.lock

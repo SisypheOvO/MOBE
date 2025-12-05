@@ -1,6 +1,5 @@
 import { defineConfig } from "vite"
 import vue from "@vitejs/plugin-vue"
-import monacoEditorPlugin from "vite-plugin-monaco-editor-esm"
 import tailwindcss from "@tailwindcss/vite"
 import wasm from "vite-plugin-wasm"
 import topLevelAwait from "vite-plugin-top-level-await"
@@ -14,9 +13,6 @@ export default defineConfig({
         tailwindcss(),
         wasm(),
         topLevelAwait(),
-        monacoEditorPlugin({
-            languageWorkers: ["editorWorkerService"],
-        }),
         visualizer({
             filename: "dist/stats.html",
             open: true,

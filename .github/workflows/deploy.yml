@@ -30,17 +30,14 @@ jobs:
               with:
                   node-version: lts/*
 
-            - name: Install Yarn
-              run: npm install -g yarn
-
             - name: Install patch-package
-              run: "npm install -g patch-package"
+              run: "npm ci -g patch-package"
 
             - name: Install step
-              run: "yarn install"
+              run: "npm ci"
 
             - name: Build step
-              run: "yarn build"
+              run: "npm run build"
 
             - name: Copy server file to dist
               run: cp serve.js dist/

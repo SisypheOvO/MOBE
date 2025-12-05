@@ -44,6 +44,7 @@
 
 - [x] 提供多种主题支持
 - [x] 支持导入内容
+- [ ] 支持导入到指定文件覆盖
 - [x] 支持内容记忆
 - [x] 自动保存
 - [x] 支持显示/不显示 Preview (动画缩放)
@@ -86,6 +87,7 @@
   - [x] Preview 组件内的提示文字
   - [x] All BBCodeTags (label, placeholder, detail, documentation and hover info)
   - [x] Default contents
+  - [ ] TextColorizer 组件
 - [x] 获取 userdata 时头像显示 loading
 - [x] 优化 userCard 组件
   - [x] 添加 loading 状态
@@ -101,6 +103,10 @@
   - [x] 在三星默认浏览器，浏览器的底部工具栏会导致Drawer下的主内容可以在Drawer显示时滚动且Drawer不会在工具栏变化高度时重算高度导致白边。。。
   - [x] toolbar左右滚动
 - [ ] 实现能够格式化 BBCode 内容
+- [ ] 文字颜色选择器优化
+  - [ ] 支持最近使用颜色
+  - [ ] 支持自定义颜色
+- [ ] [text colorizer](https://www.stuffbydavid.com/textcolorizer)
 - [ ] 尝试阅读osu-web源码，寻找有无更强可用性的解析bbcode、渲染方案（防止未预测的情况下渲染结果与官方不同）
 - [ ] 尝试在profile的基础上兼容forum、beatmap description、team description
 - [ ] 尝试添加多种模式：
@@ -139,6 +145,8 @@
   - [x] 修复所有 isMobile，尝试封装 composable
   - [x] 修复 userCard: API Error （神秘）
   - [x] 修复改变视窗宽高会导致editor底部被遮挡的问题
+  - [x] 修复Monaco Themes 高版本 json 导入失败：将 themes 文件夹下的 json 文件复制到 assets 下，直接从 assets 导入
+  - [x] 修复 vite-plugin-monaco-editor-esm 插件不及时跟进 monaco-editor 版本的问题：放弃使用该插件，手动配置 worker
 
 - [ ] 修复编辑器功能问题:
   - [x] 修复编辑器url到上括号的渲染问题
