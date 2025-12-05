@@ -34,7 +34,7 @@ jobs:
               run: "npm i -g patch-package"
 
             - name: Install step
-              run: "npm ci"
+              run: "npm i"
 
             - name: Build step
               run: "npm run build"
