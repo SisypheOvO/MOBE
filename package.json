@@ -18,17 +18,17 @@
     "vue-i18n": "^11.2.2"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.1.17",
-    "@types/node": "24.10.1",
+    "@tailwindcss/vite": "^4.1.18",
+    "@types/node": "25.0.0",
     "@vitejs/plugin-vue": "6.0.2",
     "@vue/tsconfig": "0.8.1",
     "prettier": "3.7.4",
     "rollup-plugin-visualizer": "^6.0.5",
-    "tailwindcss": "4.1.17",
+    "tailwindcss": "4.1.18",
     "typescript": "5.9.3",
-    "vite": "7.2.6",
+    "vite": "7.2.7",
     "vite-plugin-top-level-await": "^1.6.0",
     "vite-plugin-wasm": "^3.5.0",
-    "vue-tsc": "3.1.5"
+    "vue-tsc": "3.1.8"
   }
 }
