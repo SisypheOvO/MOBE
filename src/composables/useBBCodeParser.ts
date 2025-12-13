@@ -1,7 +1,7 @@
 import { computed, type Ref } from "vue"
 import { trimBrTags, generateRandomId, escapeSingleQuotes } from "@/utils/stringUtils"
 import { createBox, createProfileLink, createAudioBox } from "@/utils/htmlGenerators"
-import { SIZE_REGEX } from "@/constants/bbcode"
+import { MIN_SIZE, MAX_SIZE, ALLOWED_URL_PROTOCOLS } from "@/constants/bbcode"
 import type { BoxState } from "@/types/bbcode"
 import { generateTooltipId } from "./useImageMapTooltip"
 
@@ -15,6 +15,178 @@ interface UseBBCodeParserOptions {
 
 export const useBBCodeParser = ({ content, boxStates, boxCounters, resetBoxes, refreshKey }: UseBBCodeParserOptions) => {
     let profileCardCounter = 0
+
+    const parseAudio = (text: string): string => {
+        return text.replace(/\[audio\]([^[]+?)\[\/audio\]/gi, (match, url) => {
+            if (!isValidUrl(url)) {
+                console.warn("Invalid audio URL:", url)
+                return match
+            }
+
+            return createAudioBox(url)
+        })
+    }
+
+    const parseBold = (text: string): string => {
+        text = text.replace(/\[b]/gi, "<strong>")
+        text = text.replace(/\[\/b]/gi, "</strong>")
+        return text
+    }
+
+    const parseCentre = (text: string): string => {
+        text = text.replace(/\[centre]/gi, "<center>")
+        text = text.replace(/\[\/centre]/gi, "</center>")
+        return text
+    }
+
+    const extractCodeBlocks = (text: string, codeBlocks: string[]): string => {
+        return text.replace(/\[code]([\s\S]*?)\[\/code]/gi, (_match, content) => {
+            const index = codeBlocks.length
+            codeBlocks.push(content)
+            return `__CODE_BLOCK_${index}__`
+        })
+    }
+
+    const parseCode = (text: string, codeBlocks: string[]): string => {
+        codeBlocks.forEach((content, index) => {
+            const escapedContent = content.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+            const cleanedContent = trimBrTags(escapedContent)
+
+            text = text.replace(`__CODE_BLOCK_${index}__`, `<pre>${cleanedContent}</pre>`)
+        })
+
+        return text
+    }
+
+    const parseColour = (text: string): string => {
+        text = text.replace(/\[color=([^\]]+)]/gi, '<span style="color:$1">')
+        text = text.replace(/\[\/color]/gi, "</span>")
+        return text
+    }
+
+    const parseEmail = (text: string): string => {
+        // 第一种格式：[email]address@example.com[/email] (显示邮箱地址本身)
+        text = text.replace(/\[email](.+?)\[\/email]/gi, '<a rel="nofollow" href="mailto:$1">$1</a>')
+        // 第二种格式：[email=address@example.com]显示文本[/email] (分两步处理)
+        text = text.replace(/\[email=([^\]]+)]/gi, '<a rel="nofollow" href="mailto:$1">')
+        text = text.replace(/\[\/email]/gi, "</a>")
+        return text
+    }
+
+    const parseHeading = (text: string): string => {
+        text = text.replace(/\[heading]/gi, "<h2>")
+        text = text.replace(/\[\/heading]\n?/gi, "</h2>")
+        return text
+    }
+
+    const parseItalic = (text: string): string => {
+        text = text.replace(/\[i]/gi, "<em>")
+        text = text.replace(/\[\/i]/gi, "</em>")
+        return text
+    }
+
+    const parseInlineCode = (text: string): string => {
+        text = text.replace(/\[c]/gi, "<code>")
+        text = text.replace(/\[\/c]/gi, "</code>")
+        return text
+    }
+
+    const parseList = (text: string): string => {
+        // 步骤1：处理列表开头 + 第一个项目
+        // [list=1]\n[*] → <ol><li>
+        text = text.replace(/\[list=[^\]]+\]\s*(?:<br\s*\/?>)?\s*\[\*\]/gi, "<ol><li>")
+        // [list]\n[*] → <ol class="unordered"><li>
+        text = text.replace(/\[list\]\s*(?:<br\s*\/?>)?\s*\[\*\]/gi, '<ol class="unordered"><li>')
+
+        // 步骤2：转换列表项
+        // [/*] → </li> (支持可选的 :m 标记)
+        text = text.replace(/\[\/\*(:m)?\]\n?\n?/gi, "</li>")
+        // [*] → <li>
+        text = text.replace(/\s*\[\*\]/gi, "<li>")
+
+        // 步骤3：关闭列表标签
+        // [/list:o] 或 [/list:u] → </ol>
+        text = text.replace(/\s*\[\/list:[ou]\]\n?\n?/gi, "</ol>")
+        // [/list] → </ol> (兜底处理)
+        text = text.replace(/\s*\[\/list\]\n?\n?/gi, "</ol>")
+
+        // 步骤4：处理带"标题"的列表
+        // [list=1]标题文本<li> → <ul class="bbcode__list-title"><li>标题文本</li></ul><ol><li>
+        text = text.replace(/\[list=[^\]]+\](.+?)(<li>|<\/ol>)/gis, '<ul class="bbcode__list-title"><li>$1</li></ul><ol>$2')
+        // [list]标题文本<li> → <ul class="bbcode__list-title"><li>标题文本</li></ul><ol class="unordered"><li>
+        text = text.replace(/\[list\](.+?)(<li>|<\/ol>)/gis, '<ul class="bbcode__list-title"><li>$1</li></ul><ol class="unordered">$2')
+
+        return text
+    }
+
+    const parseNotice = (text: string): string => {
+        return text.replace(/\[notice]\n*(.*?)\n*\[\/notice]\n?/gis, (_match, content) => {
+            return `<div class="well">${trimBrTags(content)}</div>`
+        })
+    }
+
+    const parseQuote = (text: string): string => {
+        // 第一种格式：[quote="author"]...[/quote] - 带作者名
+        text = text.replace(/\[quote="([^"]+)"\]\s*(.*?)\s*\[\/quote\]/gis, (_match, author, content) => {
+            return `<blockquote><h4>${author} wrote:</h4>${trimBrTags(content)}</blockquote>`
+        })
+        // 第二种格式：[quote]...[/quote] - 不带作者名
+        text = text.replace(/\[quote\]\s*(.*?)\s*\[\/quote\]/gis, (_match, content) => {
+            return `<blockquote>${trimBrTags(content)}</blockquote>`
+        })
+
+        return text
+    }
+
+    const parseStrike = (text: string): string => {
+        text = text.replace(/\[s]/gi, "<del>")
+        text = text.replace(/\[\/s]/gi, "</del>")
+        text = text.replace(/\[strike]/gi, "<del>")
+        text = text.replace(/\[\/strike]/gi, "</del>")
+        return text
+    }
+
+    const parseUnderline = (text: string): string => {
+        // 对应 BBCodeFromDB::parseUnderline
+        // 两步处理，支持嵌套
+        text = text.replace(/\[u]/gi, "<u>")
+        text = text.replace(/\[\/u]/gi, "</u>")
+        return text
+    }
+
+    const parseSpoiler = (text: string): string => {
+        // 对应 BBCodeFromDB::parseSpoiler
+        // 两步处理，支持嵌套
+        text = text.replace(/\[spoiler]/gi, "<span class='spoiler'>")
+        text = text.replace(/\[\/spoiler]/gi, "</span>")
+        return text
+    }
+
+    const parseSize = (text: string): string => {
+        text = text.replace(/\[size=(\d+)\]/gi, (_match, size) => {
+            const sizeNum = Math.max(MIN_SIZE, Math.min(MAX_SIZE, parseInt(size, 10)))
+            return `<span style="font-size:${sizeNum}%;">`
+        })
+        text = text.replace(/\[\/size\]/gi, "</span>")
+        return text
+    }
+
+    const parseUrl = (text: string): string => {
+        // 第一种格式：[url]URL[/url] (显示URL本身)
+        text = text.replace(/\[url](.+?)\[\/url]/gi, "<a rel='nofollow' href='$1' target='_blank'>$1</a>")
+
+        // 第二种格式：[url=URL]显示文本[/url] (分两步处理，支持嵌套)
+        text = text.replace(/\[url=([^\]]+)]/gi, "<a rel='nofollow' href='$1' target='_blank'>")
+        text = text.replace(/\[\/url]/gi, "</a>")
+
+        return text
+    }
+
+    const parseYoutube = (text: string): string => {
+        text = text.replace(/\[youtube]/gi, "<iframe class='u-embed-wide u-embed-wide--bbcode' src='https://www.youtube.com/embed/")
+        text = text.replace(/\[\/youtube]/gi, "?rel=0' allowfullscreen></iframe>")
+        return text
+    }
 
     /**
      * 解析 [imagemap]...[/imagemap] 标签
@@ -70,8 +242,8 @@ export const useBBCodeParser = ({ content, boxStates, boxCounters, resetBoxes, r
                         return match
                     }
 
-                    // 验证URL
-                    if (!isValidUrl(url)) {
+                    // 验证URL（支持 # 作为非链接热区）
+                    if (url !== "#" && !isValidUrl(url)) {
                         console.warn("Invalid URL in imagemap line:", url)
                         return match
                     }
@@ -91,18 +263,15 @@ export const useBBCodeParser = ({ content, boxStates, boxCounters, resetBoxes, r
 
                 hotspots.forEach((h) => {
                     const hotspotId = generateTooltipId()
+                    const isNonClickable = h.url === "#"
+                    const tag = isNonClickable ? "span" : "a"
+                    const hrefAttr = isNonClickable ? "" : `href="${h.url}"`
+                    const styleAttr = `style="left:${h.left}%;top:${h.top}%;width:${h.width}%;height:${h.height}%;"`
+
                     if (!h.title) {
-                        html += `<a class="imagemap__link"
-                        href="${h.url}"
-                        data-hotspot-id="${hotspotId}"
-                        style="left:${h.left}%;top:${h.top}%;width:${h.width}%;height:${h.height}%;"></a>`
+                        html += `<${tag} class="imagemap__link" ${hrefAttr} data-hotspot-id="${hotspotId}" ${styleAttr}></${tag}>`
                     } else {
-                        html += `<a class="imagemap__link"
-                        href="${h.url}"
-                        data-hotspot-id="${hotspotId}"
-                        style="left:${h.left}%;top:${h.top}%;width:${h.width}%;height:${h.height}%;"
-                        onmouseover="window.showImageMapTooltip?.(event, '${escapeSingleQuotes(h.title)}', this)"
-                        onmouseleave="window.hideImageMapTooltip?.(this)"></a>`
+                        html += `<${tag} class="imagemap__link" ${hrefAttr} data-hotspot-id="${hotspotId}" ${styleAttr} onmouseover="window.showImageMapTooltip?.(event, '${escapeSingleQuotes(h.title)}', this)" onmouseleave="window.hideImageMapTooltip?.(this)"></${tag}>`
                     }
                 })
 
@@ -119,9 +288,23 @@ export const useBBCodeParser = ({ content, boxStates, boxCounters, resetBoxes, r
      * 验证URL格式
      */
     const isValidUrl = (url: string): boolean => {
-        if (!url || typeof url !== "string" || !url.match(/^https?:\/\/.+/)) return false
+        if (!url || typeof url !== "string") return false
 
-        return true
+        try {
+            // 检查是否以安全协议开头
+            const hasValidProtocol = ALLOWED_URL_PROTOCOLS.some((protocol) => url.toLowerCase().startsWith(protocol))
+            if (!hasValidProtocol) return false
+
+            // 额外检查：阻止 javascript: 等危险协议
+            if (url.toLowerCase().includes("javascript:") || url.toLowerCase().includes("data:")) {
+                console.warn("Blocked potentially dangerous URL:", url)
+                return false
+            }
+
+            return true
+        } catch {
+            return false
+        }
     }
 
     /**
@@ -150,36 +333,131 @@ export const useBBCodeParser = ({ content, boxStates, boxCounters, resetBoxes, r
      * 解析 [box=name]...[/box] 标签
      */
     const parseBoxes = (text: string): string => {
-        const boxOpenRegex = /\[box=(.*?)]([\s\S]*)/i
-        const boxCloseRegex = /([\s\S]*?)\[\/box]/i
-        let match, matchNew, textNew
+        // 使用栈来跟踪嵌套层级
+        const parseWithStack = (input: string): string => {
+            let result = ""
+            let i = 0
 
-        while ((match = boxOpenRegex.exec(text))) {
-            const boxName = match[1]
-            boxCounters.value[boxName] = (boxCounters.value[boxName] || 0) + 1
-            textNew = text.substring(0, match.index)
+            while (i < input.length) {
+                // 查找 [box= 开始标签
+                if (input.substring(i, i + 5).toLowerCase() === "[box=") {
+                    // 解析 box 名称（支持嵌套标签）
+                    let nameStart = i + 5
+                    let nameEnd = nameStart
+                    let bracketDepth = 0
 
-            matchNew = boxCloseRegex.exec(match[2])
+                    // 找到名称的结束位置
+                    while (nameEnd < input.length) {
+                        const char = input[nameEnd]
+                        if (char === "[") {
+                            bracketDepth++
+                        } else if (char === "]") {
+                            if (bracketDepth === 0) {
+                                break
+                            }
+                            bracketDepth--
+                        }
+                        nameEnd++
+                    }
 
-            try {
-                if (!matchNew) throw new Error("Box not closed")
+                    if (nameEnd >= input.length) {
+                        // 没有找到结束的 ]
+                        result += input.substring(i)
+                        break
+                    }
 
-                let boxContent = matchNew[1]
+                    const boxName = input.substring(nameStart, nameEnd)
+                    const contentStart = nameEnd + 1
 
-                // 去除内容开头和结尾的多余 <br>
-                boxContent = trimBrTags(boxContent)
-                const boxId = generateRandomId("box")
-                textNew += createBox(boxName, boxContent, boxId, boxStates.value)
-                textNew += text.substring(match.index + 6 + boxName.length + matchNew[0].length)
+                    // 使用递归解析嵌套内容
+                    let contentEnd = contentStart
+                    let boxDepth = 1 // 当前 box 深度
 
-                text = textNew
-            } catch (error) {
-                console.error("Box parsing error:", error)
-                return text
+                    while (boxDepth > 0 && contentEnd < input.length) {
+                        if (input.substring(contentEnd, 5).toLowerCase() === "[box=") {
+                            // 找到嵌套的 box
+                            boxDepth++
+                            // 跳过这个嵌套的 box
+                            const nestedResult = parseWithStack(input.substring(contentEnd))
+                            // 找到嵌套 box 的结束位置
+                            const nestedEnd = findMatchingBoxEnd(input, contentEnd)
+                            if (nestedEnd === -1) break
+                            contentEnd = nestedEnd
+                        } else if (input.substring(contentEnd, contentEnd + 6).toLowerCase() === "[/box]") {
+                            boxDepth--
+                            if (boxDepth === 0) {
+                                break
+                            } else {
+                                contentEnd += 6
+                            }
+                        } else {
+                            contentEnd++
+                        }
+                    }
+
+                    if (boxDepth > 0) {
+                        // box 没有正确关闭
+                        result += input.substring(i)
+                        break
+                    }
+
+                    // 递归解析盒子内容
+                    const boxContent = input.substring(contentStart, contentEnd)
+                    const parsedContent = parseWithStack(boxContent)
+
+                    boxCounters.value[boxName] = (boxCounters.value[boxName] || 0) + 1
+                    const cleanedContent = trimBrTags(parsedContent)
+                    const boxId = generateRandomId("box")
+                    result += createBox(boxName, cleanedContent, boxId, boxStates.value)
+
+                    i = contentEnd + 6 // 跳过 [/box]
+                } else {
+                    // 不是 box 开始，直接添加字符
+                    result += input[i]
+                    i++
+                }
+            }
+
+            return result
+        }
+
+        return parseWithStack(text)
+    }
+
+    const findMatchingBoxEnd = (text: string, start: number): number => {
+        let depth = 1
+        let i = start + 5 // 跳过 [box=
+
+        // 先跳过 box 名称
+        let bracketDepth = 0
+        while (i < text.length) {
+            if (text[i] === "[") bracketDepth++
+            else if (text[i] === "]") {
+                if (bracketDepth === 0) break
+                bracketDepth--
+            }
+            i++
+        }
+        i++ // 跳过 ]
+
+        // 查找匹配的 [/box]
+        while (i < text.length && depth > 0) {
+            if (text.substring(i, i + 5).toLowerCase() === "[box=") {
+                depth++
+                // 跳过这个嵌套的 box
+                const nestedEnd = findMatchingBoxEnd(text, i)
+                if (nestedEnd === -1) return -1
+                i = nestedEnd
+            } else if (text.substring(i, i + 6).toLowerCase() === "[/box]") {
+                depth--
+                if (depth === 0) return i
+                i += 6
+            } else {
+                i++
             }
         }
 
-        return text
+        return -1
     }
 
     /**
@@ -217,75 +495,6 @@ export const useBBCodeParser = ({ content, boxStates, boxCounters, resetBoxes, r
     }
 
     /**
-     * 解析 [list]...[/list] 和 [list=TYPE]...[/list] 标签（支持嵌套）
-     */
-    const parseLists = (text: string): string => {
-        // 先处理有序列表 [list=TYPE]
-        const orderedListOpenRegex = /\[list=([^\]]+)]([\s\S]*)/i
-        const orderedListCloseRegex = /([\s\S]*?)\[\/list]/i
-        let match, matchNew, textNew
-
-        while ((match = orderedListOpenRegex.exec(text))) {
-            const listType = match[1]
-            textNew = text.substring(0, match.index)
-
-            matchNew = orderedListCloseRegex.exec(match[2])
-
-            try {
-                if (!matchNew) throw new Error("Ordered list not closed")
-
-                let listContent = matchNew[1]
-
-                // 去除内容开头和结尾的多余 <br>
-                listContent = trimBrTags(listContent)
-
-                // 处理列表项 [*]
-                listContent = listContent.replace(/\[\*](.*?)(?=\[\*]|$)/gis, "<li>$1</li>")
-
-                textNew += `<ol>${listContent}</ol>`
-                textNew += text.substring(match.index + 6 + listType.length + 1 + matchNew[0].length)
-
-                text = textNew
-            } catch (error) {
-                console.error("Ordered list parsing error:", error)
-                return text
-            }
-        }
-
-        // 再处理无序列表 [list]
-        const unorderedListOpenRegex = /\[list]([\s\S]*)/i
-        const unorderedListCloseRegex = /([\s\S]*?)\[\/list]/i
-
-        while ((match = unorderedListOpenRegex.exec(text))) {
-            textNew = text.substring(0, match.index)
-
-            matchNew = unorderedListCloseRegex.exec(match[1])
-
-            try {
-                if (!matchNew) throw new Error("Unordered list not closed")
-
-                let listContent = matchNew[1]
-
-                // 去除内容开头和结尾的多余 <br>
-                listContent = trimBrTags(listContent)
-
-                // 处理列表项 [*]
-                listContent = listContent.replace(/\[\*](.*?)(?=\[\*]|$)/gis, "<li>$1</li>")
-
-                textNew += `<ol class="unordered">${listContent}</ol>`
-                textNew += text.substring(match.index + 6 + matchNew[0].length)
-
-                text = textNew
-            } catch (error) {
-                console.error("Unordered list parsing error:", error)
-                return text
-            }
-        }
-
-        return text
-    }
-
-    /**
      * 解析 BBCode 为 HTML
      */
     const parsedContent = computed(() => {
@@ -306,129 +515,55 @@ export const useBBCodeParser = ({ content, boxStates, boxCounters, resetBoxes, r
 
         // 0. 提取代码块内容（防止内部BBCode被解析）
         const codeBlocks: string[] = []
-
-        // 提取 [code] 块
-        html = html.replace(/\[code](.*?)\[\/code]/gis, (match, content) => {
-            const index = codeBlocks.length
-            codeBlocks.push(content)
-            return `__CODE_BLOCK_${index}__`
-        })
+        html = extractCodeBlocks(html, codeBlocks)
 
         // 1. 换行处理（最先处理）
         html = html.replace(/\n/g, "<br>")
         html = html.replace(/\[\/heading]<br>/g, "[/heading]")
 
-        // 2. 文本格式标签
-        // Bold
-        html = html.replace(/\[b](.*?)\[\/b]/gis, "<strong>$1</strong>")
-
-        // Italic
-        html = html.replace(/\[i](.*?)\[\/i]/gis, "<em>$1</em>")
-
-        // Underline
-        html = html.replace(/\[u](.*?)\[\/u]/gis, "<u>$1</u>")
-
-        // Strikethrough
-        html = html.replace(/\[s](.*?)\[\/s]/gis, "<s>$1</s>")
-        html = html.replace(/\[strike](.*?)\[\/strike]/gis, "<s>$1</s>")
-
-        // 3. 颜色和大小
-        // Color
-        html = html.replace(/\[color=(.*?)](.*?)\[\/color]/gis, '<span style="color:$1;">$2</span>')
-
-        // Size (只有50、85、100、150可被渲染)
-        html = html.replace(SIZE_REGEX, (match, size, text) => {
-            return `<span style="font-size:${size}%;">${text}</span>`
-        })
-
-        // 4. 特殊标签
-        // Spoiler
-        html = html.replace(/\[spoiler](.*?)\[\/spoiler]/gis, '<span class="spoiler" onclick="this.classList.toggle(\'revealed\')">$1</span>')
-
-        // Box (复杂处理)
+        /// block
+        html = parseImageMap(html)
         html = parseBoxes(html)
-
-        // Spoiler Box (固定名称为 SPOILER)
         html = parseSpoilerBoxes(html)
+        html = parseList(html)
+        html = parseNotice(html)
+        html = parseQuote(html)
+        html = parseHeading(html)
 
-        // Quote
-        html = html.replace(/\[quote](.*?)\[\/quote]/gis, (match, content) => {
-            return `<blockquote>${trimBrTags(content)}</blockquote>`
-        })
-        html = html.replace(/\[quote="(.*?)"\](.*?)\[\/quote]/gis, (match, author, content) => {
-            return `<blockquote><h4>${author} wrote:</h4>${trimBrTags(content)}</blockquote>`
-        })
-
-        // Code（c only）
-        html = html.replace(/\[c](.*?)\[\/c]/gis, (match, content) => {
-            // 如果包含 <br> 换行，则不解析
-            if (content.includes("<br>")) {
-                return match
-            }
-            return `<code>${content}</code>`
-        })
-
-        // 5. 布局标签
-        // Centre
-        html = html.replace(/\[centre](.*?)\[\/centre]/gis, "<center>$1</center>")
-
-        // 6. 链接和媒体
-        // URL
-        html = html.replace(/\[url](.*?)\[\/url]/gis, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>')
-        html = html.replace(/\[url=(.*?)](.*?)\[\/url]/gis, '<a href="$1" target="_blank" rel="noopener noreferrer">$2</a>')
-
-        // Profile (osu! specific) - 带悬浮卡片
-        html = html.replace(/\[profile=(.*?)](.*?)\[\/profile]/gis, (match, userId, username) => {
-            const qtipId = profileCardCounter++
-            return createProfileLink(userId, username, qtipId)
-        })
-
-        // 7. 列表（支持嵌套）
-        html = parseLists(html)
-
-        // email
-        html = html.replace(/\[email=(.*?)](.*?)\[\/email]/gis, '<a href="mailto:$1">$2</a>')
-
+        /// inline
+        html = parseAudio(html)
+        html = parseBold(html)
+        html = parseCentre(html)
+        html = parseInlineCode(html)
+        html = parseColour(html)
+        html = parseEmail(html)
         // Images
         html = html.replace(/\[img](.*?)\[\/img]/gis, '<img src="$1" alt="Image" />')
         html = html.replace(/\[img=(.*?)](.*?)\[\/img]/gis, '<img src="$2" alt="Image" style="max-width: $1px;" />')
-
-        // ImageMap (交互式图片地图)
-        html = parseImageMap(html)
-
-        // Youtube
-        html = html.replace(/\[youtube](.*?)\[\/youtube]/gis, '<iframe class="u-embed-wide u-embed-wide--bbcode" src="https://www.youtube.com/embed/$1?rel=0" allowfullscreen></iframe>')
-
-        //audio
-        html = html.replace(/\[audio](.*?)\[\/audio]/gis, (match, content) => {
-            return createAudioBox(content)
-        })
-
-        // 8. osu! 特有标签
-        // Heading (osu! style)
-        html = html.replace(/\[heading](.*?)\[\/heading]/gis, '<h2 class="osu-heading">$1</h2>')
-
-        // Notice (well box)
-        html = html.replace(/\[notice](.*?)\[\/notice]/gis, (match, content) => {
-            return `<div class="well">${trimBrTags(content)}</div>`
+        html = parseItalic(html)
+        html = parseSize(html)
+        // smilies - 略过，暂时不处理
+        html = parseSpoiler(html)
+        html = parseStrike(html)
+        html = parseUnderline(html)
+        html = parseUrl(html)
+        html = parseYoutube(html)
+        // Profile
+        html = html.replace(/\[profile=(.*?)](.*?)\[\/profile]/gis, (match, userId, username) => {
+            const qtipId = profileCardCounter++
+            return createProfileLink(userId, username, qtipId)
         })
 
         // 清理多余的 <br> 标签
         html = html.replace(/(<\/div>\s*)<br>/g, "</div>")
         html = html.replace(/(<\/blockquote>\s*)<br>/g, "</blockquote>")
 
-        // 8.5. 自动链接检测（将裸露的URL转换为链接）
-        // 匹配不在 HTML 属性内的 http:// 或 https:// URL
-        html = html.replace(/(?<!["=])https?:\/\/[^\s<>"]+/gi, (url) => {
+        // 将裸露的URL转换为链接
+        html = html.replace(/(?<!["'=])https?:\/\/[^\s<>"']+/gi, (url) => {
             return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`
         })
 
-        // 9. 还原代码块（防止 HTML 渲染）
-        // 还原 [code] 块
-        codeBlocks.forEach((content, index) => {
-            const escapedContent = content.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-            html = html.replace(`__CODE_BLOCK_${index}__`, `<pre>${trimBrTags(escapedContent)}</pre>`)
-        })
+        html = parseCode(html, codeBlocks)
 
         html = html.replace(/(<\/pre>\s*)<br>/g, "</pre>")
 

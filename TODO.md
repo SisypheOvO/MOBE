@@ -107,7 +107,43 @@
   - [ ] 支持最近使用颜色
   - [ ] 支持自定义颜色
 - [ ] [text colorizer](https://www.stuffbydavid.com/textcolorizer)
-- [ ] 尝试阅读osu-web源码，寻找有无更强可用性的解析bbcode、渲染方案（防止未预测的情况下渲染结果与官方不同）
+- [x] 尝试阅读osu-web源码，寻找有无更强可用性的解析bbcode、渲染方案（防止未预测的情况下渲染结果与官方不同）
+  - [x] 已找到：
+    - [x] <https://github.com/ppy/osu-web/blob/15e2d50067c8f5d3dfd2010a79a031efe0dfd10f/app/Libraries/BBCodeFromDB.php#L358-L403>
+    - [x] <https://github.com/ppy/osu-web/blob/15e2d50067c8f5d3dfd2010a79a031efe0dfd10f/app/helpers.php#L1153-L1156>
+  - [ ] 尝试复现：
+    - [x] parseAudio
+    - [x] parseBold
+    - [ ] parseBox
+    - [ ] parseBoxHelperPrefix
+    - [ ] parseBoxHelperSuffix
+    - [x] parseCentre
+    - [x] parseCode
+    - [x] parseColour
+    - [x] parseEmail
+    - [x] parseHeading
+    - [ ] parseImagemap
+    - [x] parseItalic
+    - [ ] parseImage
+    - [x] parseInlineCode
+    - [x] parseList
+    - [x] parseNotice
+    - [ ] parseProfile
+    - [x] parseQuote
+    - [ ] parseSmilies
+    - [x] parseStrike
+    - [x] parseSpoiler
+    - [x] parseSize
+    - [x] parseUrl
+    - [x] parseYoutube
+    - [ ] toHtml
+    - [ ] toEditor
+    - [ ] removeBBCodeTags
+    - [ ] removeBlockQuotes
+    - [ ] 模仿解析顺序
+    - [ ] 解决先处理换行的问题
+    - [ ] 仿照 forDB.php 实现预处理
+    - [ ] 记录我所仿照的三个源文件的哈希值以便日后对比
 - [ ] 尝试在profile的基础上兼容forum、beatmap description、team description
 - [ ] 尝试添加多种模式：
   - [x] 右侧实时渲染
@@ -147,6 +183,8 @@
   - [x] 修复改变视窗宽高会导致editor底部被遮挡的问题
   - [x] 修复Monaco Themes 高版本 json 导入失败：将 themes 文件夹下的 json 文件复制到 assets 下，直接从 assets 导入
   - [x] 修复 vite-plugin-monaco-editor-esm 插件不及时跟进 monaco-editor 版本的问题：放弃使用该插件，手动配置 worker
+  - [ ] 修复 smilies 无法解析的问题
+  - [ ] 修复模仿 osu-web 解析导致c标签包含换行仍解析的问题
 
 - [ ] 修复编辑器功能问题:
   - [x] 修复编辑器url到上括号的渲染问题
