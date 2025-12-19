@@ -369,33 +369,9 @@ export const useBBCodeParser = ({ content, boxStates, boxCounters, resetBoxes, r
                     const boxName = input.substring(nameStart, nameEnd)
                     const contentStart = nameEnd + 1
 
-                    // 使用递归解析嵌套内容
-                    let contentEnd = contentStart
-                    let boxDepth = 1 // 当前 box 深度
-
-                    while (boxDepth > 0 && contentEnd < input.length) {
-                        if (input.substring(contentEnd, 5).toLowerCase() === "[box=") {
-                            // 找到嵌套的 box
-                            boxDepth++
-                            // 跳过这个嵌套的 box
-                            const nestedResult = parseWithStack(input.substring(contentEnd))
-                            // 找到嵌套 box 的结束位置
-                            const nestedEnd = findMatchingBoxEnd(input, contentEnd)
-                            if (nestedEnd === -1) break
-                            contentEnd = nestedEnd
-                        } else if (input.substring(contentEnd, contentEnd + 6).toLowerCase() === "[/box]") {
-                            boxDepth--
-                            if (boxDepth === 0) {
-                                break
-                            } else {
-                                contentEnd += 6
-                            }
-                        } else {
-                            contentEnd++
-                        }
-                    }
-
-                    if (boxDepth > 0) {
+                    // 找到匹配的 [/box]
+                    const contentEnd = findMatchingBoxEnd(input, i)
+                    if (contentEnd === -1) {
                         // box 没有正确关闭
                         result += input.substring(i)
                         break
@@ -425,7 +401,6 @@ export const useBBCodeParser = ({ content, boxStates, boxCounters, resetBoxes, r
     }
 
     const findMatchingBoxEnd = (text: string, start: number): number => {
-        let depth = 1
         let i = start + 5 // 跳过 [box=
 
         // 先跳过 box 名称
@@ -440,14 +415,14 @@ export const useBBCodeParser = ({ content, boxStates, boxCounters, resetBoxes, r
         }
         i++ // 跳过 ]
 
-        // 查找匹配的 [/box]
+        // 查找匹配的 [/box]，递归跳过嵌套的 box
+        let depth = 1
         while (i < text.length && depth > 0) {
             if (text.substring(i, i + 5).toLowerCase() === "[box=") {
-                depth++
-                // 跳过这个嵌套的 box
+                // 找到嵌套的 box，递归跳过它
                 const nestedEnd = findMatchingBoxEnd(text, i)
                 if (nestedEnd === -1) return -1
-                i = nestedEnd
+                i = nestedEnd + 6 // 跳过嵌套 box 的 [/box]
             } else if (text.substring(i, i + 6).toLowerCase() === "[/box]") {
                 depth--
                 if (depth === 0) return i
