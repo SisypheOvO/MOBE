@@ -143,12 +143,13 @@ const handleEditorMounted = (editor: monaco.editor.IStandaloneCodeEditor) => {
 }
 
 const setupScrollSync = () => {
-    nextTick(() => {
-        const previewContainer = previewRef.value?.getScrollContainer()
-        if (editorInstance && previewContainer && showPreview.value && !isMobile.value) {
-            setupSync(editorInstance, previewContainer)
-        }
-    })
+    // 同步滚动已禁用：左右显示高度不同，按比例的同步滚动不实用
+    // nextTick(() => {
+    //     const previewContainer = previewRef.value?.getScrollContainer()
+    //     if (editorInstance && previewContainer && showPreview.value && !isMobile.value) {
+    //         setupSync(editorInstance, previewContainer)
+    //     }
+    // })
 }
 
 watch(showPreview, () => {
