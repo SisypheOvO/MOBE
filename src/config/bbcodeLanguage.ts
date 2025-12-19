@@ -36,14 +36,16 @@ export const registerBBCodeLanguage = (monaco: typeof import("monaco-editor"), b
     monaco.languages.setMonarchTokensProvider("bbcode", {
         tokenizer: {
             root: [
-                // === 开标签 ===
-                // 先匹配已知标签（无论是否带参数）
+                // === 容器标签（box/list/spoilerbox）需要特殊处理，因为参数中可能包含嵌套的BBCode ===
+                [/\[(box|list|spoilerbox)=/i, { token: "tag.open.container", next: "@containerParam" }],
+                [/\[(box|list|spoilerbox)\]/i, "tag.open.container"],
+
+                // === 其他开标签 ===
                 [/\[(centre)(?:=[^\]]+)?\]/i, "tag.open.layout"],
                 [/\[(url|img|profile|email|youtube|audio|imagemap)(?:=[^\]]+)?\]/i, "tag.open.media"],
                 [/\[(b|i|u|s|strike)(?:=[^\]]+)?\]/i, "tag.open.format"],
                 [/\[(color|size)(?:=[^\]]+)?\]/i, "tag.open.style"],
                 [/\[(quote|c|code|notice|heading)(?:=[^\]]+)?\]/i, "tag.open.block"],
-                [/\[(list|box|spoilerbox)(?:=[^\]]+)?\]/i, "tag.open.container"],
 
                 // 默认标签（未知标签）
                 [/\[([a-z]+)(?:=[^\]]+)?\]/i, "tag.open.default"],
@@ -62,6 +64,34 @@ export const registerBBCodeLanguage = (monaco: typeof import("monaco-editor"), b
                 [/#[0-9a-fA-F]{3,6}/, "constant.numeric.hex"],
                 [/\[\*\]/, "keyword.list"],
                 [/[^\[]+/, "text"],
+            ],
+
+            // 容器参数状态 - 允许参数中包含嵌套的BBCode标签
+            containerParam: [
+                // 在参数中匹配嵌套的BBCode标签（开标签）
+                [/\[(colour|center|centre)(?:=[^\]]+)?\]/i, "tag.open.layout"],
+                [/\[(url|img|profile|email|youtube|audio|imagemap)(?:=[^\]]+)?\]/i, "tag.open.media"],
+                [/\[(b|i|u|s|strike)(?:=[^\]]+)?\]/i, "tag.open.format"],
+                [/\[(color|size)(?:=[^\]]+)?\]/i, "tag.open.style"],
+                [/\[(quote|c|code|notice|heading)(?:=[^\]]+)?\]/i, "tag.open.block"],
+
+                // 闭标签（与root状态保持一致）
+                [/\[\/(centre)\]/i, "tag.close.layout"],
+                [/\[\/(url|img|profile|email|youtube|audio|imagemap)\]/i, "tag.close.media"],
+                [/\[\/(b|i|u|s|strike)\]/i, "tag.close.format"],
+                [/\[\/(color|size)\]/i, "tag.close.style"],
+                [/\[\/(quote|c|code|notice|heading)\]/i, "tag.close.block"],
+                [/\[\/([a-z]+)\]/i, "tag.close.default"],
+
+                // 其他内容
+                [/#[0-9a-fA-F]{3,6}/, "constant.numeric.hex"],
+                [/https?:\/\/[^\s\[\]]+/, "string.url"],
+
+                // 参数结束的 ]
+                [/\]/, { token: "tag.open.container", next: "@pop" }],
+
+                // 普通文本（参数内容）- 不匹配以 [ 开头的内容，避免干扰BBCode标签
+                [/[^\[\]]+/, ""],
             ],
         },
     })
