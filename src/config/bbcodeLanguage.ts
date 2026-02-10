@@ -69,7 +69,7 @@ export const registerBBCodeLanguage = (monaco: typeof import("monaco-editor"), b
             // 容器参数状态 - 允许参数中包含嵌套的BBCode标签
             containerParam: [
                 // 在参数中匹配嵌套的BBCode标签（开标签）
-                [/\[(colour|center|centre)(?:=[^\]]+)?\]/i, "tag.open.layout"],
+                [/\[(centre)(?:=[^\]]+)?\]/i, "tag.open.layout"],
                 [/\[(url|img|profile|email|youtube|audio|imagemap)(?:=[^\]]+)?\]/i, "tag.open.media"],
                 [/\[(b|i|u|s|strike)(?:=[^\]]+)?\]/i, "tag.open.format"],
                 [/\[(color|size)(?:=[^\]]+)?\]/i, "tag.open.style"],
