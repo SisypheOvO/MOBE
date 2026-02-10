@@ -309,6 +309,62 @@ export const registerBBCodeLanguage = (monaco: typeof import("monaco-editor"), b
             return { ranges: [] }
         },
     })
+
+    // 区域折叠支持
+    monaco.languages.registerFoldingRangeProvider("bbcode", {
+        provideFoldingRanges: (model, _, __) => {
+            const foldingRanges: monaco.languages.FoldingRange[] = []
+            const lines = model.getLineCount()
+
+            const foldableTags = ["box", "color", "center", "centre", "spoilerbox", "list", "quote", "notice",
+                "code", "heading", "imagemap", "size"];
+
+            // 使用栈来跟踪嵌套层级
+            const stack: Array<{ tag: string; startLine: number; startPos: number }> = []
+
+            const foldableTagsPattern = foldableTags.join("|")
+            const openTagRegex = new RegExp(`\\[(${foldableTagsPattern})(?:=[^\\]]+)?\\]`, "gi")
+            const closeTagRegex = new RegExp(`\\[\\/(${foldableTagsPattern})\\]`, "gi")
+
+            for (let line = 1; line <= lines; line++) {
+                const lineContent = model.getLineContent(line)
+                const lineOffset = model.getOffsetAt({ lineNumber: line, column: 1 })
+
+                // 匹配开标签
+                let match: RegExpExecArray | null
+                while ((match = openTagRegex.exec(lineContent)) !== null) {
+                    const tagName = match[1].toLowerCase()
+                    if (foldableTags.includes(tagName)) {
+                        stack.push({
+                            tag: tagName,
+                            startLine: line,
+                            startPos: lineOffset + match.index,
+                        })
+                    }
+                }
+
+                // 匹配闭标签
+                while ((match = closeTagRegex.exec(lineContent)) !== null) {
+                    const tagName = match[1].toLowerCase()
+
+                    for (let i = stack.length - 1; i >= 0; i--) {
+                        if (stack[i].tag === tagName) {
+                            const start = stack[i]
+                            foldingRanges.push({
+                                start: start.startLine,
+                                end: line,
+                                kind: monaco.languages.FoldingRangeKind.Region,
+                            })
+                            stack.splice(i, 1)
+                            break
+                        }
+                    }
+                }
+            }
+
+            return foldingRanges
+        },
+    })
 }
 
 // 创建补全建议 - 从 bbcodeTags 自动生成
