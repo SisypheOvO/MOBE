@@ -105,11 +105,11 @@ export const en = {
             hoverInfo: "**Image tag** - Insert image\n\nUsage: `[img]image URL[/img]`",
         },
         centre: {
-            label: "Center",
+            label: "Centre",
             placeholder: "centered text",
             documentation: "**Center Align** - Center text",
-            detail: "BBCode center tag",
-            hoverInfo: "**Center tag** - Center align text\n\nUsage: `[centre]text[/centre]`",
+            detail: "BBCode centre tag",
+            hoverInfo: "**Centre tag** - Center align text\n\nUsage: `[centre]text[/centre]`",
         },
         code: {
             label: "Code Block",

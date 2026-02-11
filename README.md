@@ -87,7 +87,9 @@ THIS API IS INSANE AS HELL.
 - somehow you may need `patch-package` installed already (globally or locally)
 - deno (npm i -g deno)
 
-#### Setup
+#### Setup & Run
+
+If you want to run the full features of this app, you need to run both CORS and OAuth services locally. But if you just want to run the editor without login features (button available in the right corner), you can skip 1./2. steps and jump to the 3. step to run the frontend directly.
 
 ##### 1. run CORS & OAuth repo
 
@@ -218,7 +220,9 @@ Contributions are welcome! Please feel free to submit a Pull Request or Issue.
 - 你可能需要已经安装好 `patch-package`（全局或本地）
 - deno (npm i -g deno)
 
-#### 安装步骤
+#### 安装与运行
+
+如果你想运行全部功能，你需要在本地同时运行 CORS 和 OAuth 服务。但如果你不需要登录功能（在右上角的按钮可以找到），你可以跳过第 1/2 两步，直接进入第 3 步运行前端。
 
 ##### 1. 运行 CORS 和 OAuth 仓库
 

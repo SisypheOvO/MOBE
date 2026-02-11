@@ -1,6 +1,7 @@
 import type * as monaco from "monaco-editor"
 import { type BBCodeTag, getTagName } from "./bbcodeTags"
 import { availableThemes, createMonacoTheme } from "./monacoThemes"
+import { TAGS } from "@/constants/bbcode"
 
 // Store translated tags for use in completion and hover providers
 let translatedTags: BBCodeTag[] = []
@@ -44,7 +45,7 @@ export const registerBBCodeLanguage = (monaco: typeof import("monaco-editor"), b
                 [/\[(centre)(?:=[^\]]+)?\]/i, "tag.open.layout"],
                 [/\[(url|img|profile|email|youtube|audio|imagemap)(?:=[^\]]+)?\]/i, "tag.open.media"],
                 [/\[(b|i|u|s|strike)(?:=[^\]]+)?\]/i, "tag.open.format"],
-                [/\[(color|size)(?:=[^\]]+)?\]/i, "tag.open.style"],
+                [/\[(color|size|spoiler)(?:=[^\]]+)?\]/i, "tag.open.style"],
                 [/\[(quote|c|code|notice|heading)(?:=[^\]]+)?\]/i, "tag.open.block"],
 
                 // 默认标签（未知标签）
@@ -54,7 +55,7 @@ export const registerBBCodeLanguage = (monaco: typeof import("monaco-editor"), b
                 [/\[\/(centre)\]/i, "tag.close.layout"],
                 [/\[\/(url|img|profile|email|youtube|audio|imagemap)\]/i, "tag.close.media"],
                 [/\[\/(b|i|u|s|strike)\]/i, "tag.close.format"],
-                [/\[\/(color|size)\]/i, "tag.close.style"],
+                [/\[\/(color|size|spoiler)\]/i, "tag.close.style"],
                 [/\[\/(quote|c|code|notice|heading)\]/i, "tag.close.block"],
                 [/\[\/(list|box|spoilerbox)\]/i, "tag.close.container"],
                 [/\[\/([a-z]+)\]/i, "tag.close.default"],
@@ -69,17 +70,17 @@ export const registerBBCodeLanguage = (monaco: typeof import("monaco-editor"), b
             // 容器参数状态 - 允许参数中包含嵌套的BBCode标签
             containerParam: [
                 // 在参数中匹配嵌套的BBCode标签（开标签）
-                [/\[(colour|center|centre)(?:=[^\]]+)?\]/i, "tag.open.layout"],
+                [/\[(centre)(?:=[^\]]+)?\]/i, "tag.open.layout"],
                 [/\[(url|img|profile|email|youtube|audio|imagemap)(?:=[^\]]+)?\]/i, "tag.open.media"],
                 [/\[(b|i|u|s|strike)(?:=[^\]]+)?\]/i, "tag.open.format"],
-                [/\[(color|size)(?:=[^\]]+)?\]/i, "tag.open.style"],
+                [/\[(color|size|spoiler)(?:=[^\]]+)?\]/i, "tag.open.style"],
                 [/\[(quote|c|code|notice|heading)(?:=[^\]]+)?\]/i, "tag.open.block"],
 
                 // 闭标签（与root状态保持一致）
                 [/\[\/(centre)\]/i, "tag.close.layout"],
                 [/\[\/(url|img|profile|email|youtube|audio|imagemap)\]/i, "tag.close.media"],
                 [/\[\/(b|i|u|s|strike)\]/i, "tag.close.format"],
-                [/\[\/(color|size)\]/i, "tag.close.style"],
+                [/\[\/(color|size|spoiler)\]/i, "tag.close.style"],
                 [/\[\/(quote|c|code|notice|heading)\]/i, "tag.close.block"],
                 [/\[\/([a-z]+)\]/i, "tag.close.default"],
 
