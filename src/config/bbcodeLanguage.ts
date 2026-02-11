@@ -311,54 +311,43 @@ export const registerBBCodeLanguage = (monaco: typeof import("monaco-editor"), b
         },
     })
 
-    // 区域折叠支持
+    // 块折叠 - using stack to match open/close tags
     monaco.languages.registerFoldingRangeProvider("bbcode", {
         provideFoldingRanges: (model, _, __) => {
             const foldingRanges: monaco.languages.FoldingRange[] = []
             const lines = model.getLineCount()
 
-            const foldableTags = ["box", "color", "center", "centre", "spoilerbox", "list", "quote", "notice",
-                "code", "heading", "imagemap", "size"];
+            const stack: Array<{ tag: string; startLine: number }> = []
 
-            // 使用栈来跟踪嵌套层级
-            const stack: Array<{ tag: string; startLine: number; startPos: number }> = []
+            const tagsPattern = TAGS.join("|")
+            const openTagPattern = `\\[(${tagsPattern})(?:=[^\\]]+)?\\]`
+            const closeTagPattern = `\\[\\/(${tagsPattern})\\]`
 
-            const foldableTagsPattern = foldableTags.join("|")
-            const openTagRegex = new RegExp(`\\[(${foldableTagsPattern})(?:=[^\\]]+)?\\]`, "gi")
-            const closeTagRegex = new RegExp(`\\[\\/(${foldableTagsPattern})\\]`, "gi")
+            for (let l = 1; l <= lines; l++) {
+                const lineContent = model.getLineContent(l)
 
-            for (let line = 1; line <= lines; line++) {
-                const lineContent = model.getLineContent(line)
-                const lineOffset = model.getOffsetAt({ lineNumber: line, column: 1 })
-
-                // 匹配开标签
-                let match: RegExpExecArray | null
-                while ((match = openTagRegex.exec(lineContent)) !== null) {
-                    const tagName = match[1].toLowerCase()
-                    if (foldableTags.includes(tagName)) {
-                        stack.push({
-                            tag: tagName,
-                            startLine: line,
-                            startPos: lineOffset + match.index,
-                        })
-                    }
+                const openMatches = lineContent.match(new RegExp(openTagPattern, "gi")) || []
+                for (const match of openMatches) {
+                    const tagName = (match.match(/\[(\w+)(?:=|])/i)?.[1] || "").toLowerCase()
+                    stack.push({ tag: tagName, startLine: l })
                 }
 
-                // 匹配闭标签
-                while ((match = closeTagRegex.exec(lineContent)) !== null) {
-                    const tagName = match[1].toLowerCase()
+                const closeMatches = lineContent.match(new RegExp(closeTagPattern, "gi")) || []
+                for (const match of closeMatches) {
+                    const tagName = (match.match(/\[\/(\w+)\]/i)?.[1] || "").toLowerCase()
 
-                    for (let i = stack.length - 1; i >= 0; i--) {
-                        if (stack[i].tag === tagName) {
-                            const start = stack[i]
-                            foldingRanges.push({
-                                start: start.startLine,
-                                end: line,
-                                kind: monaco.languages.FoldingRangeKind.Region,
-                            })
-                            stack.splice(i, 1)
-                            break
-                        }
+                    if (stack.length === 0) {
+                        continue
+                    }
+
+                    const top = stack[stack.length - 1]
+                    if (top.tag === tagName) {
+                        foldingRanges.push({
+                            start: top.startLine,
+                            end: l,
+                            kind: monaco.languages.FoldingRangeKind.Region,
+                        })
+                        stack.pop()
                     }
                 }
             }
