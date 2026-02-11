@@ -75,9 +75,10 @@ export const registerBBCodeLanguage = (monaco: typeof import("monaco-editor"), b
                 [/\[\/(c|code)\]/i, { token: "tag.close.block", next: "@pop" }],
 
                 [/[\s\S]+?(?=\[\/c\])/i, "string"],
-
-                // TODO: 修复 code 标签内容匹配
                 [/[\s\S]*?(?=\[\/code\])/i, "string"],
+
+                // 匹配所有剩余内容
+                [/.*$/, "string"],
             ],
 
             // 容器参数状态 - 允许参数中包含嵌套的BBCode标签
