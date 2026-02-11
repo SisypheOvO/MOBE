@@ -310,6 +310,51 @@ export const registerBBCodeLanguage = (monaco: typeof import("monaco-editor"), b
             return { ranges: [] }
         },
     })
+
+    // 块折叠 - using stack to match open/close tags
+    monaco.languages.registerFoldingRangeProvider("bbcode", {
+        provideFoldingRanges: (model, _, __) => {
+            const foldingRanges: monaco.languages.FoldingRange[] = []
+            const lines = model.getLineCount()
+
+            const stack: Array<{ tag: string; startLine: number }> = []
+
+            const tagsPattern = TAGS.join("|")
+            const openTagPattern = `\\[(${tagsPattern})(?:=[^\\]]+)?\\]`
+            const closeTagPattern = `\\[\\/(${tagsPattern})\\]`
+
+            for (let l = 1; l <= lines; l++) {
+                const lineContent = model.getLineContent(l)
+
+                const openMatches = lineContent.match(new RegExp(openTagPattern, "gi")) || []
+                for (const match of openMatches) {
+                    const tagName = (match.match(/\[(\w+)(?:=|])/i)?.[1] || "").toLowerCase()
+                    stack.push({ tag: tagName, startLine: l })
+                }
+
+                const closeMatches = lineContent.match(new RegExp(closeTagPattern, "gi")) || []
+                for (const match of closeMatches) {
+                    const tagName = (match.match(/\[\/(\w+)\]/i)?.[1] || "").toLowerCase()
+
+                    if (stack.length === 0) {
+                        continue
+                    }
+
+                    const top = stack[stack.length - 1]
+                    if (top.tag === tagName) {
+                        foldingRanges.push({
+                            start: top.startLine,
+                            end: l,
+                            kind: monaco.languages.FoldingRangeKind.Region,
+                        })
+                        stack.pop()
+                    }
+                }
+            }
+
+            return foldingRanges
+        },
+    })
 }
 
 // 创建补全建议 - 从 bbcodeTags 自动生成
