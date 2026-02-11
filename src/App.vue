@@ -8,7 +8,7 @@
             <Transition name="code-fade">
                 <pane v-show="!isMobile || !showPreview" class="editor flex flex-col min-w-0 transition-all duration-300" min-size="40" :size="isMobile ? 100 : editorPaneSize">
                     <span class="sr-only">BBCode 编辑器</span>
-                    <div class="h-[21px] px-2 flex flex-col justify-center">
+                    <div class="h-5.25 px-2 flex flex-col justify-center">
                         <span v-if="isAuthenticated && userData" class="text-[10px] text-[#9c8dcf]">https://osu.ppy.sh/users/{{ userData.id }}</span>
                     </div>
                     <MonacoEditor ref="editorRef" v-model="content" :options="editorOptions" :bbcode-tags="bbcodeTags" @editor-mounted="handleEditorMounted" />

@@ -21,7 +21,7 @@
 
             <!-- Dropdown Menu -->
             <transition enter-active-class="transition duration-200 ease-out" enter-from-class="transform scale-95 opacity-0" enter-to-class="transform scale-100 opacity-100" leave-active-class="transition duration-150 ease-in" leave-from-class="transform scale-100 opacity-100" leave-to-class="transform scale-95 opacity-0">
-                <div v-show="isOpen" class="absolute z-50 w-full bg-[#1f1e1d] border border-[#3c3c3c] rounded-md shadow-xl max-h-60 overflow-y-auto custom-scrollbar bottom-full mb-1.5">
+                <div v-show="isOpen" class="absolute z-50 w-full bg-[#1f1e1d] border border-[#3c3c3c] rounded-md shadow-xl max-h-60 overflow-y-auto custom-scrollbar" :class="placement === 'bottom' ? 'top-full mt-1.5' : 'bottom-full mb-1.5'">
                     <!-- Options List -->
                     <div class="py-1">
                         <!-- No Options -->
@@ -58,6 +58,7 @@ interface SelectProps {
     options?: SelectOption[]
     label?: string
     placeholder?: string
+    placement?: "top" | "bottom"
 }
 
 interface SelectEmits {
@@ -67,6 +68,7 @@ interface SelectEmits {
 
 const props = withDefaults(defineProps<SelectProps>(), {
     options: () => [],
+    placement: "top",
 })
 
 const emit = defineEmits<SelectEmits>()

@@ -18,6 +18,7 @@ body,
 @font-face {
     font-family: Torus;
     src: url(/font/Torus-Regular.734ed3ae.otf);
+    font-display: swap;
 }
 
 @font-face {

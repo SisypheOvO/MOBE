@@ -1,6 +1,7 @@
 import type * as monaco from "monaco-editor"
 import { type BBCodeTag, getTagName } from "./bbcodeTags"
 import { availableThemes, createMonacoTheme } from "./monacoThemes"
+import { TAGS } from "@/constants/bbcode"
 
 // Store translated tags for use in completion and hover providers
 let translatedTags: BBCodeTag[] = []
@@ -47,7 +48,7 @@ export const registerBBCodeLanguage = (monaco: typeof import("monaco-editor"), b
                 [/\[(centre)(?:=[^\]]+)?\]/i, "tag.open.layout"],
                 [/\[(url|img|profile|email|youtube|audio|imagemap)(?:=[^\]]+)?\]/i, "tag.open.media"],
                 [/\[(b|i|u|s|strike)(?:=[^\]]+)?\]/i, "tag.open.format"],
-                [/\[(color|size)(?:=[^\]]+)?\]/i, "tag.open.style"],
+                [/\[(color|size|spoiler)(?:=[^\]]+)?\]/i, "tag.open.style"],
                 [/\[(quote|notice|heading)(?:=[^\]]+)?\]/i, "tag.open.block"],
 
                 // 默认标签（未知标签）
@@ -57,7 +58,7 @@ export const registerBBCodeLanguage = (monaco: typeof import("monaco-editor"), b
                 [/\[\/(centre)\]/i, "tag.close.layout"],
                 [/\[\/(url|img|profile|email|youtube|audio|imagemap)\]/i, "tag.close.media"],
                 [/\[\/(b|i|u|s|strike)\]/i, "tag.close.format"],
-                [/\[\/(color|size)\]/i, "tag.close.style"],
+                [/\[\/(color|size|spoiler)\]/i, "tag.close.style"],
                 [/\[\/(quote|notice|heading)\]/i, "tag.close.block"],
                 [/\[\/(list|box|spoilerbox)\]/i, "tag.close.container"],
                 [/\[\/([a-z]+)\]/i, "tag.close.default"],
@@ -82,10 +83,10 @@ export const registerBBCodeLanguage = (monaco: typeof import("monaco-editor"), b
             // 容器参数状态 - 允许参数中包含嵌套的BBCode标签
             containerParam: [
                 // 在参数中匹配嵌套的BBCode标签（开标签）
-                [/\[(colour|center|centre)(?:=[^\]]+)?\]/i, "tag.open.layout"],
+                [/\[(centre)(?:=[^\]]+)?\]/i, "tag.open.layout"],
                 [/\[(url|img|profile|email|youtube|audio|imagemap)(?:=[^\]]+)?\]/i, "tag.open.media"],
                 [/\[(b|i|u|s|strike)(?:=[^\]]+)?\]/i, "tag.open.format"],
-                [/\[(color|size)(?:=[^\]]+)?\]/i, "tag.open.style"],
+                [/\[(color|size|spoiler)(?:=[^\]]+)?\]/i, "tag.open.style"],
                 [/\[(quote|notice|heading)(?:=[^\]]+)?\]/i, "tag.open.block"],
                 [/\[(c|code)\]/i, { token: "tag.open.block", next: "@codeContent" }],
 
@@ -93,7 +94,7 @@ export const registerBBCodeLanguage = (monaco: typeof import("monaco-editor"), b
                 [/\[\/(centre)\]/i, "tag.close.layout"],
                 [/\[\/(url|img|profile|email|youtube|audio|imagemap)\]/i, "tag.close.media"],
                 [/\[\/(b|i|u|s|strike)\]/i, "tag.close.format"],
-                [/\[\/(color|size)\]/i, "tag.close.style"],
+                [/\[\/(color|size|spoiler)\]/i, "tag.close.style"],
                 [/\[\/(quote|notice|heading)\]/i, "tag.close.block"],
                 [/\[\/([a-z]+)\]/i, "tag.close.default"],
 
@@ -321,6 +322,51 @@ export const registerBBCodeLanguage = (monaco: typeof import("monaco-editor"), b
             }
 
             return { ranges: [] }
+        },
+    })
+
+    // 块折叠 - using stack to match open/close tags
+    monaco.languages.registerFoldingRangeProvider("bbcode", {
+        provideFoldingRanges: (model, _, __) => {
+            const foldingRanges: monaco.languages.FoldingRange[] = []
+            const lines = model.getLineCount()
+
+            const stack: Array<{ tag: string; startLine: number }> = []
+
+            const tagsPattern = TAGS.join("|")
+            const openTagPattern = `\\[(${tagsPattern})(?:=[^\\]]+)?\\]`
+            const closeTagPattern = `\\[\\/(${tagsPattern})\\]`
+
+            for (let l = 1; l <= lines; l++) {
+                const lineContent = model.getLineContent(l)
+
+                const openMatches = lineContent.match(new RegExp(openTagPattern, "gi")) || []
+                for (const match of openMatches) {
+                    const tagName = (match.match(/\[(\w+)(?:=|])/i)?.[1] || "").toLowerCase()
+                    stack.push({ tag: tagName, startLine: l })
+                }
+
+                const closeMatches = lineContent.match(new RegExp(closeTagPattern, "gi")) || []
+                for (const match of closeMatches) {
+                    const tagName = (match.match(/\[\/(\w+)\]/i)?.[1] || "").toLowerCase()
+
+                    if (stack.length === 0) {
+                        continue
+                    }
+
+                    const top = stack[stack.length - 1]
+                    if (top.tag === tagName) {
+                        foldingRanges.push({
+                            start: top.startLine,
+                            end: l,
+                            kind: monaco.languages.FoldingRangeKind.Region,
+                        })
+                        stack.pop()
+                    }
+                }
+            }
+
+            return foldingRanges
         },
     })
 }
