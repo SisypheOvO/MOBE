@@ -27,6 +27,7 @@
     "tailwindcss": "4.2.2",
     "typescript": "6.0.2",
     "vite": "8.0.7",
+    "vite-plugin-monaco-editor": "github:SisypheOvO/vite-plugin-monaco-editor",
     "vite-plugin-wasm": "^3.6.0",
     "vue-tsc": "3.2.6"
   }

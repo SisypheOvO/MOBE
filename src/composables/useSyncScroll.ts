@@ -1,5 +1,5 @@
 import { ref, onBeforeUnmount } from "vue"
-import * as monaco from "monaco-editor"
+import type * as monaco from "monaco-editor"
 
 /**
  * 同步滚动 composable

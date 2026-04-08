@@ -4,7 +4,8 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, watch, computed } from "vue"
-import * as monaco from "monaco-editor"
+import { monaco } from "@/monaco/customMonaco"
+import type * as monacoTypes from "monaco-editor"
 import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
 import { registerBBCodeLanguage, updateBBCodeTranslations } from "@/config/bbcodeLanguage"
 import { type BBCodeTag } from "@/config/bbcodeTags"
@@ -14,17 +15,17 @@ const props = defineProps<{
     modelValue: string
     language?: string
     theme?: string
-    options?: monaco.editor.IStandaloneEditorConstructionOptions
+    options?: monacoTypes.editor.IStandaloneEditorConstructionOptions
     bbcodeTags?: BBCodeTag[]
 }>()
 
 const emit = defineEmits<{
     "update:modelValue": [value: string]
-    editorMounted: [editor: monaco.editor.IStandaloneCodeEditor]
+    editorMounted: [editor: monacoTypes.editor.IStandaloneCodeEditor]
 }>()
 
 const editorContainer = ref<HTMLDivElement>()
-let editor: monaco.editor.IStandaloneCodeEditor | null = null
+let editor: monacoTypes.editor.IStandaloneCodeEditor | null = null
 let updateTimeout: ReturnType<typeof setTimeout> | null = null
 
 const themeStore = useThemeStore()

@@ -37,7 +37,8 @@ import EditorStatusBar from "./components/EditorStatusBar.vue"
 import Drawer from "./components/Drawer.vue"
 import { useMobileDetection } from "@/composables/useMobileDetection"
 import { useSyncScroll } from "@/composables/useSyncScroll"
-import * as monaco from "monaco-editor"
+import { monaco } from "@/monaco/customMonaco"
+import type * as monacoTypes from "monaco-editor"
 import { getTranslatedBBCodeTags, type BBCodeTag } from "./config/bbcodeTags"
 import { Splitpanes, Pane } from "splitpanes"
 import { useAuthStore } from "@/stores/auth"
@@ -77,7 +78,7 @@ const isDrawerOpen = ref(false)
 
 const editorRef = ref<InstanceType<typeof MonacoEditor>>()
 const previewRef = ref<InstanceType<typeof BBCodePreview>>()
-let editorInstance: monaco.editor.IStandaloneCodeEditor | null = null
+let editorInstance: monacoTypes.editor.IStandaloneCodeEditor | null = null
 const cursorPosition = ref({ line: 1, column: 1, selected: 0 })
 const { setupSync } = useSyncScroll()
 const paneSize = ref(localStorage.paneSize ?? 45) // Read from persistent localStorage.
@@ -98,7 +99,7 @@ const storePaneSize = ({ prevPane }: { prevPane: PaneInfo }) => {
 }
 
 // 编辑器配置
-const editorOptions: monaco.editor.IStandaloneEditorConstructionOptions = {
+const editorOptions: monacoTypes.editor.IStandaloneEditorConstructionOptions = {
     fontSize: 14,
     minimap: { enabled: true },
     wordWrap: "on",
@@ -126,7 +127,7 @@ const togglePreview = () => {
 }
 
 // 编辑器挂载完成
-const handleEditorMounted = (editor: monaco.editor.IStandaloneCodeEditor) => {
+const handleEditorMounted = (editor: monacoTypes.editor.IStandaloneCodeEditor) => {
     editorInstance = editor
 
     // 监听光标位置变化
@@ -159,7 +160,7 @@ watch(showPreview, () => {
 })
 
 // 设置快捷键
-const setupKeyboardShortcuts = (editor: monaco.editor.IStandaloneCodeEditor) => {
+const setupKeyboardShortcuts = (editor: monacoTypes.editor.IStandaloneCodeEditor) => {
     // Ctrl+B - 粗体
     editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyB, () => {
         insertTagByName("b")
@@ -240,7 +241,7 @@ const formatTagText = (tag: BBCodeTag, selectedText: string): string => {
 }
 
 // 计算选中范围（用于选中占位符）
-const calculateSelectionRange = (originalSelection: monaco.Selection, insertedText: string, tag: BBCodeTag): monaco.Selection => {
+const calculateSelectionRange = (originalSelection: monacoTypes.Selection, insertedText: string, tag: BBCodeTag): monacoTypes.Selection => {
     const openTagLength = tag.tag.length + 2 // [tag]
     const startColumn = originalSelection.startColumn + openTagLength
     const endColumn = startColumn + tag.placeholder.length

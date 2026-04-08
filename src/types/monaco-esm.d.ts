@@ -1,0 +1,17 @@
+declare module "monaco-editor/esm/vs/editor/editor.all.js"
+// declare module "monaco-editor/esm/vs/editor/standalone/browser/accessibilityHelp/accessibilityHelp.js"
+// declare module "monaco-editor/esm/vs/editor/standalone/browser/iPadShowKeyboard/iPadShowKeyboard.js"
+// declare module "monaco-editor/esm/vs/editor/standalone/browser/inspectTokens/inspectTokens.js"
+// declare module "monaco-editor/esm/vs/editor/standalone/browser/quickAccess/standaloneHelpQuickAccess.js"
+// declare module "monaco-editor/esm/vs/editor/standalone/browser/quickAccess/standaloneGotoLineQuickAccess.js"
+// declare module "monaco-editor/esm/vs/editor/standalone/browser/quickAccess/standaloneGotoSymbolQuickAccess.js"
+// declare module "monaco-editor/esm/vs/editor/standalone/browser/quickAccess/standaloneCommandsQuickAccess.js"
+// declare module "monaco-editor/esm/vs/editor/standalone/browser/referenceSearch/standaloneReferenceSearch.js"
+
+// declare module "monaco-editor/esm/vs/language/typescript/monaco.contribution"
+// declare module "monaco-editor/esm/vs/language/css/monaco.contribution"
+// declare module "monaco-editor/esm/vs/language/json/monaco.contribution"
+// declare module "monaco-editor/esm/vs/language/html/monaco.contribution"
+// declare module "monaco-editor/esm/vs/basic-languages/monaco.contribution"
+
+declare module "monaco-editor/esm/vs/editor/editor.api"

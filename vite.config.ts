@@ -1,6 +1,7 @@
 import { defineConfig } from "vite"
 import vue from "@vitejs/plugin-vue"
 import tailwindcss from "@tailwindcss/vite"
+import monacoEditor from "vite-plugin-monaco-editor"
 import wasm from "vite-plugin-wasm"
 import { visualizer } from "rollup-plugin-visualizer"
 import path from "node:path"
@@ -16,6 +17,12 @@ export default defineConfig({
             open: true,
             gzipSize: true,
             brotliSize: true,
+        }),
+        monacoEditor({
+            languageWorkers: ["editorWorkerService"],
+            customWorkers: [],
+            publicPath: "monacoeditorwork",
+            globalAPI: true,
         }),
     ],
     resolve: {
