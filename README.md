@@ -8,7 +8,7 @@ A powerful, feature-rich BBCode editor designed for osu! profile edit & forum po
 
 [English](#english-version) | [中文](#中文版)
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg) ![Vue](https://img.shields.io/badge/Vue-3.5-42b883.svg) ![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178c6.svg) ![Monaco Editor](https://img.shields.io/badge/Monaco_Editor-0.55-007ACC.svg)
+![License](https://img.shields.io/badge/license-MIT-blue.svg) ![Vue](https://img.shields.io/badge/Vue-3.5-42b883.svg) ![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178c6.svg) ![Monaco Editor](https://img.shields.io/badge/Monaco_Editor-0.55-007ACC.svg)
 
 </div>
 
