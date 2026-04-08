@@ -2,22 +2,22 @@
     "compilerOptions": {
         "target": "ES2020",
         "module": "ESNext",
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
+        "moduleDetection": "force",
+        "verbatimModuleSyntax": true,
         "lib": ["ES2020", "DOM", "DOM.Iterable"],
         "noEmit": true,
         "allowImportingTsExtensions": true,
         "resolveJsonModule": true,
         "strict": true,
-        "esModuleInterop": true,
         "skipLibCheck": true,
+        "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
         "outDir": "./dist",
         "rootDir": "./src",
-        "declaration": false,
-        "sourceMap": false,
-        "baseUrl": ".",
+        "types": ["vite/client"],
         "paths": {
-            "@/*": ["src/*"]
+            "@/*": ["./src/*"]
         }
     },
     "include": ["src/**/*"],

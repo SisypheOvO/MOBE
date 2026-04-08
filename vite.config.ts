@@ -2,7 +2,6 @@ import { defineConfig } from "vite"
 import vue from "@vitejs/plugin-vue"
 import tailwindcss from "@tailwindcss/vite"
 import wasm from "vite-plugin-wasm"
-import topLevelAwait from "vite-plugin-top-level-await"
 import { visualizer } from "rollup-plugin-visualizer"
 import path from "node:path"
 
@@ -12,7 +11,6 @@ export default defineConfig({
         vue(),
         tailwindcss(),
         wasm(),
-        topLevelAwait(),
         visualizer({
             filename: "dist/stats.html",
             open: true,
@@ -26,13 +24,27 @@ export default defineConfig({
         },
     },
     build: {
-        rollupOptions: {
+        rolldownOptions: {
             output: {
-                manualChunks: {
-                    "monaco-editor": ["monaco-editor"],
-                    "vue-vendor": ["vue", "vue-i18n", "pinia"],
-                    "osu-api": ["@osynicite/osynic-osuapi"],
-                    "ui-utils": ["splitpanes"],
+                codeSplitting: {
+                    groups: [
+                        {
+                            test: /node_modules\/monaco-editor/,
+                            name: "monaco-editor",
+                        },
+                        {
+                            test: /node_modules\/(vue|vue-i18n|pinia)/,
+                            name: "vue-vendor",
+                        },
+                        {
+                            test: /node_modules\/@osynicite\/osynic-osuapi/,
+                            name: "osu-api",
+                        },
+                        {
+                            test: /node_modules\/splitpanes/,
+                            name: "ui-utils",
+                        },
+                    ],
                 },
             },
         },
