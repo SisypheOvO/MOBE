@@ -6,7 +6,7 @@
 import { ref, onMounted, onBeforeUnmount, watch, computed } from "vue"
 import { monaco } from "@/monaco/customMonaco"
 import type * as monacoTypes from "monaco-editor"
-import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
+import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker"
 import { registerBBCodeLanguage, updateBBCodeTranslations } from "@/config/bbcodeLanguage"
 import { type BBCodeTag } from "@/config/bbcodeTags"
 import { useThemeStore } from "@/stores/theme"
@@ -42,7 +42,7 @@ const initEditor = async () => {
     self.MonacoEnvironment = {
         getWorker(_, label) {
             return new editorWorker()
-        }
+        },
     }
 
     // 注册 BBCode 语言

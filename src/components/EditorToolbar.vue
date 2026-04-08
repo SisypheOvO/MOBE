@@ -51,8 +51,8 @@
 
         <OAuthButton class="shrink-0" />
 
-        <button :class="[buttonClass, showPreview ? 'text-[#4ec9b0]' : '', 'shrink-0']" :title="showPreview ? (isMobile ? '编辑' : '隐藏预览 (Ctrl+P)') : (isMobile ? '预览' : '显示预览 (Ctrl+P)')" @click="$emit('toggle-preview')">
-            <i :class="isMobile ? (showPreview ? 'fas fa-pen-to-square' : 'fas fa-book-open') : (showPreview ? 'fas fa-eye' : 'fas fa-eye-slash')"></i>
+        <button :class="[buttonClass, showPreview ? 'text-[#4ec9b0]' : '', 'shrink-0']" :title="showPreview ? (isMobile ? '编辑' : '隐藏预览 (Ctrl+P)') : isMobile ? '预览' : '显示预览 (Ctrl+P)'" @click="$emit('toggle-preview')">
+            <i :class="isMobile ? (showPreview ? 'fas fa-pen-to-square' : 'fas fa-book-open') : showPreview ? 'fas fa-eye' : 'fas fa-eye-slash'"></i>
         </button>
     </div>
 </template>
