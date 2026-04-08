@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@osynicite/osynic-osuapi": "^0.1.10",
+    "@osynicite/osynic-osuapi": "^0.1.11",
     "monaco-editor": "^0.55.1",
     "pinia": "^3.0.4",
     "splitpanes": "^4.0.4",
